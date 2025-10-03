@@ -1,5 +1,5 @@
 site_name: Projecte Intermodular 2DAW
-site_url: https://profesorandresmartos.github.io/PI/
+site_url: https://joanripollabad.github.io/PoyecteIntermodular-Joan-Jaume/
 use_directory_urls: false
 
 
@@ -9,7 +9,7 @@ nav:
 theme:
   language: ca
   favicon: imagenes/favicon.png
-  name: "material"
+  name: material
   palette:
     - scheme: default
       primary: light blue
