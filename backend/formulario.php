@@ -48,11 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<li>" . htmlspecialchars($error) . "</li>";
         }
         echo "</ul>";
-        echo '<a href="formulario.html">Volver al formulario</a>';
+        echo '<a href="../frontend/formulario.html">Volver al formulario</a>';
     }
 
 } else {
-    header("Location: formulario.html");
+    header("Location: ../frontend/formulario.html");
     exit();
 }
 ?>

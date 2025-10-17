@@ -7,7 +7,7 @@
 </head>
 <body>
     
-    <form id="formContacto">
+    <form id="formContacto" action="../backend/formulario.php" method="POST">
         <label for="nombre">Nombre: </label>
         <input type="text" name="nombre" id="nombre">
 
@@ -23,7 +23,7 @@
             <option value="">--- Escoja un ciclo ---</option>
             <option value="DAW">Desarrollo de aplicaciones Web</option>
             <option value="DAM">Desarrollo de aplicaciones Multiplataforma</option>
-            <option value="ASIX">Administración de Sistemes Informáticos en Red</option>
+            <option value="ASIX">Administración de Sistemas Informáticos en Red</option>
         </select>
 
         <br><br>
@@ -34,9 +34,11 @@
         <br><br>
 
         <label>
-        <input type="checkbox" id="consentimiento" name="consentimiento">
-        Acepto el trato de mis datos personales.
+            <input type="checkbox" id="consentimiento" name="consentimento" value="1">
+            Acepto el trato de mis datos personales.
         </label>
+
+        <br><br>
 
         <button type="submit">Enviar</button>
     </form>
