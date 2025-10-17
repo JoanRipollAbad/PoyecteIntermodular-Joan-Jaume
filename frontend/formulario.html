@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de contacto</title>
+</head>
+<body>
+    
+    <form id="formContacto">
+        <label for="nombre">Nombre: </label>
+        <input type="text" name="nombre" id="nombre">
+
+        <br><br>
+
+        <label for="correo">Correo: </label>
+        <input type="text" name="correo" id="correo">
+
+        <br><br>
+
+        <label for="ciclo">Ciclo Formativo: </label>
+        <select id="ciclo" name="ciclo">
+            <option value="">--- Escoja un ciclo ---</option>
+            <option value="DAW">Desarrollo de aplicaciones Web</option>
+            <option value="DAM">Desarrollo de aplicaciones Multiplataforma</option>
+            <option value="ASIX">Administración de Sistemes Informáticos en Red</option>
+        </select>
+
+        <br><br>
+
+        <label for="telefono">Teléfono: </label>
+        <input type="text" name="telefono" id="telefono">
+
+        <br><br>
+
+        <label>
+        <input type="checkbox" id="consentimiento" name="consentimiento">
+        Acepto el trato de mis datos personales.
+        </label>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+</body>
+</html>
