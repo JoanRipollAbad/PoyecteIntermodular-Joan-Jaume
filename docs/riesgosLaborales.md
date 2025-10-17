@@ -1,17 +1,27 @@
-## 🖥️ 1. Esto es un ejemplo de Documentación Mark Down
+⚠️ C7. Riesgos individuales
 
-### 1️⃣ Explicació
-Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. **No sólo sobrevivió 500 años**, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas "Letraset", las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.
+En el desarrollo de software, el trabajo prolongado frente al ordenador puede conllevar diversos riesgos laborales. A continuación se identifican tres de los más comunes, clasificados por categorías, junto con posibles medidas preventivas.
 
-### 2️⃣ Objectiu
-Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas "Letraset", las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.
+---
 
-### 3️⃣ Passos guiats
-1. 🖥️ Obrir Visual Studio Code i el terminal integrat (`Ctrl+ñ`).
-2. 📦 Comprovar que Git està instal·lat:
+### 1. 👀 Fatiga visual  
+**Tipo:** Físico  
+El uso continuado de pantallas sin pausas adecuadas puede provocar sequedad ocular, visión borrosa o dolores de cabeza.  
+✅ **Medida preventiva:** Aplicar la regla 20-20-20 (cada 20 minutos, mirar un objeto a 6 metros durante 20 segundos) y ajustar el brillo y contraste de la pantalla según las condiciones de iluminación del entorno.
 
-    ```bash
-    Así se implementa el código
-    ```
+---
 
+### 2. 🪑 Problemas musculoesqueléticos  
+**Tipo:** Físico  
+Una postura inadecuada, mobiliario ergonómicamente deficiente o la falta de pausas activas pueden derivar en molestias en cuello, espalda o muñecas.  
+✅ **Medida preventiva:** Utilizar una silla con soporte lumbar, colocar el monitor a la altura de los ojos y los pies apoyados en el suelo, además de realizar estiramientos periódicos.
+
+---
+
+### 3. 😰 Estrés laboral  
+**Tipo:** Psicosocial  
+La presión por cumplir plazos ajustados, la sobrecarga de tareas o la falta de comunicación en el equipo pueden generar niveles elevados de estrés o agotamiento.  
+✅ **Medida preventiva:** Planificar las tareas de forma realista, utilizar técnicas de gestión del tiempo (como la técnica Pomodoro) y fomentar un entorno de trabajo colaborativo y con canales de comunicación abiertos.
+
+---
 
