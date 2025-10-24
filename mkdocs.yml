@@ -4,7 +4,9 @@ use_directory_urls: false
 
 
 nav:
-  - "Inici": "index.md"
+  - "Roles": rols.md
+  - "Riesgos laborales": riesgosLaborales.md
+  - "Plan de Riesgos laborales": planRiesgosLaborales.md
  # - Segundo apartado del menú lateral
 theme:
   language: ca
