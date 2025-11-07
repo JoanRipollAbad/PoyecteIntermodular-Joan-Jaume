@@ -1,0 +1,11 @@
+id,sku,nom,descripcio,img,preu,estoc
+1,L001,"Manual de Programació en PHP","Curs complet per a principiants amb exercicis pràctics",img/llibre-php.jpg,29.99,45
+2,L002,"Apunts d'Ajax i JavaScript","Resum de conceptes clau per a l'examen",img/apunts-ajax.jpg,18.5,32
+3,L003,"Guia de Docker per a Desenvolupadors","Desplegament d'aplicacions web amb contenedors",img/docker-guide.jpg,34.99,28
+4,L004,"Programació Orientada a Objectes amb JavaScript","Classes, mòduls i herència en ES6+",img/oop-js.jpg,25.0,19
+5,L005,"Seguretat en Aplicacions Web","XSS, CSRF, sessions i autenticació segura",img/securitat-web.jpg,31.5,25
+6,L006,"Bases de Dades i SQL","Disseny, consultes i integració amb PHP",img/bd-sql.jpg,27.99,40
+7,L007,"CSS Avançat i Responsive Design","Grid, Flexbox, media queries i millors pràctiques",img/css-avancat.jpg,22.0,35
+8,L008,"Desplegament amb GitHub Pages","Publicar webs estàtiques sense servidors",img/github-pages.jpg,15.0,50
+9,L009,"Integració d'APIs REST amb JavaScript","Fetch, async/await i manipulació de dades remotes",img/api-js.jpg,24.5,22
+10,L010,"Projecte Final: Botiga de Llibres","Arquitectura fullstack amb PHP, JSON Server i frontend",img/projecte-final.jpg,39.99,12

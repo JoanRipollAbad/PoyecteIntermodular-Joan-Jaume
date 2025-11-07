@@ -7,7 +7,7 @@ nav:
   - "Roles": rols.md
   - "Riesgos laborales": riesgosLaborales.md
   - "Plan de Riesgos laborales": planRiesgosLaborales.md
- # - Segundo apartado del menú lateral
+  # - Segundo apartado del menú lateral
 theme:
   language: ca
   favicon: imagenes/favicon.png

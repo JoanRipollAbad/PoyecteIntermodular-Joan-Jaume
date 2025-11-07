@@ -1,0 +1,38 @@
+{
+    "users": [
+    {
+      "id": 1,
+      "nom_usuari": "andres",
+      "contrasenya": "$2y$10$1bTXuunsCa0ldINz2819RuMRJeDJ0Ykq1ElxhSCYUL9p13EZ/fg3.",
+      "email": "andres@example.com",
+      "nom": "Andrés",
+      "cognoms": "García Pérez",
+      "data_registre": "2025-10-31T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "nom_usuari": "Jaume",
+      "contrasenya": "$2y$10$1bTXuunsCa0ldINz2819RuMRJeDJ0Ykq1ElxhSCYUL9p13EZ/fg3.",
+      "email": "jaume@example.com",
+      "nom": "Jaume",
+      "cognoms": "Moltó ",
+      "data_registre": "2025-10-31T10:00:00Z"
+    },
+    {
+      "id": "e053",
+      "usuari": "Joan",
+      "email": "joan@example.com",
+      "contrasenya": "$2y$10$1bTXuunsCa0ldINz2819RuMRJeDJ0Ykq1ElxhSCYUL9p13EZ/fg3.",
+      "rol": "usuari",
+      "creat_a": "2025-11-07 16:26:24"
+    },
+    {
+      "id": "443a",
+      "usuari": "Juanfra",
+      "email": "juanfra@example.com",
+      "contrasenya": "$2y$10$kqrjLFrr7qivTSor9spGye7arSLVQeVE7y4QwnWoRMyNrgz9cRBi2",
+      "rol": "usuari",
+      "creat_a": "2025-11-07 16:30:31"
+    }
+    ]
+}

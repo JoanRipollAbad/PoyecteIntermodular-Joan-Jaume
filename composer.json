@@ -1,0 +1,17 @@
+{
+    "name": "proyecto/intermodular",
+    "description": "Descripción",
+    "autoload": {
+        "psr-4": {
+            "Proyecto\\Intermodular\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "JoanJaume"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^5.2"
+    }
+}

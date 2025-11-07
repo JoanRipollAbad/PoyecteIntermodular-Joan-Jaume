@@ -1,0 +1,114 @@
+{
+    "productes": [
+        {
+            "id": 1,
+            "sku": "L001",
+            "nom": "Manual de Programaci\u00f3 en PHP",
+            "descripcio": "Curs complet per a principiants amb exercicis pr\u00e0ctics",
+            "img": "img\/llibre-php.jpg",
+            "preu": 29.99,
+            "estoc": 45,
+            "importat_a": "2025-11-07 16:15:00",
+            "usuari": "127.0.0.1"
+        },
+        {
+            "id": 2,
+            "sku": "L002",
+            "nom": "Apunts d'Ajax i JavaScript",
+            "descripcio": "Resum de conceptes clau per a l'examen",
+            "img": "img\/apunts-ajax.jpg",
+            "preu": 18.5,
+            "estoc": 32,
+            "importat_a": "2025-11-07 16:15:00",
+            "usuari": "127.0.0.1"
+        },
+        {
+            "id": 3,
+            "sku": "L003",
+            "nom": "Guia de Docker per a Desenvolupadors",
+            "descripcio": "Desplegament d'aplicacions web amb contenedors",
+            "img": "img\/docker-guide.jpg",
+            "preu": 34.99,
+            "estoc": 28,
+            "importat_a": "2025-11-07 16:15:00",
+            "usuari": "127.0.0.1"
+        },
+        {
+            "id": 4,
+            "sku": "L004",
+            "nom": "Programaci\u00f3 Orientada a Objectes amb JavaScript",
+            "descripcio": "Classes, m\u00f2duls i her\u00e8ncia en ES6+",
+            "img": "img\/oop-js.jpg",
+            "preu": 25,
+            "estoc": 19,
+            "importat_a": "2025-11-07 16:15:00",
+            "usuari": "127.0.0.1"
+        },
+        {
+            "id": 5,
+            "sku": "L005",
+            "nom": "Seguretat en Aplicacions Web",
+            "descripcio": "XSS, CSRF, sessions i autenticaci\u00f3 segura",
+            "img": "img\/securitat-web.jpg",
+            "preu": 31.5,
+            "estoc": 25,
+            "importat_a": "2025-11-07 16:15:00",
+            "usuari": "127.0.0.1"
+        },
+        {
+            "id": 6,
+            "sku": "L006",
+            "nom": "Bases de Dades i SQL",
+            "descripcio": "Disseny, consultes i integraci\u00f3 amb PHP",
+            "img": "img\/bd-sql.jpg",
+            "preu": 27.99,
+            "estoc": 40,
+            "importat_a": "2025-11-07 16:15:00",
+            "usuari": "127.0.0.1"
+        },
+        {
+            "id": 7,
+            "sku": "L007",
+            "nom": "CSS Avan\u00e7at i Responsive Design",
+            "descripcio": "Grid, Flexbox, media queries i millors pr\u00e0ctiques",
+            "img": "img\/css-avancat.jpg",
+            "preu": 22,
+            "estoc": 35,
+            "importat_a": "2025-11-07 16:15:00",
+            "usuari": "127.0.0.1"
+        },
+        {
+            "id": 8,
+            "sku": "L008",
+            "nom": "Desplegament amb GitHub Pages",
+            "descripcio": "Publicar webs est\u00e0tiques sense servidors",
+            "img": "img\/github-pages.jpg",
+            "preu": 15,
+            "estoc": 50,
+            "importat_a": "2025-11-07 16:15:00",
+            "usuari": "127.0.0.1"
+        },
+        {
+            "id": 9,
+            "sku": "L009",
+            "nom": "Integraci\u00f3 d'APIs REST amb JavaScript",
+            "descripcio": "Fetch, async\/await i manipulaci\u00f3 de dades remotes",
+            "img": "img\/api-js.jpg",
+            "preu": 24.5,
+            "estoc": 22,
+            "importat_a": "2025-11-07 16:15:00",
+            "usuari": "127.0.0.1"
+        },
+        {
+            "id": 10,
+            "sku": "L010",
+            "nom": "Projecte Final: Botiga de Llibres",
+            "descripcio": "Arquitectura fullstack amb PHP, JSON Server i frontend",
+            "img": "img\/projecte-final.jpg",
+            "preu": 39.99,
+            "estoc": 12,
+            "importat_a": "2025-11-07 16:15:00",
+            "usuari": "127.0.0.1"
+        }
+    ]
+}
