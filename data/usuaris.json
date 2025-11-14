@@ -1,0 +1,12 @@
+{
+  "usuaris": [
+    {
+      "id": 1,
+      "nom_usuari": "Juanfra",
+      "contrasenya": "$2y$10$z8mEZjXN13pSlzo6OqqPaueTFx/dYqyoS5wf6BZzA3dWs5tf.zjQO",
+      "email": "juanfra@example.com",
+      "data_registre": "2025-11-14T16:43:55+00:00",
+      "rol": "usuari"
+    }
+  ]
+}

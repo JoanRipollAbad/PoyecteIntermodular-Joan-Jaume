@@ -8,15 +8,22 @@ class JsonConnect
         $this->baseUrl = $baseUrl;
     }
 
-    public function get($endpoint)
+    public function get($endpoint, $params = [])
     {
         $url = $this->baseUrl . '/' . $endpoint;
+        
+        if (!empty($params)) {
+            $queryString = http_build_query($params);
+            $url .= '?' . $queryString;
+        }
+        
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         curl_close($ch);
-        return json_decode($response, true);
+        
+        return json_decode($response, true) ?: [];
     }
 
     public function post($endpoint, $data)
