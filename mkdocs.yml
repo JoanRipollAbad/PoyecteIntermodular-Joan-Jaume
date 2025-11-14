@@ -4,6 +4,7 @@ use_directory_urls: false
 
 
 nav:
+  - "Index": index.md
   - "Roles": rols.md
   - "Riesgos laborales": riesgosLaborales.md
   - "Plan de Riesgos laborales": planRiesgosLaborales.md
