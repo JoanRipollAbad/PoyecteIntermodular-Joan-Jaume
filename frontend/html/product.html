@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cámara de Seguridad Exterior - JJ-Security</title>
+    <link rel="stylesheet" href="../css/main.css" />
+  </head>
+  <body>
+    <!-- Barra lateral idéntica al del sitio principal -->
+    <aside class="barra-lateral">
+      <div class="logo-sidebar">
+        <a href="main.html">
+          <img src="../../public/images/logo.jpg" alt="JJ-Security Logo" />
+        </a>
+      </div>
+      <div class="icono-menu ajustes">
+        <div class="icono-contenido">
+          <img src="../../public/images/ajustes.jpg" alt="Ajustes" />
+          <span>Ajustes</span>
+        </div>
+      </div>
+      <div class="icono-menu filtros">
+        <div class="icono-contenido">
+          <img src="../../public/images/filtros.jpg" alt="Filtros" />
+          <span>Filtros</span>
+        </div>
+      </div>
+      <div class="icono-menu usuario">
+        <div class="icono-contenido">
+          <img src="../../public/images/usuario.jpg" alt="Usuario" />
+          <span>Usuario</span>
+        </div>
+      </div>
+      <div class="icono-menu icono-ayuda ayuda">
+        <div class="icono-contenido">
+          <img src="../../public/images/mingcute_phone-fill.svg" alt="Contacto" />
+          <span>Soporte</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Header idéntico al del sitio principal -->
+    <header>
+      <h1>JJ-Security</h1>
+      <div class="header-icons">
+        <div class="carro-icono">
+          <a href="">
+            <img src="../../public/images/carrito.jpg" alt="Carrito" />
+            <p>Carrito</p>
+          </a>
+        </div>
+        <div class="user-icono">
+          <a href="">
+            <img src="../../public/images/usuario.jpg" alt="Usuario" />
+            <p>Usuario</p>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main con la misma estructura que el sitio principal -->
+    <main>
+      <!-- Contenedor de producto con la misma clase que usas en el sitio principal -->
+      <section class="tarjeta-principal-contenedor">
+        <h2 class="titulo-seccion">Cámara de Seguridad Interior Ultra HD</h2>
+
+        <!-- Tu contenido del producto -->
+        <div class="product-details-card">
+          <div class="product-main-info">
+            <div class="product-image-gallery">
+              <video autoplay muted loop class="main-image" id="mainProductImage">
+                <source src="../../public/videos/videoCamara.mp4" type="video/mp4">
+              </video>
+              <div class="thumbnail-gallery">
+                <img src="../../public/images/marcaAgua/camaras/camara-thumbnail1.jpg" alt="Vista 1" class="active" onclick="changeMainImage(this)" />
+                <img src="../../public/images/marcaAgua/camaras/camara-thumbnail2.jpg" alt="Vista 2" onclick="changeMainImage(this)" />
+                <img src="../../public/images/marcaAgua/camaras/camara-thumbnail3.jpg" alt="Vista 3" onclick="changeMainImage(this)" />
+              </div>
+            </div>
+
+            <div class="product-info-sidebar">
+              <span class="product-price">$129.99</span>
+              <div class="product-rating"><span class="stars">★★★★★</span> (150 Reseñas)</div>
+              <div class="product-features">
+                <ul>
+                  <li>Resolución 4K Ultra HD</li>
+                  <li>Visión Nocturna a Color hasta 30m</li>
+                  <li>Detección de Movimiento IA</li>
+                  <li>Resistente al Agua IP66</li>
+                  <li>Almacenamiento en Nube/SD</li>
+                </ul>
+              </div>
+              <button class="add-to-cart-btn">Añadir al Carrito</button>
+              <button class="add-to-wishlist-btn">Agregar a lista de Deseados</button>
+            </div>
+          </div>
+
+          <div class="product-description">
+            <h2>Descripción</h2>
+            <p>La Cámara de Seguridad Exterior Ultra HD de JJ-Security ofrece una vigilancia inigualable para tu hogar o negocio. Con una resolución 4K impresionante, cada detalle se captura con la máxima claridad. Su avanzada visión nocturna a color asegura que no te pierdas nada, incluso en la oscuridad total, hasta 30 metros de distancia.</p>
+            <p>Equipada con inteligencia artificial para la detección de movimiento, recibirás alertas precisas y minimizarás las falsas alarmas. Su diseño robusto y resistencia al agua IP66 la hacen perfecta para cualquier condición climática. Además, ofrece opciones de almacenamiento flexible, tanto en la nube como en tarjeta SD, para que tus grabaciones estén siempre seguras y accesibles. Protege lo que más te importa con la tecnología de vanguardia de JJ-Security.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="contenido-footer">
+        <div class="footer-links">
+          <a href="#">Condiciones de uso</a>
+          <a href="#">Aviso legal</a>
+          <a href="#">Aviso de privacidad</a>
+          <a href="#">Cookies</a>
+        </div>
+        <div class="footer-info">
+          <div class="copyright">© 2025 JJ-Security. Todos los derechos reservados.</div>
+          <div class="footer-contacto">
+            <img src="../../public/images/mingcute_phone-fill.svg" alt="Teléfono" />
+            <span>24/7</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Define una función llamada 'changeMainImage' que toma un argumento: 'thumbnail'
+      // 'thumbnail' será el elemento <img> de la miniatura que el usuario ha clickeado.
+      function changeMainImage(thumbnail) {
+        // 1. Obtiene la referencia a la imagen principal
+        //    'document.getElementById('mainProductImage')' busca en el HTML un elemento
+        //    que tenga el atributo 'id="mainProductImage"'. En nuestro caso, es la imagen grande del producto.
+        const mainImage = document.getElementById('mainProductImage')
+
+        // 2. Cambia la fuente (src) de la imagen principal
+        //    'mainImage.src' es la URL de la imagen que se muestra actualmente en la imagen principal.
+        //    'thumbnail.src' es la URL de la imagen de la miniatura en la que se hizo clic.
+        //    Al asignar 'thumbnail.src' a 'mainImage.src', la imagen principal se actualiza para mostrar
+        //    la imagen de la miniatura.
+        mainImage.src = thumbnail.src
+
+        // 3. Remueve la clase 'active' de todas las miniaturas
+        //    'document.querySelectorAll('.thumbnail-gallery img')' encuentra TODOS los elementos <img>
+        //    que están dentro de un contenedor con la clase 'thumbnail-gallery'.
+        //    'thumbnails.forEach(img => img.classList.remove('active'))' itera sobre cada una de esas miniaturas
+        //    y remueve la clase CSS 'active'. Esto es para asegurarse de que ninguna otra miniatura tenga
+        //    el borde resaltado (que se define con la clase 'active' en el CSS).
+        const thumbnails = document.querySelectorAll('.thumbnail-gallery img')
+        thumbnails.forEach((img) => img.classList.remove('active'))
+
+        // 4. Añade la clase 'active' a la miniatura clickeada
+        //    'thumbnail.classList.add('active')' añade la clase 'active' solo a la miniatura
+        //    que el usuario acaba de clickear. Esto le aplica el estilo de resaltado (el borde primario)
+        //    para indicar cuál es la imagen actualmente mostrada.
+        thumbnail.classList.add('active')
+      }
+    </script>
+  </body>
+</html>

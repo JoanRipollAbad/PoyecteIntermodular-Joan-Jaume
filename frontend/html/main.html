@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JJ-Security</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <aside class="barra-lateral">
+      <div class="logo-sidebar">
+        <img src="../../public/images/logo.jpg" alt="JJ-Security Logo" />
+      </div>
+      <div class="icono-menu ajustes">
+        <div class="icono-contenido">
+          <img src="../../public/images/ajustes.jpg" alt="Ajustes" />
+          <span>Ajustes</span>
+        </div>
+      </div>
+      <div class="icono-menu filtros">
+        <div class="icono-contenido">
+          <img src="../../public/images/filtros.jpg" alt="Filtros" />
+          <span>Filtros</span>
+        </div>
+      </div>
+      <div class="icono-menu usuario">
+        <div class="icono-contenido">
+          <img src="../../public/images/usuario.jpg" alt="Usuario" />
+          <span>Usuario</span>
+        </div>
+      </div>
+      <div class="icono-menu icono-ayuda ayuda">
+        <div class="icono-contenido">
+          <img src="../../public/images/mingcute_phone-fill.svg" alt="Contacto" />
+          <span>Soporte</span>
+        </div>
+      </div>
+    </aside>
+
+    <header>
+      <h1>JJ-Security</h1>
+      <div class="header-icons">
+        <div class="carro-icono">
+          <a href="">
+            <img src="../../public/images/carrito.jpg" alt="Carrito" />
+            <p>Carrito</p>
+          </a>
+        </div>
+        <div class="user-icono">
+          <a href="">
+            <img src="../../public/images/usuario.jpg" alt="Usuario" />
+            <p>Usuario</p>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Primera Tarjeta: Productos Destacados -->
+      <section class="tarjeta-principal-contenedor">
+        <h2 class="titulo-seccion">Productos Destacados</h2>
+        <section class="productos">
+          <div class="tarjeta-productos">
+            <h2>Llaves Inteligentes</h2>
+            <div class="imagen-circulo">
+              <img src="../../public/images/marcaAgua/cerraduras/cerraduraInteligente.jpg" alt="Llaves Inteligentes" />
+            </div>
+            <p>Agregar a lista de Deseados</p>
+            <a href="product.html">
+              <button>COMPRAR</button>
+            </a>
+          </div>
+          <div class="tarjeta-productos">
+            <h2>Servicios</h2>
+            <div class="imagen-circulo">
+              <img src="../../public/images/marcaAgua/servicios/servicio.jpg" alt="Servicios" />
+            </div>
+            <p>Agregar a lista de Deseados</p>
+            <a href="product.html">
+              <button>COMPRAR</button>
+            </a>
+          </div>
+          <div class="tarjeta-productos">
+            <h2>Cámaras</h2>
+            <div class="imagen-circulo">
+              <img src="../../public/images/marcaAgua/camaras/camaras.jpg" alt="Cámaras" />
+            </div>
+            <p>Agregar a lista de Deseados</p>
+            <a href="product.html">
+              <button>COMPRAR</button>
+            </a>
+          </div>
+        </section>
+      </section>
+
+      <!-- Segunda Tarjeta: Nuestros Servicios de Vigilancia -->
+      <section id="servicios" class="tarjeta-principal-contenedor">
+        <h2 class="titulo-seccion">Nuestros Servicios de Vigilancia</h2>
+        <div class="service-grid">
+          <div class="service-card">
+            <div class="service-icon">
+              <img src="../../public/images/marcaAgua/instalacion.jpg" alt="Instalación" />
+            </div>
+            <h3>Instalación Profesional</h3>
+            <p>Expertos a tu disposición para una configuración impecable de tus sistemas de seguridad.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">
+              <img src="../../public/images/marcaAgua/monitoreo.jpg" alt="Monitoreo" />
+            </div>
+            <h3>Monitoreo 24/7</h3>
+            <p>Equipo de seguridad dedicado supervisando tus propiedades las 24 horas del día.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">
+              <img src="../../public/images/marcaAgua/mantenimiento.jpg" alt="Mantenimiento" />
+            </div>
+            <h3>Mantenimiento y Soporte</h3>
+            <p>Garantía de funcionamiento continuo y asistencia técnica especializada.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="contenido-footer">
+        <div class="footer-links">
+          <a href="#">Condiciones de uso</a>
+          <a href="#">Aviso legal</a>
+          <a href="#">Aviso de privacidad</a>
+          <a href="#">Cookies</a>
+        </div>
+        <div class="footer-info">
+          <div class="copyright">© 2025 JJ-Security. Todos los derechos reservados.</div>
+          <div class="footer-contacto">
+            <img src="../../public/images/mingcute_phone-fill.svg" alt="Teléfono" />
+            <span>24/7</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Revelado suave de productos al cargar
+        setTimeout(function () {
+          document.querySelector('.productos').classList.add('visible')
+        }, 300)
+
+        // Vibración de iconos de teléfono
+        const phoneIcons = document.querySelectorAll('.icono-ayuda img, .footer-contacto img')
+
+        phoneIcons.forEach((icon) => {
+          icon.addEventListener('mouseenter', function () {
+            this.style.animation = 'vibrar-sutil 0.2s infinite'
+          })
+
+          icon.addEventListener('mouseleave', function () {
+            this.style.animation = ''
+          })
+        })
+
+        // Animación al hacer scroll
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible')
+              }
+            })
+          },
+          { threshold: 0.1 }
+        )
+
+        document.querySelectorAll('.tarjeta-productos').forEach((card) => {
+          observer.observe(card)
+        })
+      })
+    </script>
+  </body>
+</html>
