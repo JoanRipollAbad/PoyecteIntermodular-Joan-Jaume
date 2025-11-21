@@ -1,11 +1,21 @@
 {
   "usuaris": [
     {
-      "id": 1,
+      "id": "1",
       "nom_usuari": "Juanfra",
       "contrasenya": "$2y$10$z8mEZjXN13pSlzo6OqqPaueTFx/dYqyoS5wf6BZzA3dWs5tf.zjQO",
+      "_contrasenya_plana": "123456",
       "email": "juanfra@example.com",
       "data_registre": "2025-11-14T16:43:55+00:00",
+      "rol": "usuari"
+    },
+    {
+      "id": 2,
+      "nom_usuari": "Andres",
+      "contrasenya": "$2y$10$YVxRh7ZOugvdDg/VtBf0COIoVF8/Y4SJ5WTg4kiwj6hD/WmjvGovi",
+      "_contrasenya_plana": "123456",
+      "email": "andres@gmail.com",
+      "data_registre": "2025-11-21T17:24:58+00:00",
       "rol": "usuari"
     }
   ]
