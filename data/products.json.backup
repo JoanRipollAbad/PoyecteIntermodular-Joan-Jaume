@@ -1,3 +1,81 @@
 {
-    "productes": []
+  "productes": [
+    {
+      "id": 1,
+      "sku": "CAM-IP-HD1080",
+      "nom": "Càmera IP HD 1080p",
+      "descripcio": "Càmera de seguretat amb visió nocturna",
+      "img": "https://example.com/img/cam1.jpg",
+      "preu": 89.99,
+      "estoc": 25,
+      "importat_a": "2025-11-24 19:13:22",
+      "usuari": "127.0.0.1"
+    },
+    {
+      "id": 2,
+      "sku": "ALARMA-WIFI",
+      "nom": "Sistema d'alarma WiFi",
+      "descripcio": "Alarma connectada amb notificacions mòbils",
+      "img": "https://example.com/img/alarma.jpg",
+      "preu": 199.5,
+      "estoc": 10,
+      "importat_a": "2025-11-24 19:13:22",
+      "usuari": "127.0.0.1"
+    },
+    {
+      "id": 3,
+      "sku": "SENSOR-PIR",
+      "nom": "Sensor de moviment PIR",
+      "descripcio": "Detecta moviment fins a 12m",
+      "img": "https://example.com/img/sensor.jpg",
+      "preu": 24.95,
+      "estoc": 50,
+      "importat_a": "2025-11-24 19:13:22",
+      "usuari": "127.0.0.1"
+    },
+    {
+      "id": 4,
+      "sku": "DVR-4CH",
+      "nom": "Gravador DVR 4 canals",
+      "descripcio": "Gravació contínua fins a 4 càmeres",
+      "img": "https://example.com/img/dvr.jpg",
+      "preu": 149,
+      "estoc": 8,
+      "importat_a": "2025-11-24 19:13:22",
+      "usuari": "127.0.0.1"
+    },
+    {
+      "id": 2,
+      "sku": "ALARMA-WIFI",
+      "nom": "Sistema d'alarma WiFi",
+      "descripcio": "Alarma connectada amb notificacions mòbils",
+      "img": "https://example.com/img/alarma.jpg",
+      "preu": 199.5,
+      "estoc": 10,
+      "importat_a": "2025-11-24 19:13:22",
+      "usuari": "127.0.0.1"
+    },
+    {
+      "id": 3,
+      "sku": "SENSOR-PIR",
+      "nom": "Sensor de moviment PIR",
+      "descripcio": "Detecta moviment fins a 12m",
+      "img": "https://example.com/img/sensor.jpg",
+      "preu": 24.95,
+      "estoc": 50,
+      "importat_a": "2025-11-24 19:13:22",
+      "usuari": "127.0.0.1"
+    },
+    {
+      "id": 4,
+      "sku": "DVR-4CH",
+      "nom": "Gravador DVR 4 canals",
+      "descripcio": "Gravació contínua fins a 4 càmeres",
+      "img": "https://example.com/img/dvr.jpg",
+      "preu": 149,
+      "estoc": 8,
+      "importat_a": "2025-11-24 19:13:22",
+      "usuari": "127.0.0.1"
+    }
+  ]
 }

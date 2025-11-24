@@ -90,6 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <button type="submit">Registrar</button>
         </form>
+
+         <p><a href="login.php">Ya tens sessió? Inicia sessió</a></p>
     <?php endif; ?>
 </body>
 </html>

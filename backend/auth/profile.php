@@ -31,7 +31,7 @@ if (!$usuari) {
     
     <div>
         <h2>Hola, <?= htmlspecialchars($usuari['nom_usuari']) ?>!</h2>
-        <p><strong>Nom:</strong> <?= htmlspecialchars($usuari['nom'] ?? '') ?></p>
+        <p><strong>Nom:</strong> <?= htmlspecialchars($usuari['nom_usuari'] ?? '') ?></p>
         <p><strong>Email:</strong> <?= htmlspecialchars($usuari['email']) ?></p>
         <p><strong>Registre:</strong> <?= date('d/m/Y', strtotime($usuari['data_registre'])) ?></p>
         <p><strong>Rol:</strong> <?= htmlspecialchars($usuari['rol'] ?? 'usuari') ?></p>

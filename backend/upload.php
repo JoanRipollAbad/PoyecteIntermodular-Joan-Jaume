@@ -21,17 +21,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (move_uploaded_file($fitxer['tmp_name'], $desti)) {
             // Instanciar ExcelImporter
             $importer = new ExcelImporter('../uploads/', '../data/');
-            $resultat = $importer->import($desti, 'http://localhost:3001/productes');
+            $resultat = $importer->import($desti, 'http://localhost:3003/productes');
 
             // Mostrar resum
             echo "<h2>Resum de la importació:</h2>";
-            echo "<p>Productes llegits: " . count($resultat['productes']) . "</p>";
-            echo "<p>Productes enviats a json-server: " . $resultat['enviats'] . "</p>";
-            echo "<p>Errors d'enviament: " . $resultat['errorsCurl'] . "</p>";
-            echo "<p>Files ignorades: " . $resultat['ignorades'] . "</p>";
-            echo "<p>Errors: " . $resultat['errors'] . "</p>";
-            echo "<p>Còpia de seguretat a: ../data/products.json.backup</p>";
-            echo "<p>Registre d'errors a: ../backend/logs/import.log</p>";
+            echo "<p><strong>Files processades (excl. capçalera):</strong> " . $resultat['llegits'] . "</p>";
+            echo "<p><strong>Productes nous afegits:</strong> " . count($resultat['productes']) . "</p>";
+            echo "<p><strong>Productes duplicats (ja existien):</strong> " . $resultat['duplicats'] . "</p>";
+            echo "<p><strong>Files ignorades (dades invàlides):</strong> " . $resultat['ignorades'] . "</p>";
+            echo "<p><strong>Productes enviats a json-server:</strong> " . $resultat['enviats'] . "</p>";
+            echo "<p><strong>Errors d'enviament a json-server:</strong> " . $resultat['errorsCurl'] . "</p>";
+            echo "<p><strong>Errors crítics (fitxer incorrecte, etc.):</strong> " . $resultat['errors'] . "</p>";
+            echo "<p><strong>Còpia de seguretat:</strong> ../data/products.json.backup</p>";
+            echo "<p><strong>Registre detallat:</strong> ../backend/logs/import.log</p>";
 
         } else {
             echo "Error: no s'ha pogut moure el fitxer.";
@@ -42,6 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     // Si no és POST, mostra missatge o redirigeix
     echo "<h2>Error: Aquesta pàgina només accepta dades des del formulari.</h2>";
-    echo "<p>Si us plau, visita <a href='../frontend/upload.html'>el formulari</a> per pujar un fitxer.</p>";
+    echo "<p>Si us plau, visita <a href='../frontend/html/upload.html'>el formulari</a> per pujar un fitxer.</p>";
 }
 ?>

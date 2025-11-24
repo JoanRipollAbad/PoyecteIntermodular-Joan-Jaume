@@ -23,11 +23,13 @@ class ExcelImporter
         }
     }
 
-    public function import($fitxer, $jsonServerUrl = 'http://localhost:3001/productes')
+    public function import($fitxer, $jsonServerUrl = 'http://localhost:3003/productes')
     {
         $resultat = [
             'errors' => 0,
-            'ignorades' => 0,
+            'ignorades' => 0,        
+            'duplicats' => 0,       
+            'llegits' => 0,          
             'enviats' => 0,
             'errorsCurl' => 0,
             'productes' => [],
@@ -59,7 +61,7 @@ class ExcelImporter
             $cellIterator = $fila1->getCellIterator();
             $cellIterator->setIterateOnlyExistingCells(false);
             foreach ($cellIterator as $cell) {
-                $capcelera[] = trim($cell !== null ? $cell->getValue() : '');
+                $capcelera[] = trim($cell->getValue() ?? '');
             }
 
             // Validar columnes
@@ -77,14 +79,16 @@ class ExcelImporter
             foreach ($files as $i => $row) {
                 if ($i === 1) continue; // Saltar capçalera
 
+                $resultat['llegits']++;
+
                 $fila = [];
                 $cellIterator = $row->getCellIterator();
                 $cellIterator->setIterateOnlyExistingCells(false);
                 $j = 0;
                 foreach ($cellIterator as $cell) {
                     $clau = $capcelera[$j] ?? "col$j";
-                    $valor = $cell !== null ? $cell->getValue() : '';
-                    $fila[$clau] = $valor;
+                    $valor = $cell ? $cell->getValue() : null;
+                    $fila[$clau] = $valor ?? ''; // converteix null a cadena buida
                     $j++;
                 }
 
@@ -127,6 +131,7 @@ class ExcelImporter
             foreach ($resultat['productes'] as $p) {
                 if (isset($skuMap[$p['sku']])) {
                     $this->log("Producte duplicat ignorat: " . $p['sku']);
+                    $resultat['duplicats']++;
                     continue;
                 }
                 $skuMap[$p['sku']] = true;
