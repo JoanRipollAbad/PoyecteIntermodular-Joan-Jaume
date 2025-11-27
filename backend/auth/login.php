@@ -11,20 +11,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $client = new JsonConnect();
         
-        // 🔍 Consulta eficient per nom d'usuari (no carregar tots els usuaris)
+        // Consulta eficient per nom d'usuari (no carregar tots els usuaris)
         $usuaris = $client->get('usuaris', ['nom_usuari' => $nom_usuari]);
         $usuariTrobat = $usuaris[0] ?? null;
 
         if ($usuariTrobat && password_verify($contrasenya, $usuariTrobat['contrasenya'])) {
-            // ✅ Credencials correctes
+            // Credencials correctes
             session_regenerate_id(true); // Seguretat: regenerar ID de sessió
             
-            // 📊 Emmagatzemar dades a la sessió
+            // Emmagatzemar dades a la sessió
             $_SESSION['user_id'] = $usuariTrobat['id'];
             $_SESSION['user_nom'] = $usuariTrobat['nom'];
             $_SESSION['user_rol'] = $usuariTrobat['rol'] ?? 'usuari';
             
-            // 🍪 Crear cookie d'identificació (com diu l'enunciat)
+            // Crear cookie d'identificació (com diu l'enunciat)
             setcookie('user_id', $usuariTrobat['id'], time() + 3600, "/");
 
             header('Location: profile.php');

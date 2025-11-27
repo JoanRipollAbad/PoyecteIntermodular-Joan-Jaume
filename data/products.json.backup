@@ -8,7 +8,7 @@
       "img": "https://example.com/img/cam1.jpg",
       "preu": 89.99,
       "estoc": 25,
-      "importat_a": "2025-11-24 19:13:22",
+      "importat_a": "2025-11-27 15:31:03",
       "usuari": "127.0.0.1"
     },
     {
@@ -19,7 +19,7 @@
       "img": "https://example.com/img/alarma.jpg",
       "preu": 199.5,
       "estoc": 10,
-      "importat_a": "2025-11-24 19:13:22",
+      "importat_a": "2025-11-27 15:31:03",
       "usuari": "127.0.0.1"
     },
     {
@@ -30,7 +30,7 @@
       "img": "https://example.com/img/sensor.jpg",
       "preu": 24.95,
       "estoc": 50,
-      "importat_a": "2025-11-24 19:13:22",
+      "importat_a": "2025-11-27 15:31:03",
       "usuari": "127.0.0.1"
     },
     {
@@ -41,7 +41,7 @@
       "img": "https://example.com/img/dvr.jpg",
       "preu": 149,
       "estoc": 8,
-      "importat_a": "2025-11-24 19:13:22",
+      "importat_a": "2025-11-27 15:31:03",
       "usuari": "127.0.0.1"
     },
     {
@@ -52,7 +52,7 @@
       "img": "https://example.com/img/alarma.jpg",
       "preu": 199.5,
       "estoc": 10,
-      "importat_a": "2025-11-24 19:13:22",
+      "importat_a": "2025-11-27 15:31:03",
       "usuari": "127.0.0.1"
     },
     {
@@ -63,7 +63,7 @@
       "img": "https://example.com/img/sensor.jpg",
       "preu": 24.95,
       "estoc": 50,
-      "importat_a": "2025-11-24 19:13:22",
+      "importat_a": "2025-11-27 15:31:03",
       "usuari": "127.0.0.1"
     },
     {
@@ -74,7 +74,51 @@
       "img": "https://example.com/img/dvr.jpg",
       "preu": 149,
       "estoc": 8,
-      "importat_a": "2025-11-24 19:13:22",
+      "importat_a": "2025-11-27 15:31:03",
+      "usuari": "127.0.0.1"
+    },
+    {
+      "id": 5,
+      "sku": "CAM-PTZ-OUTDOOR",
+      "nom": "Càmera PTZ exterior",
+      "descripcio": "Càmera amb moviment remot i resistència a la pluja",
+      "img": "https://example.com/img/cam-ptz.jpg",
+      "preu": 249.99,
+      "estoc": 7,
+      "importat_a": "2025-11-27 15:32:21",
+      "usuari": "127.0.0.1"
+    },
+    {
+      "id": 6,
+      "sku": "KIT-ALARMA-PRO",
+      "nom": "Kit alarma professional",
+      "descripcio": "Inclou 4 sensors, xipell i aplicació mòbil",
+      "img": "https://example.com/img/kit-alarma.jpg",
+      "preu": 349,
+      "estoc": 3,
+      "importat_a": "2025-11-27 15:32:21",
+      "usuari": "127.0.0.1"
+    },
+    {
+      "id": 7,
+      "sku": "BATERIA-UPS-1500",
+      "nom": "Bateria de reserva 1500VA",
+      "descripcio": "Per sistemes de vigilància en tall de llum",
+      "img": "https://example.com/img/ups.jpg",
+      "preu": 179.5,
+      "estoc": 12,
+      "importat_a": "2025-11-27 15:32:21",
+      "usuari": "127.0.0.1"
+    },
+    {
+      "id": 8,
+      "sku": "CABLE-HDSDI-100M",
+      "nom": "Cable HD-SDI 100 metres",
+      "descripcio": "Transmissió de vídeo HD sense pèrdua fins a 100m",
+      "img": "https://example.com/img/cable.jpg",
+      "preu": 89.95,
+      "estoc": 30,
+      "importat_a": "2025-11-27 15:32:21",
       "usuari": "127.0.0.1"
     }
   ]

@@ -1,0 +1,7 @@
+[2025-11-27 16:37:08] [127.0.0.1] JSON corrupto en /home/batoi/Escritorio/Modulo_2025-2026/PI/data/mensajes.json. Se reiniciará.
+[2025-11-27 16:37:08] [127.0.0.1] Nuevo mensaje guardado de: juanfra@example.com
+[2025-11-27 16:37:49] [127.0.0.1] Nuevo mensaje guardado de: juanfra@example.com
+[2025-11-27 18:00:20] [127.0.0.1] Error de validación: El email no es válido.
+[2025-11-27 18:00:25] [127.0.0.1] Nuevo mensaje guardado de: algo@algo.com
+[2025-11-27 18:15:09] [127.0.0.1] Error de validación: El email no es válido.
+[2025-11-27 18:15:13] [127.0.0.1] Nuevo mensaje guardado de: algo@algo.com

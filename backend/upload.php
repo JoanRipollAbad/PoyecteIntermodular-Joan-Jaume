@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (move_uploaded_file($fitxer['tmp_name'], $desti)) {
             // Instanciar ExcelImporter
             $importer = new ExcelImporter('../uploads/', '../data/');
-            $resultat = $importer->import($desti, 'http://localhost:3003/productes');
+            $resultat = $importer->import($desti, 'http://localhost:3002/productes');
 
             // Mostrar resum
             echo "<h2>Resum de la importació:</h2>";

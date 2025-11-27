@@ -1,0 +1,36 @@
+{
+    "mensajes": [
+        {
+            "nombre": "j",
+            "email": "juanfra@example.com",
+            "asunto": "Tu prima",
+            "mensaje": "h",
+            "fecha": "2025-11-27 16:37:08",
+            "ip": "127.0.0.1"
+        },
+        {
+            "nombre": "j",
+            "email": "juanfra@example.com",
+            "asunto": "Tu prima",
+            "mensaje": "kjidhfkjidhs",
+            "fecha": "2025-11-27 16:37:49",
+            "ip": "127.0.0.1"
+        },
+        {
+            "nombre": "j",
+            "email": "algo@algo.com",
+            "asunto": "asa",
+            "mensaje": "assa",
+            "fecha": "2025-11-27 18:00:23",
+            "ip": "127.0.0.1"
+        },
+        {
+            "nombre": "z",
+            "email": "algo@algo.com",
+            "asunto": "sdasd",
+            "mensaje": "asdasdas",
+            "fecha": "2025-11-27 18:15:13",
+            "ip": "127.0.0.1"
+        }
+    ]
+}

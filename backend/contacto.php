@@ -1,56 +1,44 @@
 <?php
-session_start();
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type');
 
-$message = '';
-$success = false;
+// Para ver errores en pantalla (solo desarrollo)
+error_reporting(E_ALL);
+ini_set('display_errors', 1); // Muestra errores en la respuesta
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitización
-    $name = trim(htmlspecialchars($_POST['name'] ?? ''));
-    $email = trim($_POST['email'] ?? '');
-    $subject = trim(htmlspecialchars($_POST['subject'] ?? ''));
-    $message_body = trim(htmlspecialchars($_POST['message'] ?? ''));
+try {
+    require_once __DIR__ . '/MessageManager.php';
 
-    // Validación
-    $errors = [];
-
-    if (empty($name)) $errors[] = 'El nombre es obligatorio.';
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'El email es obligatorio y debe ser válido.';
-    if (empty($subject)) $errors[] = 'El asunto es obligatorio.';
-    if (empty($message_body)) $errors[] = 'El mensaje no puede estar vacío.';
-
-    if (empty($errors)) {
-        // Preparar correo
-        $to = 'tu@email.com'; // 👈 cámbialo por tu dirección real
-        $headers = [
-            'From: ' . $email,
-            'Reply-To: ' . $email,
-            'Content-Type: text/plain; charset=UTF-8'
-        ];
-
-        $email_subject = "[Contacto] $subject";
-        $email_body = "Nombre: $name\nEmail: $email\n\nMensaje:\n$message_body";
-
-        // Enviar
-        if (mail($to, $email_subject, $email_body, implode("\r\n", $headers))) {
-            $success = true;
-            $message = '✅ Mensaje enviado con éxito. Nos pondremos en contacto contigo pronto.';
-            // Redirigir para evitar reenvío con F5
-            $_SESSION['contact_success'] = $message;
-            header('Location: ' . $_SERVER['PHP_SELF']);
-            exit;
-        } else {
-            $message = '❌ Hubo un error al enviar el mensaje. Inténtalo más tarde.';
-        }
-    } else {
-        $message = '⚠️ ' . implode(' ', $errors);
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        echo json_encode(['success' => false, 'message' => 'Método no permitido.']);
+        exit;
     }
-}
 
-// Recuperar mensaje si redirigido
-if (isset($_SESSION['contact_success'])) {
-    $success = true;
-    $message = $_SESSION['contact_success'];
-    unset($_SESSION['contact_success']);
+    $input = json_decode(file_get_contents('php://input'), true);
+
+    if (!is_array($input)) {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'message' => 'Datos inválidos.']);
+        exit;
+    }
+
+    $manager = new MessageManager('../data/');
+    $result = $manager->saveMessage($input);
+
+    http_response_code($result['success'] ? 200 : 400);
+    echo json_encode($result);
+
+} catch (Throwable $e) {
+    // Devuelve el error real en lugar de 500
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => '❌ Error interno: ' . $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine()
+    ]);
 }
 ?>

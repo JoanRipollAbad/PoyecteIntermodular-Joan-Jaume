@@ -1,58 +1,72 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Formulario de Contacto</title>
-    <link rel="stylesheet" href="/frontend/css/contacto.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/contacto.css" />
+  </head>
+  <body>
     <div class="container">
-        <h1>📬 Contáctanos</h1>
+      <h1>Contáctanos</h1>
 
-        <!-- 
-          ✅ Ejemplo de mensaje de éxito (comentado por defecto)
-          Descomenta el bloque siguiente para probar la apariencia de éxito.
-        -->
-        <!--
-        <div class="alert alert-success">
-            ✅ Mensaje enviado con éxito. Nos pondremos en contacto contigo pronto.
+      <div id="mensaje" class="alert hidden"></div>
+
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="nombre">Nombre *</label>
+          <input type="text" id="nombre" name="nombre" required />
         </div>
-        -->
-
-        <!-- 
-          ❌ Ejemplo de mensaje de error (comentado por defecto)
-          Descomenta este bloque para probar la apariencia de error.
-        -->
-        <!--
-        <div class="alert alert-error">
-            ⚠️ Por favor, completa todos los campos correctamente.
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required />
         </div>
-        -->
-
-        <form action="procesar.php" method="POST">
-            <div class="form-group">
-                <label for="nombre">Nombre *</label>
-                <input type="text" id="nombre" name="nombre" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="asunto">Asunto *</label>
-                <input type="text" id="asunto" name="asunto" required>
-            </div>
-
-            <div class="form-group">
-                <label for="mensaje">Mensaje *</label>
-                <textarea id="mensaje" name="mensaje" required></textarea>
-            </div>
-
-            <button type="submit">Enviar Mensaje</button>
-        </form>
+        <div class="form-group">
+          <label for="asunto">Asunto *</label>
+          <input type="text" id="asunto" name="asunto" required />
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Mensaje *</label>
+          <textarea id="mensajeTexto" name="mensaje" required></textarea>
+        </div>
+        <button type="submit">Enviar Mensaje</button>
+      </form>
     </div>
-</body>
+
+    <script>
+      document.getElementById('contactForm').addEventListener('submit', async function (e) {
+        e.preventDefault()
+
+        const formData = new FormData(this)
+        const data = Object.fromEntries(formData)
+
+        try {
+          const response = await fetch('./../../backend/contacto.php', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+
+          const result = await response.json()
+
+          const msgDiv = document.getElementById('mensaje')
+          msgDiv.classList.remove('hidden', 'success', 'error')
+          msgDiv.textContent = result.message
+
+          if (result.success) {
+            msgDiv.classList.add('success')
+            this.reset()
+          } else {
+            msgDiv.classList.add('error')
+          }
+        } catch (err) {
+          document.getElementById('mensaje').textContent = '❌ Error de conexión.'
+          document.getElementById('mensaje').classList.remove('hidden', 'success')
+          document.getElementById('mensaje').classList.add('error')
+        }
+      })
+    </script>
+  </body>
 </html>

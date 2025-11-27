@@ -23,7 +23,7 @@ class ExcelImporter
         }
     }
 
-    public function import($fitxer, $jsonServerUrl = 'http://localhost:3003/productes')
+    public function import($fitxer, $jsonServerUrl = 'http://localhost:3002/productes')
     {
         $resultat = [
             'errors' => 0,
