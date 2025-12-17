@@ -57,7 +57,7 @@ class MessageManager
         if (!empty($result['errors'])) {
             $errorMsg = implode(' ', $result['errors']);
             $this->log("Error de validación: $errorMsg");
-            $result['message'] = '⚠️ ' . $errorMsg;
+            $result['message'] = '!!! ' . $errorMsg;
             return $result;
         }
 
@@ -93,13 +93,13 @@ class MessageManager
         if (file_put_contents($this->jsonFile, $json) === false) {
             $error = "No se pudo escribir en {$this->jsonFile}";
             $this->log($error);
-            $result['message'] = '❌ Error al guardar el mensaje. Verifica los permisos.';
+            $result['message'] = 'Error al guardar el mensaje. Verifica los permisos.';
             return $result;
         }
 
         $this->log("Nuevo mensaje guardado de: {$mensaje['email']}");
         $result['success'] = true;
-        $result['message'] = '✅ Mensaje guardado con éxito.';
+        $result['message'] = 'Mensaje guardado con éxito.';
         return $result;
     }
 
