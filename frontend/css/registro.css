@@ -1,0 +1,361 @@
+/* =========================================
+   1. VARIABLES Y RESET
+   ========================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   2. LAYOUT GENERAL (ESCRITORIO)
+   ========================================= */
+body {
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f4f4f4; 
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  grid-template-rows: 100px 1fr auto; 
+  grid-template-areas: 
+    'sidebar header' 
+    'sidebar main' 
+    'sidebar footer';
+  gap: 0;
+}
+
+/* Contenedor blanco principal */
+.contenido-fondo {
+  background-color: rgba(255, 255, 255, 0.95);
+  min-height: calc(100vh - 140px);
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 1400px;
+  width: calc(100% - 120px);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+}
+
+/* =========================================
+   3. SIDEBAR (Lógica corregida: Grid + Hover)
+   ========================================= */
+aside.barra-lateral {
+  grid-area: sidebar;
+  background-color: #c5e0d8;
+  padding: 20px 0;
+  display: grid;
+  grid-template-areas: 'logo' 'ajustes' 'filtros' 'usuario' 'ayuda';
+  grid-template-columns: 1fr;
+  grid-template-rows: 80px 1fr 1fr 1fr 80px;
+  align-content: start;
+  justify-items: center;
+  gap: 15px;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  width: 100px; 
+  transition: width 0.3s ease;
+}
+
+/* Hover: Expansión */
+aside.barra-lateral:hover {
+  width: 200px;
+}
+
+/* Texto visible al hover */
+aside.barra-lateral:hover .icono-contenido span {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition-delay: 0.1s; 
+}
+
+.logo-sidebar {
+  grid-area: logo;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background-color: white;
+  display: grid; place-items: center;
+  overflow: hidden;
+}
+.logo-sidebar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+
+/* Icono Menu */
+.icono-menu {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background-color: white;
+  overflow: visible; 
+  cursor: pointer;
+  transition: all 0.3s ease; 
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Alineación izquierda con margen */
+  justify-self: start; 
+  margin-left: 20px; 
+  z-index: 10;
+  display: grid;
+  place-items: center;
+}
+
+.icono-menu:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.icono-contenido {
+  position: absolute;
+  left: 0; top: 0;
+  display: grid; 
+  grid-template-columns: 60px max-content; 
+  align-items: center; 
+  gap: 15px;
+  width: auto; 
+  height: 100%;
+}
+
+.icono-menu .icono-contenido span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  opacity: 0; 
+  visibility: hidden; 
+  transform: translateX(-20px);
+  white-space: nowrap; 
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.icono-menu .icono-contenido img {
+  width: 60px; height: 60px;
+  object-fit: cover;
+  border-radius: 50%; display: block;
+  transition: transform 0.3s ease;
+}
+.icono-menu:hover .icono-contenido img { transform: scale(1.05); }
+
+.icono-ayuda { grid-area: ayuda; }
+.icono-ayuda .icono-contenido img {
+  width: 60%; height: 60%; object-fit: contain; border-radius: 0; margin: 0 auto;
+}
+
+/* =========================================
+   4. HEADER
+   ========================================= */
+header {
+  grid-area: header;
+  background-color: #b8d8d8;
+  padding: 0 30px; 
+  display: grid; 
+  align-content: center; 
+  justify-content: end; 
+  position: relative;
+  z-index: 90;
+  height: 100%; 
+}
+
+header h1 {
+  font-size: 52px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #000;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  white-space: nowrap;
+}
+
+header .header-icons {
+  display: grid; 
+  grid-auto-flow: column; 
+  gap: 15px; 
+}
+
+/* =========================================
+   5. MAIN
+   ========================================= */
+main {
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: calc(100% - 120px);
+}
+
+/* =========================================
+   6. ESTILOS REGISTRO (Mismos que Login)
+   ========================================= */
+.contenido-fondo.login-page-container {
+    place-items: center;
+    background-color: rgba(255, 255, 255, 0.98);
+}
+
+.login-box {
+    width: 100%; max-width: 450px; padding: 20px;
+    display: grid; grid-template-rows: auto 1fr auto; gap: 30px;
+}
+
+.login-title {
+    font-size: 24px; color: #333; font-weight: 500; margin-bottom: 10px;
+}
+
+/* Grid del formulario: gap de 15px para que quepan todos los campos */
+.login-box form { display: grid; gap: 15px; }
+
+.form-group { display: grid; gap: 5px; }
+.form-group label { font-weight: bold; color: #333; font-size: 16px; }
+.form-group input {
+    width: 100%; padding: 10px;
+    border: 2px solid #333; border-radius: 2px;
+    font-size: 16px; outline: none; transition: border-color 0.3s;
+}
+.form-group input:focus { border-color: #7ed9c7; }
+
+.legal-text {
+    font-size: 13px; text-align: center; color: #000; line-height: 1.4; padding: 0 10px;
+}
+.legal-text a { color: #000; text-decoration: underline; font-weight: bold; }
+
+.botones-accion {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px;
+}
+
+.btn {
+    padding: 12px; border: 2px solid #000;
+    border-radius: 25px; font-weight: bold; font-size: 14px;
+    cursor: pointer; text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s; font-family: inherit;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+.btn-atras { background-color: #8faeb0; color: #000; }
+.btn-continuar { background-color: #9cece0; color: #000; }
+
+/* =========================================
+   7. FOOTER
+   ========================================= */
+footer {
+  grid-area: footer;
+  background-color: #f5f5f5;
+  padding: 20px;
+  display: grid; place-items: center; position: relative; z-index: 80;
+}
+footer .contenido-footer {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 40px;
+  align-items: center; justify-items: center; width: 100%; max-width: 1200px;
+}
+footer .footer-links { 
+  display: grid; grid-auto-flow: column; gap: 30px; 
+}
+footer .footer-links a { color: #333; text-decoration: none; font-size: 14px; font-weight: bold; }
+footer .copyright { text-align: center; font-size: 12px; color: #333; }
+footer .footer-contacto { 
+  display: grid; grid-auto-flow: column; gap: 10px; align-items: center; color: #333; font-weight: bold; 
+}
+footer .footer-contacto img {
+  width: 40px; height: 40px; background-color: #7ed9c7; padding: 8px; border-radius: 50%;
+}
+
+/* =========================================
+   8. MEDIA QUERIES (RESPONSIVE)
+   ========================================= */
+
+/* --- TABLET (max-width: 992px) --- */
+@media (max-width: 992px) {
+  body { 
+    grid-template-columns: 80px minmax(0, 1fr); 
+    grid-template-rows: 80px 1fr auto; 
+  }
+
+  aside.barra-lateral { width: 80px; }
+  aside.barra-lateral:hover { width: 200px; }
+  aside.barra-lateral:hover .icono-contenido span { opacity: 1; visibility: visible; }
+  
+  .logo-sidebar { width: 50px; height: 50px; }
+  
+  .icono-menu { 
+    width: 45px; height: 45px; 
+    justify-self: start; 
+    margin-left: 17px; 
+    overflow: visible; 
+  }
+  
+  .icono-contenido { 
+    grid-template-columns: 45px max-content; 
+    left: 0; top: 0;
+  }
+  
+  .icono-menu .icono-contenido img { 
+    width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+  }
+  
+  header h1 { font-size: 36px; }
+  footer .contenido-footer { grid-template-columns: 1fr; gap: 20px; text-align: center; }
+  footer .footer-links { justify-content: center; }
+}
+
+/* --- MÓVIL (max-width: 575px) --- */
+@media (max-width: 575px) {
+  body { 
+    grid-template-columns: 60px minmax(0, 1fr); 
+    grid-template-rows: 60px 1fr auto; 
+  }
+
+  aside.barra-lateral { width: 60px; padding: 10px 0; }
+  aside.barra-lateral:hover { width: 60px; } 
+  
+  .icono-menu .icono-contenido span { display: none !important; } 
+  
+  .logo-sidebar { width: 40px; height: 40px; }
+  
+  .icono-menu { 
+    width: 38px; height: 38px; 
+    justify-self: start; 
+    margin-left: 11px;
+    overflow: hidden; 
+    padding: 0; 
+  }
+  
+  .icono-contenido { 
+    position: static; 
+    display: grid; place-items: center; 
+    width: 100%; height: 100%;
+  }
+  
+  .icono-menu .icono-contenido img { 
+    width: 100%; height: 100%; object-fit: cover; border-radius: 0; display: block;
+  }
+
+  /* Header Móvil */
+  header { 
+    padding: 10px; 
+    display: grid; 
+    grid-template-columns: 1fr auto; /* Espacio | Iconos */
+    align-items: center;
+  }
+  header h1 { font-size: 18px; }
+  .header-icons { justify-self: end; }
+
+  main { padding: 10px; width: 100%; margin: 10px 0; }
+  .contenido-fondo { width: 100%; margin: 0; padding: 15px; }
+  .login-box { padding: 0; }
+  .botones-accion { gap: 10px; }
+  .btn { padding: 10px; font-size: 12px; }
+  
+  footer .footer-links { 
+    display: grid; grid-auto-flow: row; gap: 10px; 
+  }
+  footer .footer-contacto { margin-top: 10px; }
+}
