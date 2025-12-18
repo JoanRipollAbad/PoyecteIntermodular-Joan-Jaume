@@ -11,7 +11,7 @@
 }
 
 /* =========================================
-   2. SIDEBAR (LOGICA DE CENTRADO DE LOGO)
+   2. SIDEBAR (LOGICA DE CENTRADO CON GRID)
    ========================================= */
 aside.barra-lateral {
     background-color: var(--sidebar-color);
@@ -21,10 +21,14 @@ aside.barra-lateral {
     left: 0;
     top: 0;
     z-index: 1100;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centrado inicial */
-    gap: 25px;
+    
+    /* REEMPLAZO DE FLEX POR GRID */
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center; /* Centrado horizontal */
+    align-content: start;  /* Alineación al inicio vertical */
+    row-gap: 25px;         /* Espacio entre elementos */
+    
     padding: 20px 0;
     transition: width 0.3s ease;
     overflow: hidden;
@@ -33,29 +37,28 @@ aside.barra-lateral {
 /* Expansión */
 aside.barra-lateral:hover {
     width: 220px;
-    align-items: flex-start; /* Otros iconos se van a la izquierda */
-    padding-left: 20px;      /* Margen para iconos cuando sale el texto */
+    justify-items: start; /* Alinea iconos a la izquierda en grid */
+    padding-left: 20px;
 }
 
-/* EL LOGO: El único que se mantiene en el centro */
+/* EL LOGO: Centrado absoluto en el grid */
 .logo-sidebar {
     width: 70px;
     height: 70px;
     background: white;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-bottom: 20px;
     
-    /* Forzar centrado absoluto */
-    align-self: center !important; 
+    /* CENTRADO INTERNO CON GRID */
+    display: grid;
+    place-items: center;
+    
+    /* Mantiene el centro visual ignorando el justify-items del padre */
+    justify-self: center !important; 
+    
+    margin-bottom: 20px;
     transition: transform 0.3s ease;
 }
 
-/* Al expandirse la barra (220px), como el padre tiene padding-left: 20px, 
-   desplazamos el logo hacia la izquierda para compensar y que siga pareciendo centrado */
 aside.barra-lateral:hover .logo-sidebar {
     transform: translateX(-10px); 
 }
@@ -79,7 +82,9 @@ aside.barra-lateral:hover .logo-sidebar {
 }
 
 .icono-contenido {
-    display: flex;
+    /* GRID DE 2 COLUMNAS (Icono y Texto) */
+    display: grid;
+    grid-template-columns: 60px 1fr;
     align-items: center;
     width: 100%;
     height: 100%;
@@ -105,7 +110,8 @@ aside.barra-lateral:hover .icono-contenido span {
 }
 
 .ayuda {
-    margin-top: auto; /* Soporte abajo */
+    /* En Grid, margin-top: auto también empuja al final */
+    margin-top: auto; 
 }
 
 /* =========================================
@@ -115,8 +121,10 @@ aside.barra-lateral:hover .icono-contenido span {
     margin-left: 100px;
     width: calc(100% - 100px);
     transition: margin-left 0.3s ease;
-    display: flex;
-    flex-direction: column;
+    
+    /* GRID PARA MANTENER EL FOOTER ABAJO */
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* Header, Main (crece), Footer */
     min-height: 100vh;
 }
 
@@ -127,11 +135,13 @@ aside.barra-lateral:hover .icono-contenido span {
 header.header-principal {
     background-color: var(--header-color);
     padding: 15px 40px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    position: relative;
     height: 85px;
+    position: relative;
+    
+    /* GRID PARA POSICIONAR ICONOS A LA DERECHA */
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
 }
 
 header.header-principal h1 {
@@ -145,14 +155,19 @@ header.header-principal h1 {
 }
 
 .header-icons {
-    display: flex;
-    gap: 20px;
+    /* GRID EN LINEA PARA LOS ICONOS */
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 20px;
 }
 
 .header-icons a {
     text-decoration: none;
     color: var(--text-color);
-    text-align: center;
+    
+    /* GRID PARA CENTRAR ICONO Y TEXTO */
+    display: grid;
+    justify-items: center;
 }
 
 .header-icons img {
@@ -169,6 +184,7 @@ header.header-principal h1 {
    ========================================= */
 .tarjeta-principal-contenedor {
     max-width: 1200px;
+    justify-self: center; /* Centra la tarjeta en el main grid */
 }
 
 .titulo-seccion::after {
@@ -190,29 +206,38 @@ header.header-principal h1 {
 footer {
     background: var(--footer-color);
     padding: 30px;
-    margin-top: auto;
     text-align: center;
+    
+    /* GRID PARA EL CONTENIDO INTERNO */
+    display: grid;
+    justify-items: center;
+    row-gap: 15px;
+}
+
+.footer-links {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 20px;
 }
 
 .footer-links a {
-    margin: 0 10px;
     color: #333;
     text-decoration: none;
     font-size: 14px;
 }
 
 .footer-info {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-auto-flow: column;
     align-items: center;
-    gap: 15px;
-    margin-top: 15px;
+    column-gap: 15px;
 }
 
 .footer-contacto {
-    display: flex;
+    display: grid;
+    grid-auto-flow: column;
     align-items: center;
-    gap: 5px;
+    column-gap: 5px;
 }
 
 .footer-contacto img {
