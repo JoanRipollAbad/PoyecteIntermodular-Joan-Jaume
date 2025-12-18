@@ -1,181 +1,220 @@
-/* Estilos específicos para la página de producto */
-.product-details-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: var(--shadow-medium);
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 1200px;
+/* =========================================
+   1. VARIABLES DE COLOR
+   ========================================= */
+:root {
+  --sidebar-color: #c5e0d8;
+  --header-color: #b8d8d8;
+  --primary-color: #7ed9c7;
+  --secondary-color: #6bc7b5;
+  --text-color: #333;
+  --footer-color: lightgray;
 }
 
-.product-main-info {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
-  margin-bottom: 40px;
-}
-
-.product-image-gallery {
-  flex: 2;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.main-image {
-  width: 100%;
-  max-width: 500px;
-  border-radius: 8px;
-  box-shadow: var(--shadow-light);
-  margin-bottom: 20px;
-}
-
-.thumbnail-gallery {
-  display: flex;
-  gap: 15px;
-  overflow-x: auto;
-  padding-bottom: 10px;
-  justify-content: center;
-}
-
-.thumbnail-gallery img {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
-  border-radius: 5px;
-  border: 2px solid #eee;
-  cursor: pointer;
-  transition: border-color 0.3s ease;
-}
-
-.thumbnail-gallery img:hover,
-.thumbnail-gallery img.active {
-  border-color: var(--primary-color);
-}
-
-.product-info-sidebar {
-  flex: 1;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.product-price {
-  font-size: 2.8em;
-  color: var(--primary-color);
-  font-weight: bold;
-}
-
-.product-rating {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: -10px;
-  margin-bottom: 15px;
-}
-
-.product-rating .stars {
-  color: gold;
-  font-size: 1.2em;
-}
-
-.product-features ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 10px;
-}
-
-.product-features li {
-  margin-bottom: 8px;
-  color: var(--text-color);
-  font-size: 1.1em;
-}
-
-.product-features li::before {
-  content: '•';
-  color: var(--secondary-color);
-  font-weight: bold;
-  display: inline-block;
-  width: 1em;
-  margin-left: -1em;
-}
-
-.add-to-cart-btn,
-.add-to-wishlist-btn {
-  padding: 15px 25px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1em;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  text-align: center;
-}
-
-.add-to-cart-btn {
-  background-color: var(--primary-color);
-  color: white;
-  font-weight: bold;
-}
-
-.add-to-cart-btn:hover {
-  background-color: var(--secondary-color);
-}
-
-.add-to-wishlist-btn {
-  background-color: transparent;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color);
-  font-weight: bold;
-}
-
-.add-to-wishlist-btn:hover {
-  background-color: var(--sidebar-color);
-}
-
-.product-description {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: var(--shadow-light);
-  padding: 30px;
-  margin-top: 30px;
-}
-
-.product-description h2 {
-  font-size: 1.8em;
-  color: var(--text-color);
-  margin-bottom: 20px;
-}
-
-.product-description p {
-  line-height: 1.7;
-  color: #555;
-  font-size: 1.1em;
-}
-
-/* Responsive para la página de producto */
-@media (max-width: 900px) {
-  .product-main-info {
+/* =========================================
+   2. SIDEBAR (LOGICA DE CENTRADO DE LOGO)
+   ========================================= */
+aside.barra-lateral {
+    background-color: var(--sidebar-color);
+    width: 100px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1100;
+    display: flex;
     flex-direction: column;
-    align-items: center;
-  }
-
-  .product-image-gallery,
-  .product-info-sidebar {
-    width: 100%;
-    max-width: 600px;
-  }
+    align-items: center; /* Centrado inicial */
+    gap: 25px;
+    padding: 20px 0;
+    transition: width 0.3s ease;
+    overflow: hidden;
 }
 
-@media (max-width: 600px) {
-  .product-description h2 {
-    font-size: 1.6em;
-  }
+/* Expansión */
+aside.barra-lateral:hover {
+    width: 220px;
+    align-items: flex-start; /* Otros iconos se van a la izquierda */
+    padding-left: 20px;      /* Margen para iconos cuando sale el texto */
+}
 
-  .product-price {
-    font-size: 2.2em;
-  }
+/* EL LOGO: El único que se mantiene en el centro */
+.logo-sidebar {
+    width: 70px;
+    height: 70px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-bottom: 20px;
+    
+    /* Forzar centrado absoluto */
+    align-self: center !important; 
+    transition: transform 0.3s ease;
+}
+
+/* Al expandirse la barra (220px), como el padre tiene padding-left: 20px, 
+   desplazamos el logo hacia la izquierda para compensar y que siga pareciendo centrado */
+aside.barra-lateral:hover .logo-sidebar {
+    transform: translateX(-10px); 
+}
+
+.logo-sidebar img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Iconos Burbuja */
+.icono-menu {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.icono-contenido {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.icono-contenido img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.icono-contenido span {
+    margin-left: 15px;
+    opacity: 0;
+    font-weight: bold;
+    color: var(--text-color);
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+}
+
+aside.barra-lateral:hover .icono-contenido span {
+    opacity: 1;
+}
+
+.ayuda {
+    margin-top: auto; /* Soporte abajo */
+}
+
+/* =========================================
+   3. ESTRUCTURA Y HEADER
+   ========================================= */
+.main-wrapper {
+    margin-left: 100px;
+    width: calc(100% - 100px);
+    transition: margin-left 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.barra-lateral:hover ~ .main-wrapper {
+    margin-left: 220px;
+}
+
+header.header-principal {
+    background-color: var(--header-color);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+    height: 85px;
+}
+
+header.header-principal h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 26px;
+    font-weight: bold;
+    color: #444;
+}
+
+.header-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.header-icons a {
+    text-decoration: none;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.header-icons img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: white;
+    padding: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* =========================================
+   4. TARJETA PRODUCTO
+   ========================================= */
+.tarjeta-principal-contenedor {
+    max-width: 1200px;
+}
+
+.titulo-seccion::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
+    margin: 10px auto;
+}
+
+/* Ajuste Carrusel */
+.carousel-item img, .carousel-item video {
+    height: 450px;
+    object-fit: cover;
+}
+
+/* FOOTER */
+footer {
+    background: var(--footer-color);
+    padding: 30px;
+    margin-top: auto;
+    text-align: center;
+}
+
+.footer-links a {
+    margin: 0 10px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.footer-contacto {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.footer-contacto img {
+    width: 20px;
 }
