@@ -1,116 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JJ-Security - Iniciar Sesión</title>
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/login.css" />
     <!-- Fuente Lato para que coincida con el estilo -->
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
     <!-- SIDEBAR (Barra Lateral) -->
     <aside class="barra-lateral">
-        <div class="logo-sidebar">
-            <a href="main.html">
-                <img src="../../public/images/logo.jpg" alt="JJ-Security Logo" />
-            </a>
-        </div>
-        
-        <!-- Iconos del menú (simulados basados en tu CSS) -->
-        <div class="icono-menu ajustes">
-            <div class="icono-contenido">
-                <img src="../../public/images/ajustes.jpg" alt="Ajustes">
-                <span>Ajustes</span>
-            </div>
-        </div>
-        <div class="icono-menu filtros">
-            <div class="icono-contenido">
-                <img src="../../public/images/filtros.jpg" alt="Filtros">
-                <span>Filtros</span>
-            </div>
-        </div>
-        <div class="icono-menu usuario">
-            <div class="icono-contenido">
-                <img src="../../public/images/usuario.jpg" alt="Usuario">
-                <span>Perfil</span>
-            </div>
-        </div>
+      <div class="logo-sidebar">
+        <a href="main.html">
+          <img src="../../public/images/logo.jpg" alt="JJ-Security Logo" />
+        </a>
+      </div>
 
-        <div class="icono-menu ayuda">
-            <div class="icono-contenido">
-                <img src="../../public/images/mingcute_phone-fill.svg" alt="Ayuda">
-                <span>Ayuda</span>
-            </div>
+      <!-- Iconos del menú (simulados basados en tu CSS) -->
+      <div class="icono-menu ajustes">
+        <div class="icono-contenido">
+          <img src="../../public/images/ajustes.jpg" alt="Ajustes" />
+          <span>Ajustes</span>
         </div>
+      </div>
+      <div class="icono-menu filtros">
+        <div class="icono-contenido">
+          <img src="../../public/images/filtros.jpg" alt="Filtros" />
+          <span>Filtros</span>
+        </div>
+      </div>
+      <div class="icono-menu usuario">
+        <div class="icono-contenido">
+          <img src="../../public/images/usuario.jpg" alt="Usuario" />
+          <span>Perfil</span>
+        </div>
+      </div>
+
+      <div class="icono-menu ayuda">
+        <div class="icono-contenido">
+          <img src="../../public/images/mingcute_phone-fill.svg" alt="Ayuda" />
+          <span>Ayuda</span>
+        </div>
+      </div>
     </aside>
 
     <!-- HEADER -->
     <header>
-        <!-- Título centrado -->
-        <h1>JJ-SECURITY</h1>
-        <!-- Espacio vacío a la derecha o iconos si fuesen necesarios -->
-        <div class="header-icons"></div>
+      <!-- Título centrado -->
+      <h1>JJ-SECURITY</h1>
+      <!-- Espacio vacío a la derecha o iconos si fuesen necesarios -->
+      <div class="header-icons"></div>
     </header>
 
     <!-- MAIN CONTENT -->
     <main>
-        <!-- Reutilizamos tu clase .contenido-fondo pero añadimos .login-page para estilos específicos -->
-        <div class="contenido-fondo login-page-container">
-            
-            <div class="login-box">
-                <h2 class="login-title">Inicia Sesión</h2>
-                
-                <form action="main.html" method="POST">
-                    <div class="form-group">
-                        <label for="correo">Correo:</label>
-                        <input type="email" id="correo" name="correo" required>
-                    </div>
+      <!-- Reutilizamos tu clase .contenido-fondo pero añadimos .login-page para estilos específicos -->
+      <div class="contenido-fondo login-page-container">
+        <div class="login-box">
+          <h2 class="login-title">Inicia Sesión</h2>
 
-                    <div class="form-group">
-                        <label for="password">Contraseña:</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-
-                    <div class="legal-text">
-                        <p>Al continuar, aceptas las <a href="#">Condiciones de uso</a> y el <a href="#">Aviso de privacidad</a> de JJ-Security</p>
-                    </div>
-
-                    <div class="botones-accion">
-                        <button type="button" class="btn btn-atras" onclick="window.location.href='main.html'">ATRAS</button>
-                        <button type="submit" class="btn btn-continuar" onclick="window.location.href='main.html'">CONTINUAR</button>
-                    </div>
-
-                    <div class="boton-registro">
-                        <button type="button" class="btn btn-registro" onclick="window.location.href='registro.html'">REGISTRO</button>
-                    </div>
-                </form>
+          <form action="main.html" method="POST">
+            <div class="form-group">
+              <label for="correo">Correo:</label>
+              <input type="email" id="correo" name="correo" required />
             </div>
 
+            <div class="form-group">
+              <label for="password">Contraseña:</label>
+              <input type="password" id="password" name="password" required />
+            </div>
+
+            <div class="legal-text">
+              <p>Al continuar, aceptas las <a href="#">Condiciones de uso</a> y el <a href="#">Aviso de privacidad</a> de JJ-Security</p>
+            </div>
+
+            <div class="botones-accion">
+              <button type="button" class="btn btn-atras" onclick="window.location.href='main.html'">ATRAS</button>
+              <button type="submit" class="btn btn-continuar" onclick="window.location.href='main.html'">CONTINUAR</button>
+            </div>
+
+            <div class="boton-registro">
+              <button type="button" class="btn btn-registro" onclick="window.location.href='registro.html'">REGISTRO</button>
+            </div>
+          </form>
         </div>
+      </div>
     </main>
 
     <!-- FOOTER -->
     <footer>
-        <div class="contenido-footer">
-            <div class="footer-links">
-                <a href="#">Condiciones de uso</a>
-                <a href="#">Área legal</a>
-                <a href="#">Aviso de privacidad</a>
-                <a href="#">Cookies</a>
-            </div>
-
-            <div class="copyright">
-                &copy; 1996-2025, JJ-Security.com, Inc. o sus afiliados
-            </div>
-
-            <div class="footer-contacto">
-                <img src="../../public/images/mingcute_phone-fill.svg" alt="Teléfono">
-                <span>24/7</span>
-            </div>
+      <div class="contenido-footer">
+        <div class="footer-links">
+          <a href="#">Condiciones de uso</a>
+          <a href="#">Área legal</a>
+          <a href="#">Aviso de privacidad</a>
+          <a href="#">Cookies</a>
         </div>
-    </footer>
 
-</body>
+        <div class="copyright">&copy; 1996-2025, JJ-Security.com, Inc. o sus afiliados</div>
+
+        <div class="footer-contacto">
+          <img src="../../public/images/mingcute_phone-fill.svg" alt="Teléfono" />
+          <span>24/7</span>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
