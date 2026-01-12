@@ -1,166 +1,162 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Producto - JJ-Security</title>
     <!-- Bootstrap 5.3 CDN -->
-    <link href="../css/boostrap.min.css" rel="stylesheet">
+    <link href="../css/boostrap.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
-    <!-- Tu CSS -->
-    <link rel="stylesheet" href="../css/product.css" />
-</head>
-<body>
 
+    <link rel="stylesheet" href="../css/product.css" />
+  </head>
+  <body>
     <!-- SIDEBAR DINÁMICO -->
     <aside class="barra-lateral">
-        <!-- Logo: Centrado permanente -->
-        <div class="logo-sidebar shadow">
-            <img src="../../public/images/logo.jpg" alt="JJ-Security Logo" onclick="window.location.href='main.html'" />
-        </div>
-        
-        <div class="icono-menu">
-            <div class="icono-contenido">
-                <img src="../../public/images/ajustes.jpg" alt="Ajustes" />
-                <span>Ajustes</span>
-            </div>
-        </div>
+      <!-- Logo: Centrado permanente -->
+      <div class="logo-sidebar shadow">
+        <img src="../../public/images/logo.jpg" alt="JJ-Security Logo" onclick="window.location.href='main.html'" />
+      </div>
 
-        <div class="icono-menu">
-            <div class="icono-contenido">
-                <img src="../../public/images/filtros.jpg" alt="Filtros" />
-                <span>Filtros</span>
-            </div>
+      <div class="icono-menu">
+        <div class="icono-contenido">
+          <img src="../../public/images/ajustes.jpg" alt="Ajustes" />
+          <span>Ajustes</span>
         </div>
+      </div>
 
-        <div class="icono-menu">
-            <div class="icono-contenido">
-                <img src="../../public/images/usuario.jpg" alt="Perfil" />
-                <span>Perfil</span>
-            </div>
+      <div class="icono-menu">
+        <div class="icono-contenido">
+          <img src="../../public/images/filtros.jpg" alt="Filtros" />
+          <span>Filtros</span>
         </div>
+      </div>
 
-        <!-- Soporte al final -->
-        <div class="icono-menu ayuda">
-            <div class="icono-contenido">
-                <img src="../../public/images/mingcute_phone-fill.svg" alt="Ayuda" />
-                <span>Ayuda</span>
-            </div>
+      <div class="icono-menu">
+        <div class="icono-contenido">
+          <img src="../../public/images/usuario.jpg" alt="Perfil" />
+          <span>Perfil</span>
         </div>
+      </div>
+
+      <!-- Soporte al final -->
+      <div class="icono-menu ayuda">
+        <div class="icono-contenido">
+          <img src="../../public/images/mingcute_phone-fill.svg" alt="Ayuda" />
+          <span>Ayuda</span>
+        </div>
+      </div>
     </aside>
 
     <!-- ENVOLTORIO PARA EL CONTENIDO -->
     <div class="main-wrapper">
-        
-        <!-- HEADER TURQUESA -->
-        <header class="header-principal">
-            <h1>JJ-Security</h1>
-            <div class="header-icons">
-                <div class="carro-icono">
-                    <a href="#"><img src="../../public/images/carrito.jpg" alt="Carrito"><p>Carrito</p></a>
+      <!-- HEADER TURQUESA -->
+      <header class="header-principal">
+        <h1>JJ-Security</h1>
+        <div class="header-icons">
+          <div class="carro-icono">
+            <a href="#"
+              ><img src="../../public/images/carrito.jpg" alt="Carrito" />
+              <p>Carrito</p></a
+            >
+          </div>
+          <div class="user-icono">
+            <a href="#"
+              ><img src="../../public/images/usuario.jpg" alt="Usuario" />
+              <p>Usuario</p></a
+            >
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN PRODUCTO -->
+      <main class="container-fluid py-5 px-md-5">
+        <section class="tarjeta-principal-contenedor mx-auto shadow-lg bg-white p-4 p-md-5 rounded-4">
+          <h2 class="titulo-seccion text-center mb-4">Cámara de Seguridad Interior Ultra HD</h2>
+
+          <div class="row g-5 align-items-center">
+            <!-- COLUMNA IZQUIERDA: CARRUSEL -->
+            <div class="col-12 col-lg-7">
+              <div id="productCarousel" class="carousel slide shadow rounded-4 overflow-hidden" data-bs-ride="carousel">
+                <div class="carousel-inner bg-dark">
+                  <!-- Slide 1: Video -->
+                  <div class="carousel-item active">
+                    <div class="ratio ratio-16x9">
+                      <video autoplay muted loop>
+                        <source src="../../public/videos/videoCamara.mp4" type="video/mp4" />
+                      </video>
+                    </div>
+                  </div>
+
+                  <!-- Slide 2: Imagen (Corregida para igualar al video) -->
+                  <div class="carousel-item">
+                    <div class="ratio ratio-16x9">
+                      <img src="../../public/images/marcaAgua/camaras/camaras.jpg" class="d-block w-100" style="object-fit: cover" alt="Cámara" />
+                    </div>
+                  </div>
                 </div>
-                <div class="user-icono">
-                    <a href="#"><img src="../../public/images/usuario.jpg" alt="Usuario"><p>Usuario</p></a>
-                </div>
+
+                <!-- Controles -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                </button>
+              </div>
             </div>
-        </header>
 
-        <!-- MAIN PRODUCTO -->
-        <main class="container-fluid py-5 px-md-5">
-            <section class="tarjeta-principal-contenedor mx-auto shadow-lg bg-white p-4 p-md-5 rounded-4">
-                <h2 class="titulo-seccion text-center mb-4">Cámara de Seguridad Interior Ultra HD</h2>
+            <!-- COLUMNA DERECHA: INFORMACIÓN -->
+            <div class="col-12 col-lg-5">
+              <div class="ps-lg-3">
+                <span class="display-4 fw-bold d-block mb-2" style="color: var(--secondary-color)">129.99€</span>
+                <p class="text-warning mb-4 fs-5">★★★★★ <span class="text-muted small fs-6">(154 Reseñas)</span></p>
 
-                <div class="row g-5 align-items-center">
-                        
-                <!-- COLUMNA IZQUIERDA: CARRUSEL -->
-                <div class="col-12 col-lg-7">
-                    <div id="productCarousel" class="carousel slide shadow rounded-4 overflow-hidden" data-bs-ride="carousel">
-                        <div class="carousel-inner bg-dark">
-                            
-                            <!-- Slide 1: Video -->
-                            <div class="carousel-item active">
-                                <div class="ratio ratio-16x9">
-                                    <video autoplay muted loop>
-                                        <source src="../../public/videos/videoCamara.mp4" type="video/mp4">
-                                    </video>
-                                </div>
-                            </div>
+                <ul class="list-unstyled mb-4">
+                  <li class="mb-3 fs-5 text-dark">✅ Resolución 4K Ultra HD</li>
+                  <li class="mb-3 fs-5 text-dark">✅ Visión Nocturna a Color</li>
+                  <li class="mb-3 fs-5 text-dark">✅ Detección IA Avanzada</li>
+                  <li class="mb-3 fs-5 text-dark">✅ Resistente al Agua IP66</li>
+                </ul>
 
-                            <!-- Slide 2: Imagen (Corregida para igualar al video) -->
-                            <div class="carousel-item">
-                                <div class="ratio ratio-16x9">
-                                    <img src="../../public/images/marcaAgua/camaras/camaras.jpg" 
-                                        class="d-block w-100" 
-                                        style="object-fit: cover;" 
-                                        alt="Cámara">
-                                </div>
-                            </div>
-
-                        </div>
-                        
-                        <!-- Controles -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
-                        </button>
-                    </div>
+                <div class="d-grid gap-3">
+                  <button class="btn btn-lg fw-bold text-white py-3 shadow-sm" style="background-color: var(--primary-color); border-radius: 30px">AÑADIR AL CARRITO</button>
+                  <button class="btn btn-outline-dark btn-sm py-2" style="border-radius: 30px">❤️ Agregar a Deseados</button>
                 </div>
-
-  
-
-                    <!-- COLUMNA DERECHA: INFORMACIÓN -->
-                    <div class="col-12 col-lg-5">
-                        <div class="ps-lg-3">
-                            <span class="display-4 fw-bold d-block mb-2" style="color: var(--secondary-color);">129.99€</span>
-                            <p class="text-warning mb-4 fs-5">★★★★★ <span class="text-muted small fs-6">(154 Reseñas)</span></p>
-                            
-                            <ul class="list-unstyled mb-4">
-                                <li class="mb-3 fs-5 text-dark">✅ Resolución 4K Ultra HD</li>
-                                <li class="mb-3 fs-5 text-dark">✅ Visión Nocturna a Color</li>
-                                <li class="mb-3 fs-5 text-dark">✅ Detección IA Avanzada</li>
-                                <li class="mb-3 fs-5 text-dark">✅ Resistente al Agua IP66</li>
-                            </ul>
-
-                            <div class="d-grid gap-3">
-                                <button class="btn btn-lg fw-bold text-white py-3 shadow-sm" style="background-color: var(--primary-color); border-radius: 30px;">AÑADIR AL CARRITO</button>
-                                <button class="btn btn-outline-dark btn-sm py-2" style="border-radius: 30px;">❤️ Agregar a Deseados</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DESCRIPCIÓN -->
-                <div class="mt-5 pt-4 border-top">
-                    <h4 class="fw-bold mb-3">Descripción del Producto</h4>
-                    <p class="text-muted lh-lg">La Cámara de Seguridad Exterior Ultra HD de JJ-Security ofrece una vigilancia inigualable para tu hogar o negocio. Con una resolución 4K impresionante, cada detalle se captura con la máxima claridad.</p>
-                </div>
-            </section>
-        </main>
-
-        <!-- FOOTER -->
-        <footer>
-            <div class="contenido-footer">
-                <div class="footer-links">
-                    <a href="#">Condiciones de uso</a>
-                    <a href="#">Aviso legal</a>
-                    <a href="#">Aviso de privacidad</a>
-                    <a href="#">Cookies</a>
-                </div>
-                <div class="footer-info">
-                    <div class="copyright">© 2025 JJ-Security. Todos los derechos reservados.</div>
-                    <div class="footer-contacto">
-                        <img src="../../public/images/mingcute_phone-fill.svg" alt="Teléfono" />
-                        <span>24/7</span>
-                    </div>
-                </div>
+              </div>
             </div>
-        </footer>
+          </div>
+
+          <!-- DESCRIPCIÓN -->
+          <div class="mt-5 pt-4 border-top">
+            <h4 class="fw-bold mb-3">Descripción del Producto</h4>
+            <p class="text-muted lh-lg">La Cámara de Seguridad Exterior Ultra HD de JJ-Security ofrece una vigilancia inigualable para tu hogar o negocio. Con una resolución 4K impresionante, cada detalle se captura con la máxima claridad.</p>
+          </div>
+        </section>
+      </main>
+
+      <!-- FOOTER -->
+      <footer>
+        <div class="contenido-footer">
+          <div class="footer-links">
+            <a href="#">Condiciones de uso</a>
+            <a href="#">Aviso legal</a>
+            <a href="#">Aviso de privacidad</a>
+            <a href="#">Cookies</a>
+          </div>
+          <div class="footer-info">
+            <div class="copyright">© 2025 JJ-Security. Todos los derechos reservados.</div>
+            <div class="footer-contacto">
+              <img src="../../public/images/mingcute_phone-fill.svg" alt="Teléfono" />
+              <span>24/7</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
 
     <!-- Bootstrap JS Bundle CDN -->
     <script src="../js/boostrap.min.js"></script>
-</body>
+  </body>
 </html>
