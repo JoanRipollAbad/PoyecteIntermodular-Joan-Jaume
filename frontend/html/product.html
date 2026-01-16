@@ -72,7 +72,6 @@
 
       <!-- MAIN PRODUCTO -->
       <main class="container-fluid py-5 px-md-5">
-        
         <!-- MIGAS DE PAN (BREADCRUMBS) -->
         <nav aria-label="breadcrumb" class="mb-4">
           <ol class="breadcrumb">
@@ -131,14 +130,14 @@
                 </ul>
 
                 <div class="d-grid gap-3">
-                  <!-- Botón Añadir al Carrito -->
-                  <button class="btn btn-lg btn-outline-dark fw-bold text-white py-3 shadow-sm" style="background-color: var(--primary-color); border-radius: 30px">COMPRAR YA</button>
-                  
-                  <!-- BOTÓN COMPRAR YA -->
-                  <button class="btn btn-outline-dark fw-bold text-white py-2 shadow-sm" style="background-color:  #8faeb0; border-radius: 30px">Añadir al carrito</button>
-                  
-                  <!-- Botón Agregar a Deseados -->
-                  <button class="btn btn-outline-dark btn-sm py-2" style="border-radius: 30px">❤️ Agregar a Deseados</button>
+                  <!-- BOTÓN COMPRAR YA: Ahora es un enlace real vinculado a checkout.html -->
+                  <a href="checkout.html" class="btn btn-lg fw-bold text-white py-3 shadow-sm d-flex align-items-center justify-content-center" style="background-color: var(--primary-color); border-radius: 30px; border: 2px solid #2c3e50; text-decoration: none" aria-label="Comprar ahora: Cámara de Seguridad Interior Ultra HD"> COMPRAR YA </a>
+
+                  <!-- BOTÓN AÑADIR AL CARRITO: Mantiene el estilo pero mejoramos accesibilidad -->
+                  <button type="button" class="btn fw-bold text-white py-2 shadow-sm" style="background-color: #8faeb0; border-radius: 30px; border: 2px solid #2c3e50" aria-label="Añadir esta cámara al carrito de compras">Añadir al carrito</button>
+
+                  <!-- BOTÓN DESEADOS: Limpiamos el emoji para lectores de pantalla -->
+                  <button type="button" class="btn btn-outline-dark btn-sm py-2" style="border-radius: 30px" aria-label="Añadir este producto a mi lista de deseos"><span aria-hidden="true">❤️</span> Agregar a Deseados</button>
                 </div>
               </div>
             </div>

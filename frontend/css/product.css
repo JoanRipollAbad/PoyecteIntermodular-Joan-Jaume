@@ -2,291 +2,308 @@
    1. VARIABLES BASE (CONFIGURACIÓN MÓVIL)
    ========================================= */
 :root {
-    --sidebar-color: #c5e0d8;
-    --header-color: #b8d8d8;
-    --primary-color: #7ed9c7;
-    --secondary-color: #6bc7b5;
-    --text-color: #333;
-    --footer-color: lightgray;
+  --sidebar-color: #c5e0d8;
+  --header-color: #b8d8d8;
+  --primary-color: #7ed9c7;
+  --secondary-color: #6bc7b5;
+  --text-color: #333;
+  --footer-color: lightgray;
 
-    /* Medidas para Móvil (< 575px) */
-    --sidebar-width: 75px;
-    --sidebar-hover-width: 75px; /* No expande en móvil */
-    --header-height: 65px;
-    --h1-size: 18px;
-    --show-text-sidebar: 0;
+  /* Medidas para Móvil (< 575px) */
+  --sidebar-width: 75px;
+  --sidebar-hover-width: 75px; /* No expande en móvil */
+  --header-height: 65px;
+  --h1-size: 18px;
+  --show-text-sidebar: 0;
 }
 
 /* Medidas para Tablet (hasta 992px) */
 @media (min-width: 576px) and (max-width: 992px) {
-    :root {
-        --sidebar-width: 85px;
-        --sidebar-hover-width: 180px; /* Sí expande en tablet */
-        --header-height: 75px;
-        --h1-size: 22px;
-        --show-text-sidebar: 1;
-    }
+  :root {
+    --sidebar-width: 85px;
+    --sidebar-hover-width: 180px; /* Sí expande en tablet */
+    --header-height: 75px;
+    --h1-size: 22px;
+    --show-text-sidebar: 1;
+  }
 }
 
 /* Medidas para PC (> 992px) */
 @media (min-width: 993px) {
-    :root {
-        --sidebar-width: 95px;
-        --sidebar-hover-width: 200px;
-        --header-height: 85px;
-        --h1-size: 28px;
-        --show-text-sidebar: 1;
-    }
+  :root {
+    --sidebar-width: 95px;
+    --sidebar-hover-width: 200px;
+    --header-height: 85px;
+    --h1-size: 28px;
+    --show-text-sidebar: 1;
+  }
 }
 
 /* =========================================
    2. ESTRUCTURA BASE
    ========================================= */
 body {
-    margin: 0;
-    font-family: 'Lato', sans-serif;
-    background-color: #f4f7f6;
-    overflow-x: hidden;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  background-color: #f4f7f6;
+  overflow-x: hidden;
 }
 
 /* El margen nunca cambia al hacer hover para que el sidebar flote ENCIMA */
 .main-wrapper {
-    margin-left: var(--sidebar-width);
-    width: calc(100% - var(--sidebar-width));
-    display: grid;
-    grid-template-rows: auto 1fr auto; 
-    min-height: 100vh;
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
 }
 
 /* =========================================
    3. SIDEBAR (MODO OVERLAY)
    ========================================= */
 aside.barra-lateral {
-    background-color: var(--sidebar-color);
-    width: var(--sidebar-width);
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1200;
-    
-    display: grid;
-    grid-template-columns: 1fr;
-    justify-items: center; /* Centrado en móvil por defecto */
-    align-content: start;  
-    row-gap: 25px;
-    padding: 20px 0;
-    
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
-    overflow: hidden; 
+  background-color: var(--sidebar-color);
+  width: var(--sidebar-width);
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1200;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center; /* Centrado en móvil por defecto */
+  align-content: start;
+  row-gap: 25px;
+  padding: 20px 0;
+
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+  overflow: hidden;
 }
 
 aside.barra-lateral:hover {
-    width: var(--sidebar-hover-width); 
-    /* Solo aplicamos sombra si realmente se expande */
-    box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+  width: var(--sidebar-hover-width);
+  /* Solo aplicamos sombra si realmente se expande */
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
 }
 
 /* Ajuste de alineación al expandir (Solo si NO es móvil) */
 @media (min-width: 576px) {
-    aside.barra-lateral:hover {
-        justify-items: start;
-        padding-left: 15px;
-    }
+  aside.barra-lateral:hover {
+    justify-items: start;
+    padding-left: 15px;
+  }
 }
 
 .logo-sidebar {
-    width: 60px;
-    height: 60px;
-    background: white;
-    border-radius: 50%;
-    overflow: hidden;
-    display: grid;
-    place-items: center;
-    justify-self: center !important; 
-    margin-bottom: 10px;
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 50%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  justify-self: center !important;
+  margin-bottom: 10px;
 }
 
 .logo-sidebar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .icono-menu {
-    width: 60px;
-    height: 60px;
-    background: white;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .icono-contenido {
-    display: grid;
-    grid-template-columns: 60px 1fr;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 .icono-contenido img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
 }
 
 .icono-contenido span {
-    margin-left: 15px;
-    font-weight: bold;
-    color: var(--text-color);
-    white-space: nowrap;
-    font-size: 15px;
-    opacity: 0;
-    transition: opacity 0.2s ease;
+  margin-left: 15px;
+  font-weight: bold;
+  color: var(--text-color);
+  white-space: nowrap;
+  font-size: 15px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+input:focus,
+button:focus {
+  outline: 4px solid #000 !important;
+  outline-offset: 2px;
+}
+
+.btn:focus,
+a.btn:focus {
+  outline: 4px solid black !important;
+  outline-offset: 3px;
+  box-shadow: none !important;
+}
+
+a.btn:visited {
+  color: white;
 }
 
 /* Mostrar el texto al hacer hover solo si es Tablet o PC */
 @media (min-width: 576px) {
-    aside.barra-lateral:hover .icono-contenido span {
-        opacity: 1;
-    }
+  aside.barra-lateral:hover .icono-contenido span {
+    opacity: 1;
+  }
 }
 
 .ayuda {
-    margin-top: auto;
-    margin-bottom: 20px;
+  margin-top: auto;
+  margin-bottom: 20px;
 }
 
 /* =========================================
    4. HEADER (DISPLAY GRID - ANTI SOLAPAMIENTO)
    ========================================= */
 header.header-principal {
-    background-color: var(--header-color);
-    height: var(--header-height);
-    padding: 0 15px;
-    position: relative;
-    
-    display: grid;
-    /* El h1 ocupa el máximo espacio, los iconos el mínimo necesario */
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 15px;
+  background-color: var(--header-color);
+  height: var(--header-height);
+  padding: 0 15px;
+  position: relative;
+
+  display: grid;
+  /* El h1 ocupa el máximo espacio, los iconos el mínimo necesario */
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 15px;
 }
 
 @media (min-width: 993px) {
-    header.header-principal {
-        padding: 0 40px;
-    }
+  header.header-principal {
+    padding: 0 40px;
+  }
 }
 
 header.header-principal h1 {
-    margin: 0;
-    font-size: var(--h1-size);
-    font-weight: bold;
-    color: var(--text-color);
-    text-align: center;
-    /* Seguridad: corta el texto si la pantalla es extremadamente pequeña */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  margin: 0;
+  font-size: var(--h1-size);
+  font-weight: bold;
+  color: var(--text-color);
+  text-align: center;
+  /* Seguridad: corta el texto si la pantalla es extremadamente pequeña */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .header-icons {
-    display: grid;
-    grid-auto-flow: column;
-    column-gap: 15px;
-    align-items: center;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 15px;
+  align-items: center;
 }
 
 @media (min-width: 993px) {
-    .header-icons {
-        column-gap: 30px;
-    }
+  .header-icons {
+    column-gap: 30px;
+  }
 }
 
 .header-icons a {
-    text-decoration: none;
-    color: var(--text-color);
-    display: grid;
-    justify-items: center;
+  text-decoration: none;
+  color: var(--text-color);
+  display: grid;
+  justify-items: center;
 }
 
 .header-icons img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: white;
-    padding: 5px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  padding: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (min-width: 993px) {
-    .header-icons img {
-        width: 45px;
-        height: 45px;
-    }
+  .header-icons img {
+    width: 45px;
+    height: 45px;
+  }
 }
 
 /* Texto de Carrito/Usuario oculto en móvil */
 .header-icons p {
-    margin: 4px 0 0 0;
-    display: none;
-    font-weight: bold;
-    font-size: 13px;
+  margin: 4px 0 0 0;
+  display: none;
+  font-weight: bold;
+  font-size: 13px;
 }
 
 @media (min-width: 576px) {
-    .header-icons p {
-        display: block;
-    }
+  .header-icons p {
+    display: block;
+  }
 }
 
 /* =========================================
    5. TARJETA Y FOOTER
    ========================================= */
 .tarjeta-principal-contenedor {
-    width: 95%;
-    max-width: 1200px;
-    justify-self: center;
-    padding: 20px;
+  width: 95%;
+  max-width: 1200px;
+  justify-self: center;
+  padding: 20px;
 }
 
 @media (min-width: 993px) {
-    .tarjeta-principal-contenedor {
-        padding: 50px;
-    }
+  .tarjeta-principal-contenedor {
+    padding: 50px;
+  }
 }
 
 footer {
-    background: var(--footer-color);
-    padding: 20px;
-    display: grid;
-    justify-items: center;
-    row-gap: 15px;
+  background: var(--footer-color);
+  padding: 20px;
+  display: grid;
+  justify-items: center;
+  row-gap: 15px;
 }
 
 .footer-links {
-    display: grid;
-    grid-auto-flow: column;
-    column-gap: 20px;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 20px;
 }
 
 /* En móvil muy pequeño apilamos los links del footer */
 @media (max-width: 400px) {
-    .footer-links {
-        grid-auto-flow: row;
-        justify-items: center;
-    }
+  .footer-links {
+    grid-auto-flow: row;
+    justify-items: center;
+  }
 }
 
 .footer-links a {
-    color: #333;
-    text-decoration: none;
-    font-size: 13px;
+  color: #333;
+  text-decoration: none;
+  font-size: 13px;
 }
 
-.footer-contacto img{
+.footer-contacto img {
   width: 25px;
   height: 25px;
 }
