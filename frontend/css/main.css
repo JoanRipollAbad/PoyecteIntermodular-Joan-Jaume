@@ -95,7 +95,6 @@ aside.barra-lateral:focus-within {
 }
 
 .icono-menu:focus {
-  background-color: var(--primary-color);
   transform: scale(1.1);
   outline: 3px solid #000;
 }
