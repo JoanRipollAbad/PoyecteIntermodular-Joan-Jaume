@@ -1,0 +1,15 @@
+<!DOCTYPE html> 
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PI Frontend</title>
+        <!-- Si tuviera CSS, iría aquí con {{ asset('css/index.css') }} -->
+    </head>
+    <body>
+        <h1>Bienvenido PI Frontend</h1>
+        <h2>Estoy editando en mi rama personal</h2>
+        <h3>Cambios antes de ayudar a mi compañero</h3>
+        <section>Esto es una sección</section>
+    </body>
+</html>

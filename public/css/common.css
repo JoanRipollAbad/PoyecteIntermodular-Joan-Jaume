@@ -1,0 +1,217 @@
+/* =========================================
+   COMMON.CSS - Estructura Global JJ-Security
+   ========================================= */
+:root {
+    --sidebar-color: #c5e0d8;
+    --header-color: #b8d8d8;
+    --primary-color: #7ed9c7;
+    --text-color: #333;
+    --sidebar-width: 100px;
+    --sidebar-hover-width: 200px;
+}
+
+@keyframes vibrar-sutil {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-2px);
+    }
+    75% {
+        transform: translateX(2px);
+    }
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    background-color: #f4f4f4;
+    display: grid;
+    /* Estructura: Sidebar fijo a la izquierda, resto a la derecha */
+    grid-template-columns: var(--sidebar-width) 1fr;
+    grid-template-rows: 100px 1fr auto;
+    grid-template-areas:
+        "sidebar header"
+        "sidebar main"
+        "sidebar footer";
+    min-height: 100vh;
+}
+
+/* --- SIDEBAR GLOBAL --- */
+aside.barra-lateral {
+    grid-area: sidebar;
+    background-color: var(--sidebar-color);
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+aside.barra-lateral:hover {
+    width: var(--sidebar-hover-width);
+}
+
+.logo-sidebar {
+    width: 70px;
+    height: 70px;
+    background: white;
+    border-radius: 50%;
+    margin-bottom: 30px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.logo-sidebar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.icono-menu {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    background: none;
+    border: none;
+}
+
+.icono-contenido {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.icono-contenido img {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 50%;
+    padding: 5px;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.icono-contenido span {
+    color: var(--text-color);
+    font-weight: bold;
+    opacity: 0;
+    white-space: nowrap;
+    transition: opacity 0.3s;
+}
+
+aside.barra-lateral:hover .icono-contenido span {
+    opacity: 1;
+}
+
+.ayuda {
+    margin-top: auto;
+}
+
+/* --- HEADER GLOBAL --- */
+header {
+    grid-area: header;
+    background-color: var(--header-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 20px;
+}
+
+header h1 {
+    font-size: clamp(24px, 5vw, 42px);
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+/* --- FOOTER GLOBAL --- */
+footer {
+    grid-area: footer;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.contenido-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+.footer-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.copyright {
+    font-size: 12px;
+    color: #666;
+}
+
+.footer-contacto {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+.footer-contacto img {
+    width: 35px;
+    height: 35px;
+    background-color: var(--primary-color);
+    padding: 7px;
+    border-radius: 50%;
+}
+
+/* --- MAIN --- */
+main {
+    grid-area: main;
+    padding: 20px;
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        grid-template-columns: 70px 1fr;
+    }
+    aside.barra-lateral {
+        width: 70px;
+    }
+    aside.barra-lateral:hover {
+        width: 70px;
+    }
+    .icono-contenido span {
+        display: none;
+    }
+    .contenido-footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
