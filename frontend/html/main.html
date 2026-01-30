@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -15,9 +15,9 @@
 
     <aside class="barra-lateral" role="navigation" aria-label="Menú lateral">
       <div class="logo-sidebar">
-        <img src="../../public/images/logo.jpg" alt="Logo de JJ-Security" aria-label="Logo de JJ-Security"/>
+        <img src="../../public/images/logo.jpg" alt="Logo de JJ-Security" aria-label="Logo de JJ-Security" />
       </div>
-      
+
       <!-- Convertidos en botones/enlaces para que sean enfocables con teclado -->
       <button class="icono-menu ajustes" aria-label="Abrir Ajustes">
         <div class="icono-contenido">
@@ -126,7 +126,7 @@
             <p>Equipo de seguridad dedicado supervisando tus propiedades las 24 horas del día.</p>
           </article>
 
-          <article class="service-card"tabindex="0" >
+          <article class="service-card" tabindex="0">
             <div class="service-icon">
               <img src="../../public/images/marcaAgua/mantenimiento.jpg" alt="" aria-hidden="true" />
             </div>
@@ -186,6 +186,32 @@
         document.querySelectorAll('.tarjeta-productos, .service-card').forEach((card) => {
           observer.observe(card)
         })
+      })
+    </script>
+
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <script type="module">
+      import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js'
+
+      createChat({
+        webhookUrl: 'http://localhost:5678/webhook/303f5bca-10e1-489c-afd5-ddea9d28595f/chat',
+        target: '#n8n-chat',
+        mode: 'window',
+        title: 'Soporte JJ-Security',
+        initialMessages: ['¡Hola! 👋', 'Soy el asistente virtual de JJ-Security. ¿Te ayudo con cámaras, cerraduras o instalación?'],
+        i18n: {
+          en: {
+            title: 'Soporte JJ-Security',
+            subtitle: 'Asistente IA',
+            footer: 'Powered by n8n',
+            getStarted: 'Iniciar conversación',
+            inputPlaceholder: 'Escribe tu pregunta aquí...',
+          },
+        },
+        style: {
+          defaultOpen: false,
+          primaryColor: '#6bc7b5',
+        },
       })
     </script>
   </body>
