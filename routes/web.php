@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\UploadController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------

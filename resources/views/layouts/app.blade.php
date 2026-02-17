@@ -7,144 +7,80 @@
     
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
-    
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
     <style>
-        /* --- ARREGLO PARA QUE LOS BOTONES NO SE VEAN RAROS --- */
-        header {
-            background-color: #bcd9d6;
-            height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 0 30px;
+        /* --- ESTILOS BASE DEL LAYOUT --- */
+        body { margin: 0; padding: 0; }
+        header { background-color: #bcd9d6; height: 90px; display: flex; align-items: center; justify-content: center; position: relative; padding: 0 30px; }
+        header h1 { margin: 0; font-size: 2rem; color: #000; }
+        .header-icons { position: absolute; right: 30px; display: flex; gap: 20px; }
+        .header-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #000; }
+        .icon-circle { width: 45px !important; height: 45px !important; background-color: #fff; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; margin-bottom: 3px; }
+        .icon-circle img { width: 100% !important; height: 100% !important; object-fit: cover; }
+        .header-item span { font-size: 0.75rem; font-weight: bold; }
+
+        /* --- CSS NUCLEAR PARA EL CHATBOT --- */
+        /* Forzamos que el widget ignore el diseño de la página */
+        .n8n-chat-widget {
+            position: fixed !important;
+            bottom: 0 !important;
+            right: 0 !important;
+            z-index: 2147483647 !important;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-            color: #000;
+        .n8n-chat-widget-window {
+            position: fixed !important;
+            bottom: 100px !important;
+            right: 20px !important;
+            width: 380px !important;
+            height: 550px !important;
+            max-height: 80vh !important;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.4) !important;
+            background: white !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
         }
 
-        .header-icons {
-            position: absolute;
-            right: 30px;
-            display: flex;
-            gap: 20px;
+        /* ELIMINAMOS EL BANNER AZUL QUE TE ESTÁ HUNDIENDO EL CHAT */
+        .n8n-chat-widget-window-header-welcome {
+            display: none !important;
         }
 
-        .header-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #000;
-        }
-
-        /* Bloqueamos el tamaño del círculo para que la imagen no crezca */
-        .icon-circle {
-            width: 45px !important;
-            height: 45px !important;
-            background-color: #fff;
-            border-radius: 50%;
-            overflow: hidden; /* Esto corta la imagen si es muy grande */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #fff;
-            margin-bottom: 3px;
-        }
-
-        /* Forzamos a la imagen a ocupar solo el círculo */
-        .icon-circle img {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover; /* Mantiene la proporción sin deformar */
-        }
-
-        .header-item span {
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        /* --- TABULACIÓN EN NEGRO --- */
-        [tabindex="0"]:focus, a:focus {
-            outline: 3px solid #000 !important;
-            outline-offset: 5px;
-        }
-
-        :focus:not(:focus-visible) {
-            outline: none !important;
+        .n8n-chat-widget-button {
+            position: fixed !important;
+            bottom: 30px !important;
+            right: 30px !important;
+            z-index: 2147483647 !important;
         }
     </style>
-    
     @yield('styles')
 </head>
 <body>
     <aside class="barra-lateral">
-        <div class="logo-sidebar">
-            <a href="{{ url('/') }}">
-                <img src="{{ asset('img/logo.jpg') }}" alt="Logo" />
-            </a>
-        </div>
-        
-        <div class="icono-menu" tabindex="0">
-            <div class="icono-contenido">
-                <img src="{{ asset('img/ajustes.jpg') }}" alt="Ajustes" />
-                <span>Ajustes</span>
-            </div>
-        </div>
-        
-        <div class="icono-menu" tabindex="0">
-            <div class="icono-contenido">
-                <img src="{{ asset('img/filtros.jpg') }}" alt="Filtros" />
-                <span>Filtros</span>
-            </div>
-        </div>
-        
-        <div class="icono-menu">
-            <a href="{{ url('/login') }}" style="text-decoration:none; color:inherit;">
-                <div class="icono-contenido">
-                    <img src="{{ asset('img/usuario.jpg') }}" alt="Perfil" />
-                    <span>Perfil</span>
-                </div>
-            </a>
-        </div>
-        
-        <div class="icono-menu ayuda" tabindex="0">
-            <div class="icono-contenido">
-                <img src="{{ asset('img/mingcute_phone-fill.svg') }}" alt="Ayuda" />
-                <span>Ayuda</span>
-            </div>
-        </div>
+        <div class="logo-sidebar"><a href="{{ url('/') }}"><img src="{{ asset('img/logo.jpg') }}" alt="Logo" /></a></div>
+        <div class="icono-menu" tabindex="0"><div class="icono-contenido"><img src="{{ asset('img/ajustes.jpg') }}" alt="" /><span>Ajustes</span></div></div>
+        <div class="icono-menu" tabindex="0"><div class="icono-contenido"><img src="{{ asset('img/filtros.jpg') }}" alt="" /><span>Filtros</span></div></div>
+        <div class="icono-menu"><a href="{{ url('/login') }}" style="text-decoration:none; color:inherit;"><div class="icono-contenido"><img src="{{ asset('img/usuario.jpg') }}" alt="" /><span>Perfil</span></div></a></div>
+        <div class="icono-menu ayuda" tabindex="0"><div class="icono-contenido"><img src="{{ asset('img/mingcute_phone-fill.svg') }}" alt="" /><span>Ayuda</span></div></div>
     </aside>
 
     <header>
         <h1>JJ-SECURITY</h1>
-        
         @if(!Request::is('login') && !Request::is('registro'))
             <div class="header-icons">
-                <a href="#" class="header-item" tabindex="0">
-                    <div class="icon-circle">
-                        <img src="{{ asset('img/carrito.jpg') }}" alt="">
-                    </div>
-                    <span>Carrito</span>
-                </a>
-                <a href="{{ url('/login') }}" class="header-item" tabindex="0">
-                    <div class="icon-circle">
-                        <img src="{{ asset('img/usuario.jpg') }}" alt="">
-                    </div>
-                    <span>Usuario</span>
-                </a>
+                <a href="#" class="header-item"><div class="icon-circle"><img src="{{ asset('img/carrito.jpg') }}" alt=""></div><span>Carrito</span></a>
+                <a href="{{ url('/login') }}" class="header-item"><div class="icon-circle"><img src="{{ asset('img/usuario.jpg') }}" alt=""></div><span>Usuario</span></a>
             </div>
         @endif
     </header>
 
+    <!-- EL MAIN AHORA ES NEUTRO -->
     <main>
         @yield('content')
     </main>
 
-    <footer>
+     <footer>
         <div class="contenido-footer">
             <div class="footer-links">
                 <a href="#">Condiciones de uso</a> | 
@@ -162,21 +98,19 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const elementosTabulables = document.querySelectorAll('[tabindex="0"]');
-            elementosTabulables.forEach(el => {
-                el.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') {
-                        this.click();
-                        const link = this.querySelector('a');
-                        if (link) window.location.href = link.href;
-                    }
-                });
-            });
+    <!-- SCRIPT DE n8n -->
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+        createChat({
+            webhookUrl: 'http://localhost:5678/webhook/29f0abd7-0d17-4608-9b59-051cbd9e43ed/chat',
+            title: 'Soporte JJ-Security',
+            welcomeMessage: '¡Hola! 👋 ¿En qué puedo ayudarte?',
+            backgroundColor: '#ffffff',
+            mainColor: '#6bc7b5',
+            bubbleColor: '#6bc7b5',
+            showWelcomeLeave: false, 
         });
     </script>
-
     @yield('scripts')
 </body>
 </html>
