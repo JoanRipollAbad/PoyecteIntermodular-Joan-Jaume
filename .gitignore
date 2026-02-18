@@ -1,5 +1,56 @@
+# =============================================================================
+# LARAVEL BACKEND
+# =============================================================================
+/vendor
+/node_modules
+.env
+.env.backup
+.env.production
+.env.local
+.phpactor.json
+.phpunit.result.cache
+.phpunit.cache/
+auth.json
+Homestead.json
+Homestead.yaml
+
+# Laravel storage & cache
+storage/*.key
+storage/pail
+storage/framework/cache/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/testing/*
+storage/framework/views/*
+storage/logs/*
+storage/app/public
+bootstrap/cache/*
+
+# Laravel public
+/public/build
+/public/hot
+/public/storage
+public/js/*.js.map
+public/css/*.css.map
+
+# Laravel tests
+.phpunit.result.cache
+coverage/
+.phpunit.cache/
+
+# =============================================================================
+# VUE / VITE FRONTEND
+# =============================================================================
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+*.timestamp-*-*.mjs
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,33 +58,53 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-.DS_Store
-dist
-dist-ssr
-coverage
-*.local
-
-# Editor directories and files
+# Editor directories
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
+# ESLint / TypeScript
+.eslintcache
 *.tsbuildinfo
 
-.eslintcache
-
-# Cypress
+# Testing
+coverage/
+__screenshots__/
 /cypress/videos/
 /cypress/screenshots/
 
-# Vitest
-__screenshots__/
+# =============================================================================
+# SISTEMA / VARIOS
+# =============================================================================
+.DS_Store
+Thumbs.db
+*.local
 
-# Vite
-*.timestamp-*-*.mjs
+# Docker (si lo usas)
+/docker
+compose.yaml
+compose.yml
+docker-compose.yml
+docker-compose.override.yml
+
+# Copias de seguridad o carpetas duplicadas (¡IMPORTANTE!)
+*copia/
+*.backup
+*/
+
+# =============================================================================
+# EXCEPCIONES (archivos que SÍ queremos subir)
+# =============================================================================
+!.env.example
+!public/.htaccess
+!resources/views/.gitkeep
+
+# Copias locales
+*copia/
+PI (copia)/
+PILaravel (copia)/
