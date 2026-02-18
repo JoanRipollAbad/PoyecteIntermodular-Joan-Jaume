@@ -1,0 +1,125 @@
+/* =========================================
+   PRODUCT.CSS - FICHA DE PRODUCTO COMPLETA
+   ========================================= */
+
+:root {
+    --primary-color: #7ed9c7;
+    --secondary-color: #6bc7b5;
+    --teal-dark: #008080;
+    --text-color: #333;
+    --shadow-heavy: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* 1. CONTENEDOR DE LA TARJETA (Tu diseño original) */
+.tarjeta-principal-contenedor {
+    width: 100%;
+    max-width: 1200px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: var(--shadow-heavy);
+    margin-top: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* Efecto hover suave en la tarjeta completa */
+.tarjeta-principal-contenedor:hover {
+    transform: translateY(-5px);
+}
+
+/* 2. TÍTULOS Y PRECIOS */
+.titulo-producto {
+    color: var(--text-color);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.precio-destacado {
+    color: var(--teal-dark);
+    font-weight: 800;
+}
+
+/* 3. CARRUSEL Y MULTIMEDIA (Tu funcionalidad de video/imagen) */
+#productCarousel {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+#productCarousel video,
+#productCarousel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* Efecto zoom al pasar por encima del carrusel */
+#productCarousel:hover img,
+#productCarousel:hover video {
+    transform: scale(1.03);
+}
+
+/* 4. BOTONES Y SUS HOVERS (Tu funcionalidad de escala) */
+
+/* Botón Añadir al Carrito */
+.btn-carrito {
+    background-color: var(--teal-dark) !important;
+    border: none !important;
+    border-radius: 30px !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.btn-carrito:hover {
+    background-color: var(--secondary-color) !important;
+    transform: scale(1.05); /* Crece un poco como pediste */
+    box-shadow: 0 10px 20px rgba(0, 128, 128, 0.2);
+    color: white !important;
+}
+
+/* Botón Deseados (Corazón) */
+.btn-deseados {
+    border: 2px solid #ddd !important;
+    border-radius: 30px !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-deseados:hover {
+    background-color: #fff1f1 !important;
+    border-color: #ff4d4d !important;
+    color: #ff4d4d !important;
+    transform: scale(1.05);
+}
+
+/* 5. LISTA DE CARACTERÍSTICAS */
+ul.list-unstyled li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    transition: padding-left 0.3s ease;
+}
+
+ul.list-unstyled li:hover {
+    padding-left: 10px;
+    color: var(--teal-dark);
+}
+
+/* 6. RESPONSIVE ESPECÍFICO */
+@media (max-width: 992px) {
+    .tarjeta-principal-contenedor {
+        padding: 25px;
+        margin: 10px;
+    }
+
+    .precio-destacado {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .btn-carrito {
+        padding: 15px !important;
+        font-size: 14px !important;
+    }
+}
