@@ -4,8 +4,23 @@ import { useAuthStore } from '../stores/auth'
 const routes = [
   {
     path: '/',
-    name: 'ProductList',
-    component: () => import('../views/ProductList.vue'),
+    name: 'Home',
+    component: () => import('../views/Home.vue'),
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: () => import('../views/Checkout.vue'),
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: () => import('../views/Contact.vue'),
+  },
+  {
+    path: '/upload',
+    name: 'Upload',
+    component: () => import('../views/Upload.vue'),
   },
   {
     path: '/login',
@@ -20,7 +35,12 @@ const routes = [
     meta: { requiresGuest: true },
   },
   {
-    path: '/products/:id',
+    path: '/filters',
+    name: 'Filters',
+    component: () => import('../views/Filters.vue'),
+  },
+  {
+    path: '/product/:id?',
     name: 'ProductDetail',
     component: () => import('../views/ProductDetail.vue'),
   },
