@@ -7,28 +7,66 @@ const authStore = useAuthStore()
 const isSidebarExpanded = ref(false)
 
 onMounted(() => {
-  const script = document.createElement('script')
-  script.type = 'module'
+  // 1. Force CSS variables in the primary stylesheet
+  const style = document.createElement('style');
+  style.id = 'jj-chatbot-overrides';
+  style.innerHTML = `
+    :root {
+      --chat-primary-color: #6bc7b5 !important;
+      --chat-bubble-color: #6bc7b5 !important;
+      --chat-button-background: #6bc7b5 !important;
+      --n8n-chat-primary-color: #6bc7b5 !important;
+      --n8n-chat-bubble-color: #6bc7b5 !important;
+    }
+    .n8n-chat-widget { z-index: 9999 !important; }
+    .n8n-chat-widget-bubble, [class*="chat-widget-bubble"], button[class*="chat-bubble"] {
+      background-color: #6bc7b5 !important;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // 2. Initialize Chat
+  const script = document.createElement('script');
+  script.type = 'module';
   script.innerHTML = `
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
     createChat({
       webhookUrl: 'http://localhost:5678/webhook/29f0abd7-0d17-4608-9b59-051cbd9e43ed/chat',
-      title: 'Soporte JJ-Security',
-      welcomeMessage: '¡Hola! 👋 ¿En qué puedo ayudarte?',
+      title: 'JJ-Security',
+      subtitle: 'Asistente Virtual 24/7',
+      welcomeMessage: '¡Hola! 👋 Soy Nathan, tu asistente de seguridad. ¿En qué puedo ayudarte hoy?',
       backgroundColor: '#ffffff',
       mainColor: '#6bc7b5',
       bubbleColor: '#6bc7b5',
-      showWelcomeLeave: false,
+      bubbleAvatarUrl: '/img/logo.jpg',
+      locale: 'es',
       i18n: {
-        en: {
-          messagePlaceholder: 'Escribe tu mensaje...',
+        es: {
+          title: 'JJ-Security',
+          subtitle: 'En línea - Nathan',
+          welcomeMessage: '¡Hola! 👋 ¿En qué puedo ayudarte hoy?',
+          inputPlaceholder: 'Escribe tu consulta aquí...',
           sendButtonText: 'Enviar',
-        },
-      },
+          getStartedText: 'Empezar chat',
+        }
+      }
     });
-  `
-  document.body.appendChild(script)
-})
+  `;
+  document.body.appendChild(script);
+
+  // 3. NUCLEAR: Continuous observer to force button color
+  const observer = new MutationObserver((mutations) => {
+    const bubble = document.querySelector('.n8n-chat-widget-bubble') || 
+                   document.querySelector('[class*="chat-widget-bubble"]') ||
+                   document.querySelector('button[class*="chat-bubble"]');
+    if (bubble) {
+      bubble.style.setProperty('background-color', '#6bc7b5', 'important');
+      const svg = bubble.querySelector('svg');
+      if (svg) svg.style.setProperty('fill', '#ffffff', 'important');
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+});
 </script>
 
 <template>
@@ -500,6 +538,34 @@ footer {
 /* Response Widget Styling Overrides */
 .n8n-chat-widget {
   z-index: 2000 !important;
+  --chat-primary-color: #6bc7b5 !important;
+  --chat-bubble-color: #6bc7b5 !important;
+  --chat-button-background: #6bc7b5 !important;
+}
+
+/* Forzar el color del botón flotante y el icono interior */
+[class*="n8n-chat"] {
+  --n8n-chat-primary-color: #6bc7b5 !important;
+  --n8n-chat-bubble-color: #6bc7b5 !important;
+}
+
+.n8n-chat-widget-bubble,
+[class*="chat-widget-bubble"],
+[class*="chat-bubble"],
+.n8n-chat-button {
+  background-color: #6bc7b5 !important;
+}
+
+/* Forzar la cabecera */
+.n8n-chat-widget-header,
+[class*="chat-widget-header"],
+[class*="chat-header"] {
+  background-color: #2c3e50 !important;
+}
+
+.n8n-chat-widget-bubble svg,
+[class*="chat-bubble"] svg {
+  fill: white !important;
 }
 
 /* Responsive adjustments */

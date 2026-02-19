@@ -304,7 +304,7 @@ const toggleView = () => {
 .total-price {
   font-size: 2.5rem;
   font-weight: 800;
-  color: #7ED9C7;
+  color: #6bc7b5;
 }
 
 .registered-actions {
@@ -326,18 +326,18 @@ const toggleView = () => {
 
 .btn-cancel {
   background: transparent;
-  color: #dc3545;
-  border: 1px solid #dc3545;
+  color: #6bc7b5;
+  border: 1px solid #6bc7b5;
   border-radius: 50px;
   padding: 12px;
   font-weight: 700;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .btn-cancel:hover {
-  background: #dc3545;
+  background: #6bc7b5;
   color: white;
 }
 
