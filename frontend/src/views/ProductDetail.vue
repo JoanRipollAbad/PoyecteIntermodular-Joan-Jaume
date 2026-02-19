@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '../api'
 
@@ -27,6 +27,51 @@ const mockProduct = {
   ]
 }
 
+const activeSlide = ref(0)
+let carouselInterval
+
+const startCarouselTimer = () => {
+  stopCarouselTimer()
+  carouselInterval = setInterval(() => {
+    nextSlide()
+  }, 5000)
+}
+
+const stopCarouselTimer = () => {
+  if (carouselInterval) {
+    clearInterval(carouselInterval)
+    carouselInterval = null
+  }
+}
+
+const resetCarouselTimer = () => {
+  stopCarouselTimer()
+  startCarouselTimer()
+}
+
+const nextSlide = () => {
+  if (product.value) {
+    activeSlide.value = (activeSlide.value + 1) % product.value.gallery.length
+  }
+}
+
+const prevSlide = () => {
+  if (product.value) {
+    activeSlide.value = (activeSlide.value === 0) ? product.value.gallery.length - 1 : activeSlide.value - 1
+    resetCarouselTimer()
+  }
+}
+
+const setSlide = (index) => {
+  activeSlide.value = index
+  resetCarouselTimer()
+}
+
+const manualNextSlide = () => {
+  nextSlide()
+  resetCarouselTimer()
+}
+
 onMounted(async () => {
   try {
     if (route.params.id) {
@@ -45,18 +90,13 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
+
+  startCarouselTimer()
 })
 
-const activeSlide = ref(0)
-const nextSlide = () => {
-  activeSlide.value = (activeSlide.value + 1) % product.value.gallery.length
-}
-const prevSlide = () => {
-  activeSlide.value = (activeSlide.value === 0) ? product.value.gallery.length - 1 : activeSlide.value - 1
-}
-const setSlide = (index) => {
-  activeSlide.value = index
-}
+onUnmounted(() => {
+  stopCarouselTimer()
+})
 </script>
 
 <template>
@@ -102,10 +142,12 @@ const setSlide = (index) => {
                   </div>
                 </TransitionGroup>
 
+                </div>
+
                 <!-- Gallery Controls -->
                 <div class="gallery-nav" v-if="product.gallery.length > 1">
                   <button class="nav-btn prev" @click="prevSlide" aria-label="Anterior"></button>
-                  <button class="nav-btn next" @click="nextSlide" aria-label="Siguiente"></button>
+                  <button class="nav-btn next" @click="manualNextSlide" aria-label="Siguiente"></button>
                 </div>
 
                 <!-- Carousel Indicators (Dots) -->
@@ -119,7 +161,6 @@ const setSlide = (index) => {
                     :aria-label="'Ver imagen ' + (index + 1)"
                   ></button>
                 </div>
-              </div>
             </div>
           </div>
 
@@ -144,7 +185,7 @@ const setSlide = (index) => {
             </ul>
 
             <div class="action-buttons">
-              <button class="btn-buy-now">
+              <button class="btn-buy-now" @click="router.push('/checkout')">
                 COMPRAR YA
               </button>
 
@@ -253,19 +294,21 @@ const setSlide = (index) => {
 .gallery-nav {
   position: absolute;
   top: 50%;
+  left: 0;
   width: 100%;
+  box-sizing: border-box; /* Crucial to prevent padding from expanding the 100% width */
   transform: translateY(-50%);
   display: flex;
   justify-content: space-between;
-  padding: 0 15px;
+  padding: 0 50px;
   pointer-events: none;
-  z-index: 10;
+  z-index: 50; /* Ensure it's above everything */
 }
 
 .nav-btn {
-  width: 45px;
-  height: 45px;
-  background: rgba(0,0,0,0.5); /* More visible background */
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.9); /* White background for visibility */
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -273,20 +316,23 @@ const setSlide = (index) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 51;
 }
 
 .nav-btn:hover {
-  background: var(--primary-color);
-  transform: scale(1.1);
+  background: white;
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
 .nav-btn::before {
   content: '';
-  width: 12px;
-  height: 12px;
-  border-top: 3px solid #fff;
-  border-right: 3px solid #fff;
+  width: 14px;
+  height: 14px;
+  border-top: 3.5px solid #333; /* Dark arrow */
+  border-right: 3.5px solid #333;
   display: inline-block;
 }
 

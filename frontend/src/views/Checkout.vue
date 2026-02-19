@@ -1,15 +1,15 @@
 <script setup>
 import { ref } from 'vue'
-import { useAuthStore } from '../stores/auth' // Assuming auth store exists
+import { useAuthStore } from '../stores/auth'
 import api from '../api'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const authStore = useAuthStore()
 
-const isRegisteredView = ref(false) // Default to guest per Laravel logic (or toggle)
+const isRegisteredView = ref(false)
 
-// Form data
+// Form data for guest
 const formData = ref({
   nombre: '',
   email: '',
@@ -23,10 +23,10 @@ const formData = ref({
 
 const processPayment = async () => {
   try {
-    // In a real app, you would validate and send data to backend
-    const response = await api.post('/checkout/procesar', formData.value)
+    // Simulate API call
+    // const response = await api.post('/checkout/procesar', formData.value)
     alert('¡Compra realizada con éxito! Recibirás un correo de confirmación.')
-    // Redirect or clear cart
+    router.push('/')
   } catch (error) {
     console.error(error)
     alert('Error al procesar el pago')
@@ -39,142 +39,332 @@ const toggleView = () => {
 </script>
 
 <template>
-  <div class="main-wrapper-checkout">
-    <h2 class="text-center mb-4">Pago Seguro</h2>
+  <div class="checkout-page-bg">
+    <div class="checkout-container">
+      <h1 class="page-title">Pago Seguro</h1>
 
-    <div class="container py-5" id="contenido-principal">
-      
-      <!-- SECCIÓN 1: USUARIO REGISTRADO -->
-      <section v-if="isRegisteredView" id="vista-registrado" class="tarjeta-principal-contenedor shadow-lg bg-white p-4 rounded-4" aria-labelledby="titulo-confirmacion">
-        <h2 id="titulo-confirmacion" class="text-center mb-4">Confirmar Pedido</h2>
-        <div class="alert alert-info text-center" role="status">
-            Bienvenido de nuevo, <strong>{{ authStore.user?.name || 'Joan Ripoll' }}</strong>. Usaremos tus datos guardados.
-        </div>
+      <div class="checkout-card shadow-lg">
+        
+        <!-- VISTA: INVITADO (GUEST) -->
+        <section v-if="!isRegisteredView" class="guest-checkout">
+          <h2 class="card-subtitle">Datos de Envío y Pago</h2>
 
-        <div class="row g-4">
-          <div class="col-md-6">
-            <h3>Envío a:</h3>
-            <p>Calle Falsa 123, 28001 Madrid<br />España</p>
-          </div>
-          <div class="col-md-6 text-md-end">
-            <h3>Método de pago:</h3>
-            <p>Visa terminada en **** 4422</p>
-          </div>
-        </div>
+          <form @submit.prevent="processPayment" class="checkout-form">
+            
+            <!-- Información Personal -->
+            <fieldset class="form-section">
+              <legend>Información Personal</legend>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="nombre" class="form-label">Nombre Completo</label>
+                  <input v-model="formData.nombre" type="text" id="nombre" class="form-control custom-input" required placeholder="Ej: Maria García" />
+                </div>
+                <div class="col-md-6">
+                  <label for="email" class="form-label">Correo Electrónico</label>
+                  <input v-model="formData.email" type="email" id="email" class="form-control custom-input" required placeholder="nombre@ejemplo.com" />
+                </div>
+              </div>
+            </fieldset>
 
-        <hr aria-hidden="true" />
+            <!-- Dirección de Envío -->
+            <fieldset class="form-section">
+              <legend>Dirección de Envío</legend>
+              <div class="mb-3">
+                <label for="direccion" class="form-label">Dirección de la calle</label>
+                <input v-model="formData.direccion" type="text" id="direccion" class="form-control custom-input" required placeholder="Calle, número, piso..." />
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="ciudad" class="form-label">Ciudad</label>
+                  <input v-model="formData.ciudad" type="text" id="ciudad" class="form-control custom-input" required />
+                </div>
+                <div class="col-md-6">
+                  <label for="cp" class="form-label">Código Postal</label>
+                  <input v-model="formData.cp" type="text" id="cp" class="form-control custom-input" required />
+                </div>
+              </div>
+            </fieldset>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <span class="fs-4">Total a pagar:</span>
-          <span class="fs-2 fw-bold" style="color: #7ED9C7">129.99€</span>
-        </div>
+            <!-- Método de Pago -->
+            <fieldset class="form-section">
+              <legend>Método de Pago</legend>
+              <div class="mb-3">
+                <label for="tarjeta" class="form-label">Número de Tarjeta</label>
+                <input v-model="formData.tarjeta" type="text" id="tarjeta" class="form-control custom-input" required placeholder="0000 0000 0000 0000" />
+                <p class="payment-help text-muted mt-1">Aceptamos Visa, MasterCard y Amex.</p>
+              </div>
+              <div class="row g-3">
+                <div class="col-6">
+                  <label for="caducidad" class="form-label">Caducidad (MM/AA)</label>
+                  <input v-model="formData.caducidad" type="text" id="caducidad" class="form-control custom-input" required placeholder="12/26" />
+                </div>
+                <div class="col-6">
+                  <label for="cvv" class="form-label">CVV</label>
+                  <input v-model="formData.cvv" type="text" id="cvv" class="form-control custom-input" required placeholder="123" />
+                </div>
+              </div>
+            </fieldset>
 
-        <div class="d-grid gap-3">
-          <button class="btn btn-lg text-white py-3 fw-bold" style="background-color: #000; border-radius: 30px" @click="processPayment">CONFIRMAR Y PAGAR AHORA</button>
-          <button class="btn btn-outline-danger" style="border-radius: 30px" @click="router.go(-1)">Cancelar compra</button>
-        </div>
-      </section>
+            <button type="submit" class="btn-finalize mt-4">
+              FINALIZAR COMPRA (129.99€)
+            </button>
+          </form>
+        </section>
 
-      <!-- SECCIÓN 2: USUARIO NO REGISTRADO -->
-      <section v-else id="vista-invitado" class="tarjeta-principal-contenedor shadow-lg bg-white p-4 rounded-4" aria-labelledby="titulo-pago">
-        <h2 id="titulo-pago" class="text-center mb-4">Datos de Envío y Pago</h2>
-
-        <form @submit.prevent="processPayment" id="form-pago">
+        <!-- VISTA: REGISTRADO (CONFIRMACIÓN) -->
+        <section v-else class="registered-checkout">
+          <h2 class="card-subtitle text-center">Confirmar Pedido</h2>
           
-          <!-- Datos Personales -->
-          <fieldset>
-            <legend>Información Personal</legend>
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="nombre" class="form-label">Nombre Completo</label>
-                <input v-model="formData.nombre" type="text" id="nombre" class="form-control" required placeholder="Ej: Maria García" />
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="email" class="form-label">Correo Electrónico</label>
-                <input v-model="formData.email" type="email" id="email" class="form-control" required placeholder="nombre@ejemplo.com" />
-              </div>
-            </div>
-          </fieldset>
-
-          <!-- Dirección -->
-          <fieldset>
-            <legend>Dirección de Envío</legend>
-            <div class="mb-3">
-              <label for="direccion" class="form-label">Dirección de la calle</label>
-              <input v-model="formData.direccion" type="text" id="direccion" class="form-control" required placeholder="Calle, número, piso..." />
-            </div>
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="ciudad" class="form-label">Ciudad</label>
-                <input v-model="formData.ciudad" type="text" id="ciudad" class="form-control" required />
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="cp" class="form-label">Código Postal</label>
-                <input v-model="formData.cp" type="text" id="cp" class="form-control" required pattern="[0-9]{5}" />
-              </div>
-            </div>
-          </fieldset>
-
-          <!-- Pago -->
-          <fieldset>
-            <legend>Método de Pago</legend>
-            <div class="mb-3">
-              <label for="tarjeta" class="form-label">Número de Tarjeta</label>
-              <input v-model="formData.tarjeta" type="text" id="tarjeta" class="form-control" required placeholder="0000 0000 0000 0000" />
-              <small class="text-muted">Aceptamos Visa, MasterCard y Amex.</small>
-            </div>
-            <div class="row">
-              <div class="col-6 mb-3">
-                <label for="caducidad" class="form-label">Caducidad (MM/AA)</label>
-                <input v-model="formData.caducidad" type="text" id="caducidad" class="form-control" required placeholder="12/26" />
-              </div>
-              <div class="col-6 mb-3">
-                <label for="cvv" class="form-label">CVV</label>
-                <input v-model="formData.cvv" type="text" id="cvv" class="form-control" required placeholder="123" />
-              </div>
-            </div>
-          </fieldset>
-
-          <div class="mt-4 d-grid">
-            <button type="submit" class="btn btn-lg text-white py-3 fw-bold" style="background-color: #000; border-radius: 30px">FINALIZAR COMPRA (129.99€)</button>
+          <div class="welcome-alert">
+            <span class="info-icon">ℹ️</span>
+            <span>Bienvenido de nuevo, <strong>{{ authStore.user?.name || 'Joan Ripoll' }}</strong>. Usaremos tus datos guardados.</span>
           </div>
-        </form>
-      </section>
 
-      <!-- BOTÓN DE PRUEBA -->
-      <div class="text-center mt-4">
-        <button class="btn btn-sm btn-secondary" @click="toggleView">Alternar simulación (Registrado / Invitado)</button>
+          <div class="info-grid mt-4">
+            <div class="info-block">
+              <h3 class="info-title">Envío a:</h3>
+              <p class="info-content">Calle Falsa 123, 28001 Madrid<br />España</p>
+            </div>
+            <div class="info-block text-end">
+              <h3 class="info-title">Método de pago:</h3>
+              <p class="info-content">Visa terminada en **** 4422</p>
+            </div>
+          </div>
+
+          <div class="total-section mt-4">
+            <span class="total-label">Total a pagar:</span>
+            <span class="total-price">129.99€</span>
+          </div>
+
+          <div class="registered-actions mt-5">
+            <button class="btn-confirm-pay" @click="processPayment">
+              CONFIRMAR Y PAGAR AHORA
+            </button>
+            <button class="btn-cancel" @click="router.go(-1)">
+              Cancelar compra
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <!-- Simulation Toggle -->
+      <div class="simulation-area">
+        <button class="btn-toggle-sim" @click="toggleView">
+          Alternar simulación (Registrado / Invitado)
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Estilos específicos para esta página */
-.form-label {
-  font-weight: bold;
+.checkout-page-bg {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.checkout-container {
+  width: 100%;
+  max-width: 900px;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 50px;
+}
+
+.checkout-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  border: none;
+}
+
+.card-subtitle {
+  font-size: 2rem;
+  font-weight: 700;
   color: #222;
+  margin-bottom: 35px;
+  text-align: center;
 }
-.form-control:focus {
-  border: 2px solid black;
-  box-shadow: 0 0 0 0.25rem rgba(126, 217, 199, 0.5);
+
+/* FORM STYLES */
+.form-section {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 25px;
 }
-fieldset {
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-legend {
+
+.form-section legend {
+  float: none;
   width: auto;
   padding: 0 10px;
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #444;
+  margin-bottom: 0;
 }
-.main-wrapper-checkout {
+
+.form-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.custom-input {
+  border-radius: 8px;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+.custom-input::placeholder {
+  color: #bbb;
+}
+
+.custom-input:focus {
+  border-color: #7ED9C7;
+  box-shadow: 0 0 0 3px rgba(126, 217, 199, 0.2);
+}
+
+.payment-help {
+  font-size: 0.85rem;
+}
+
+.btn-finalize {
+  width: 100%;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 50px;
   padding: 20px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  transition: transform 0.2s, opacity 0.2s;
+  cursor: pointer;
 }
-.oculto {
-  display: none;
+
+.btn-finalize:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* REGISTERED VIEW STYLES */
+.welcome-alert {
+  background-color: #e3f2fd;
+  color: #0d47a1;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1.1rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px 0;
+}
+
+.info-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.info-content {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.total-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eee;
+  padding-top: 30px;
+}
+
+.total-label {
+  font-size: 1.8rem;
+  color: #444;
+}
+
+.total-price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #7ED9C7;
+}
+
+.registered-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.btn-confirm-pay {
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 20px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background: transparent;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+  border-radius: 50px;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-cancel:hover {
+  background: #dc3545;
+  color: white;
+}
+
+/* SIMULATION AREA */
+.simulation-area {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.btn-toggle-sim {
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+    text-align: left !important;
+    gap: 20px;
+  }
+  .info-block.text-end {
+    text-align: left !important;
+  }
 }
 </style>
