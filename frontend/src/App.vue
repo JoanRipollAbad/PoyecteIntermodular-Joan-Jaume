@@ -6,7 +6,6 @@ import { onMounted, ref } from 'vue'
 const authStore = useAuthStore()
 const isSidebarExpanded = ref(false)
 
-// Simulate n8n chat widget loading
 onMounted(() => {
   const script = document.createElement('script')
   script.type = 'module'
@@ -19,7 +18,13 @@ onMounted(() => {
       backgroundColor: '#ffffff',
       mainColor: '#6bc7b5',
       bubbleColor: '#6bc7b5',
-      showWelcomeLeave: false, 
+      showWelcomeLeave: false,
+      i18n: {
+        en: {
+          messagePlaceholder: 'Escribe tu mensaje...',
+          sendButtonText: 'Enviar',
+        },
+      },
     });
   `
   document.body.appendChild(script)
@@ -274,6 +279,7 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: 2px solid white;
   flex-shrink: 0;
+  overflow: hidden; /* Added to ensure images don't bleed out of circles */
 }
 
 .icono-menu:hover .icon-wrapper {
@@ -283,9 +289,9 @@ body {
 }
 
 .icon-wrapper img {
-  width: 35px;
-  height: 35px;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Changed from contain to cover to fill circle */
 }
 
 .menu-text {
