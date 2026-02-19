@@ -19,9 +19,17 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:*', 'http://127.0.0.1:*'],
+    'allowed_origins' => [
+        'http://localhost:*',
+        'http://127.0.0.1:*',
+        'http://172.16.211.30:*',
+        'http://172.16.211.86:*',
+    ],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        '/^http:\/\/192\.168\.\d+\.\d+(:\d+)?$/',
+        '/^http:\/\/172\.16\.\d+\.\d+(:\d+)?$/',
+    ],
 
     'allowed_headers' => ['*'],
 
