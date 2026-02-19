@@ -93,17 +93,22 @@ onMounted(async () => {
 .card-icon {
   width: 80px;
   height: 80px;
-  background-color: #e0f2f1;
+  background-color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 25px;
+  overflow: hidden;
+  border: 2px solid white;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-icon img {
-  width: 40px;
-  height: 40px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .category-card h3 {
