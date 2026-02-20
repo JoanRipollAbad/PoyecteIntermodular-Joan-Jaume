@@ -46,6 +46,27 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    async fetchUser() {
+      try {
+        const response = await api.get('/me')
+        this.user = response.data.user
+        return response.data.user
+      } catch (error) {
+        this.clearAuthData()
+        throw error
+      }
+    },
+
+    async updateProfile(profileData) {
+      try {
+        const response = await api.put('/profile', profileData)
+        this.user = response.data.user
+        return response.data
+      } catch (error) {
+        throw error
+      }
+    },
+
     setAuthData(token, user) {
       this.token = token
       this.user = user

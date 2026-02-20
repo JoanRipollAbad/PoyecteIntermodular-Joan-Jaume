@@ -23,13 +23,35 @@ const formData = ref({
 
 const processPayment = async () => {
   try {
-    // Simulate API call
-    // const response = await api.post('/checkout/procesar', formData.value)
+    // Determine user data (prefer authStore if available)
+    const userEmail = authStore.user?.email || formData.value.email
+    const userName = authStore.user?.name || formData.value.nombre
+    
+    // Call n8n webhook for order confirmation email
+    // IMPORTANT: Make sure your n8n webhook is listening at this URL
+    const webhookUrl = 'http://localhost:5678/webhook-test/confirmacion-pedido' // Default test URL
+    
+    await api.post(webhookUrl, {
+      email: userEmail,
+      nombre: userName,
+      total: '129.99€',
+      fecha: new Date().toLocaleDateString(),
+      items: [
+        { name: 'Cámara de Seguridad JJ-P1', price: '129.99€' }
+      ]
+    }, {
+      baseURL: '' 
+    })
+
     alert('¡Compra realizada con éxito! Recibirás un correo de confirmación.')
     router.push('/')
   } catch (error) {
-    console.error(error)
-    alert('Error al procesar el pago')
+    console.error('Error enviando confirmación a n8n:', error)
+    if (error.response) {
+      console.error('Datos del error:', error.response.data)
+      console.error('Status:', error.response.status)
+    }
+    alert('Error al procesar el pago. Por favor, revisa tu conexión con n8n.')
   }
 }
 

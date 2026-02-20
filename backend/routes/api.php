@@ -30,6 +30,8 @@ Route::get('/products/{product}/comments', [CommentController::class, 'index']);
 */
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
+    Route::put('/profile', [AuthController::class, 'updateProfile']);
     
     // Comentaris (només creació/esborrat)
     Route::post('/products/{product}/comments', [CommentController::class, 'store']);
