@@ -87,7 +87,12 @@ export default {
           alert('¡Registro correcto! Inicia sesión para continuar')
         }
       } catch (err) {
-        error.value = err.response?.data?.errors?.email?.[0] || 'Error al registrarse'
+        if (err.response?.data?.errors) {
+          const errors = err.response.data.errors
+          error.value = Object.values(errors).flat().join(' ')
+        } else {
+          error.value = 'Error al registrarse'
+        }
       } finally {
         loading.value = false
       }

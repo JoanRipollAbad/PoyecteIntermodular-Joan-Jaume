@@ -7,7 +7,8 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const authStore = useAuthStore()
 
-const isRegisteredView = ref(false)
+// Eliminamos la variable de simulación
+
 
 // Form data for guest
 const formData = ref({
@@ -55,9 +56,10 @@ const processPayment = async () => {
   }
 }
 
-const toggleView = () => {
-  isRegisteredView.value = !isRegisteredView.value
-}
+// No longer needed
+// const toggleView = () => {
+//   isRegisteredView.value = !isRegisteredView.value
+// }
 </script>
 
 <template>
@@ -68,7 +70,7 @@ const toggleView = () => {
       <div class="checkout-card shadow-lg">
         
         <!-- VISTA: INVITADO (GUEST) -->
-        <section v-if="!isRegisteredView" class="guest-checkout">
+        <section v-if="!authStore.isAuthenticated" class="guest-checkout">
           <h2 class="card-subtitle">Datos de Envío y Pago</h2>
 
           <form @submit.prevent="processPayment" class="checkout-form">
@@ -169,12 +171,7 @@ const toggleView = () => {
         </section>
       </div>
 
-      <!-- Simulation Toggle -->
-      <div class="simulation-area">
-        <button class="btn-toggle-sim" @click="toggleView">
-          Alternar simulación (Registrado / Invitado)
-        </button>
-      </div>
+
     </div>
   </div>
 </template>
