@@ -95,7 +95,6 @@ docker-compose.override.yml
 # Copias de seguridad o carpetas duplicadas (¡IMPORTANTE!)
 *copia/
 *.backup
-*/
 
 # =============================================================================
 # EXCEPCIONES (archivos que SÍ queremos subir)
