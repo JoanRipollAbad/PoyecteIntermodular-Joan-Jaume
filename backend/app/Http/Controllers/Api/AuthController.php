@@ -14,11 +14,19 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:users',
             'apellido' => 'nullable|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email:rfc,dns|max:255|unique:users',
             'password' => 'required|string|min:6',
             'fecha_nacimiento' => 'nullable|date',
+        ], [
+            'name.unique' => 'Este nombre de usuario ya está en uso.',
+            'email.unique' => 'Este correo electrónico ya está en uso.',
+            'name.required' => 'El nombre es obligatorio.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El formato del correo electrónico no es válido.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
         ]);
 
         if ($validator->fails()) {
@@ -81,5 +89,60 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Sessió tancada']);
+    }
+
+    public function me(Request $request)
+    {
+        $user = $request->user();
+        return response()->json([
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'rol' => $user->rol,
+                'apellido' => $user->apellido,
+                'fecha_nacimiento' => $user->fecha_nacimiento,
+            ]
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|unique:users,name,' . $user->id,
+            'apellido' => 'nullable|string|max:255',
+            'email' => 'required|string|email:rfc,dns|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:6',
+            'fecha_nacimiento' => 'nullable|date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->apellido = $request->apellido;
+        $user->fecha_nacimiento = $request->fecha_nacimiento;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return response()->json([
+            'message' => 'Perfil actualizado correctamente',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'rol' => $user->rol,
+                'apellido' => $user->apellido,
+                'fecha_nacimiento' => $user->fecha_nacimiento,
+            ]
+        ]);
     }
 }
