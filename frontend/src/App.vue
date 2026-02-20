@@ -107,12 +107,12 @@ onMounted(() => {
           </div>
         </RouterLink>
         
-        <RouterLink to="/login" class="icono-menu" aria-label="Mi Perfil">
+        <RouterLink :to="authStore.isAuthenticated ? '/profile' : '/login'" class="icono-menu" aria-label="Mi Perfil">
           <div class="icono-contenido">
             <div class="icon-wrapper">
               <img src="/img/usuario.jpg" alt="" aria-hidden="true" />
             </div>
-            <span class="menu-text">Perfil</span>
+            <span class="menu-text">{{ authStore.isAuthenticated ? 'Perfil' : 'Login' }}</span>
           </div>
         </RouterLink>
       </div>
@@ -138,11 +138,11 @@ onMounted(() => {
               </div>
               <span>Carrito</span>
             </RouterLink>
-            <RouterLink to="/login" class="header-item" aria-label="Acceder a mi perfil">
+            <RouterLink :to="authStore.isAuthenticated ? '/profile' : '/login'" class="header-item" aria-label="Acceder a mi perfil">
               <div class="icon-circle">
                 <img src="/img/usuario.jpg" alt="" aria-hidden="true">
               </div>
-              <span>Usuario</span>
+              <span>{{ authStore.isAuthenticated ? 'Perfil' : 'Usuario' }}</span>
             </RouterLink>
           </nav>
         </div>
