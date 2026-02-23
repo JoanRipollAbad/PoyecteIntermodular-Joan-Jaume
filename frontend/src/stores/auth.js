@@ -9,6 +9,12 @@ export const useAuthStore = defineStore('auth', {
     isAuthenticated: !!localStorage.getItem('auth_token'),
   }),
 
+  getters: {
+    isAdmin(state) {
+      return state.user && state.user.rol === 'admin';
+    }
+  },
+
   actions: {
     async login(credentials) {
       try {
@@ -40,7 +46,7 @@ export const useAuthStore = defineStore('auth', {
           await api.post('/logout')
         }
       } catch (error) {
-        console.warn('Error al tancar sessió al servidor:', error)
+        console.warn('Error al cerrar sesión en el servidor:', error)
       } finally {
         this.clearAuthData()
       }

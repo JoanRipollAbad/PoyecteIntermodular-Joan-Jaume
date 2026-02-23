@@ -7,25 +7,25 @@ use App\Http\Controllers\Api\CommentController;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes (Públiques)
+| Rutas API Públicas
 |--------------------------------------------------------------------------
 */
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// Productes (públics)
+// Productos (públicos)
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 
-// Categories (públics)
+// Categorías (públicas)
 Route::get('/categorias', [App\Http\Controllers\Api\CategoriaController::class, 'index']);
 
-// Comentaris (públics: només lectura)
+// Comentarios (públicos: solo lectura)
 Route::get('/products/{product}/comments', [CommentController::class, 'index']);
 
 /*
 |--------------------------------------------------------------------------
-| API Routes (Protegides - requereixen token)
+| Rutas API Protegidas (requieren token)
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth:sanctum')->group(function () {
@@ -33,12 +33,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::put('/profile', [AuthController::class, 'updateProfile']);
     
-    // Comentaris (només creació/esborrat)
+    // Comentarios (solo creación y borrado)
     Route::post('/products/{product}/comments', [CommentController::class, 'store']);
     Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
+    
+    // Rutas de Administrador
+    Route::middleware('admin')->group(function () {
+        Route::get('/admin/products/{id}', [\App\Http\Controllers\Api\AdminProductController::class, 'show']);
+        Route::post('/admin/products', [\App\Http\Controllers\Api\AdminProductController::class, 'store']);
+        Route::put('/admin/products/{id}', [\App\Http\Controllers\Api\AdminProductController::class, 'update']);
+        Route::post('/admin/products/import', [\App\Http\Controllers\Api\AdminProductController::class, 'import']);
+    });
 });
 
-// Rutas movidas desde web.php
+// Rutas de utilidad (contacto, subidas, etc)
 Route::post('/contacto', [App\Http\Controllers\ContactoController::class, 'enviar']);
 Route::post('/upload', [App\Http\Controllers\UploadController::class, 'store']);
 Route::post('/checkout/procesar', function () {

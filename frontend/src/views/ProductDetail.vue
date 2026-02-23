@@ -1,14 +1,17 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
 import api from '../api'
+
+const authStore = useAuthStore()
 
 const route = useRoute()
 const router = useRouter()
 const product = ref(null)
 const loading = ref(true)
 
-// Fallback data for testing/demo as requested
+// Datos de prueba por si falla la conexión (como se pidió)
 const mockProduct = {
   id: 1,
   nom: 'Cámara de Seguridad Interior Ultra HD',
@@ -30,6 +33,9 @@ const mockProduct = {
 const activeSlide = ref(0)
 let carouselInterval
 
+/**
+ * Iniciar el temporizador del carrusel de imágenes
+ */
 const startCarouselTimer = () => {
   stopCarouselTimer()
   carouselInterval = setInterval(() => {
@@ -37,6 +43,9 @@ const startCarouselTimer = () => {
   }, 5000)
 }
 
+/**
+ * Detener el temporizador del carrusel
+ */
 const stopCarouselTimer = () => {
   if (carouselInterval) {
     clearInterval(carouselInterval)
@@ -44,6 +53,9 @@ const stopCarouselTimer = () => {
   }
 }
 
+/**
+ * Reiniciar el temporizador cuando el usuario interactúa
+ */
 const resetCarouselTimer = () => {
   stopCarouselTimer()
   startCarouselTimer()
@@ -75,6 +87,7 @@ const manualNextSlide = () => {
 onMounted(async () => {
   try {
     if (route.params.id) {
+      // Intentar cargar el producto real desde la API
       const response = await api.get(`/products/${route.params.id}`)
       product.value = {
         ...response.data,
@@ -85,14 +98,21 @@ onMounted(async () => {
       product.value = mockProduct
     }
   } catch (error) {
-    console.error('Error fetching product:', error)
-    product.value = mockProduct // Fallback on error
+    console.error('Error al cargar el producto:', error)
+    product.value = mockProduct // Usar datos de prueba si hay error
   } finally {
     loading.value = false
   }
 
   startCarouselTimer()
 })
+
+/**
+ * Redirigir al panel de administración para editar este producto
+ */
+const goToEdit = () => {
+  router.push({ name: 'AdminProducts', query: { edit: product.value.id } })
+}
 
 onUnmounted(() => {
   stopCarouselTimer()
@@ -195,6 +215,11 @@ onUnmounted(() => {
 
               <button class="btn-wishlist">
                 <span class="heart-icon">❤️</span> Agregar a Deseados
+              </button>
+
+              <!-- Admin Edit Button -->
+              <button v-if="authStore.isAdmin" class="btn-edit-admin" @click="goToEdit">
+                <span class="edit-icon">✏️</span> EDITAR PRODUCTO
               </button>
             </div>
           </div>
@@ -488,6 +513,33 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+.btn-edit-admin {
+  margin-top: 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 14px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  border: 2px solid #333;
+}
+
+.btn-edit-admin:hover {
+  background-color: white;
+  color: #333;
+}
+
+.edit-icon {
+  font-size: 1.2rem;
 }
 
 /* Description Section */

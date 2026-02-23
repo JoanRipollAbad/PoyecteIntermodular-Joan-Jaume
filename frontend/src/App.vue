@@ -115,6 +115,16 @@ onMounted(() => {
             <span class="menu-text">{{ authStore.isAuthenticated ? 'Perfil' : 'Login' }}</span>
           </div>
         </RouterLink>
+
+        <!-- Admin Link -->
+        <RouterLink v-if="authStore.isAdmin" to="/admin/products" class="icono-menu" aria-label="Panel de Administración">
+          <div class="icono-contenido">
+            <div class="icon-wrapper" style="background-color: #333;">
+              <img src="/img/ajustes.jpg" alt="" aria-hidden="true" style="filter: invert(1);" />
+            </div>
+            <span class="menu-text">Admin</span>
+          </div>
+        </RouterLink>
       </div>
 
       <div class="icono-menu ayuda" aria-label="Ayuda y Soporte">

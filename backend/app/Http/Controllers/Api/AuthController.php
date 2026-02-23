@@ -45,7 +45,7 @@ class AuthController extends Controller
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Usuari creat correctament',
+            'message' => 'Usuario creado correctamente',
             'token' => $token,
             'user' => [
                 'id' => $user->id,
@@ -68,7 +68,7 @@ class AuthController extends Controller
         }
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['error' => 'Credencials incorrectes'], 401);
+            return response()->json(['error' => 'Credenciales incorrectas'], 401);
         }
 
         $user = Auth::user();
@@ -88,7 +88,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'Sessió tancada']);
+        return response()->json(['message' => 'Sesión cerrada']);
     }
 
     public function me(Request $request)

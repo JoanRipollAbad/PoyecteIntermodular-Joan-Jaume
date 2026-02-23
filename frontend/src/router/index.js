@@ -50,6 +50,12 @@ const routes = [
     component: () => import('../views/Profile.vue'),
     meta: { requiresAuth: true },
   },
+  {
+    path: '/admin/products',
+    name: 'AdminProducts',
+    component: () => import('../views/admin/ProductManagement.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
 ]
 
 const router = createRouter({
@@ -57,15 +63,23 @@ const router = createRouter({
   routes,
 })
 
-// Guards de navegació
+/**
+ * Guardas de navegación para proteger las rutas según autenticación y roles
+ */
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    // Si la ruta requiere estar logueado y no lo está, al login
     next('/login')
+  } else if (to.meta.requiresAdmin && !authStore.isAdmin) {
+    // Si requiere ser admin y no lo es, a la home
+    next('/')
   } else if (to.meta.requiresGuest && authStore.isAuthenticated) {
+    // Si es para invitados (login/register) y ya está logueado, a la home
     next('/')
   } else {
+    // En cualquier otro caso, dejamos pasar
     next()
   }
 })
