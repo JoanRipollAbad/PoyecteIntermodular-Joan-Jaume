@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('categoria')->get();
+        $query = Product::with('categoria');
+
+        if ($request->has('categoria_id')) {
+            $query->where('categoria_id', $request->categoria_id);
+        }
+
+        $products = $query->get();
         return response()->json($products->makeHidden(['categoria_id']));
     }
 
@@ -33,7 +39,7 @@ class ProductController extends Controller
         ]);
 
         $product = Product::create($validated);
-        
+
         return response()->json(
             $product->load('categoria')->makeHidden(['categoria_id']),
             201

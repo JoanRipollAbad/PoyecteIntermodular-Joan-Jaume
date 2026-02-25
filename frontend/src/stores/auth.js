@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import api from '../api'
 import { useRouter } from 'vue-router'
+import { useCartStore } from './cart'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -85,6 +86,10 @@ export const useAuthStore = defineStore('auth', {
       this.token = null
       this.isAuthenticated = false
       localStorage.removeItem('auth_token')
+
+      // Al cerrar sesión, también vaciamos el carrito
+      const cartStore = useCartStore()
+      cartStore.clearCart()
     },
   },
 })

@@ -1,29 +1,20 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { useAuthStore } from './stores/auth'
-import { onMounted, ref } from 'vue'
+import { useCartStore } from './stores/cart'
+import { useSettingsStore } from './stores/settings'
+import { onMounted, ref, watch } from 'vue'
 
 const authStore = useAuthStore()
+const cartStore = useCartStore()
+const settingsStore = useSettingsStore()
 const isSidebarExpanded = ref(false)
 
 onMounted(() => {
-  // 1. Force CSS variables in the primary stylesheet
-  const style = document.createElement('style');
-  style.id = 'jj-chatbot-overrides';
-  style.innerHTML = `
-    :root {
-      --chat-primary-color: #6bc7b5 !important;
-      --chat-bubble-color: #6bc7b5 !important;
-      --chat-button-background: #6bc7b5 !important;
-      --n8n-chat-primary-color: #6bc7b5 !important;
-      --n8n-chat-bubble-color: #6bc7b5 !important;
-    }
-    .n8n-chat-widget { z-index: 9999 !important; }
-    .n8n-chat-widget-bubble, [class*="chat-widget-bubble"], button[class*="chat-bubble"] {
-      background-color: #6bc7b5 !important;
-    }
-  `;
-  document.head.appendChild(style);
+  // Apply initial theme
+  settingsStore.applyTheme()
+
+  // No longer creating style element here, consolidated in <style> block below
 
   // 2. Initialize Chat
   const script = document.createElement('script');
@@ -31,46 +22,67 @@ onMounted(() => {
   script.innerHTML = `
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
     createChat({
-      webhookUrl: 'http://localhost:5678/webhook/29f0abd7-0d17-4608-9b59-051cbd9e43ed/chat',
-      title: 'JJ-Security',
-      subtitle: 'Asistente Virtual 24/7',
-      welcomeMessage: '¡Hola! 👋 Soy Nathan, tu asistente de seguridad. ¿En qué puedo ayudarte hoy?',
-      backgroundColor: '#ffffff',
-      mainColor: '#6bc7b5',
-      bubbleColor: '#6bc7b5',
-      bubbleAvatarUrl: '/img/logo.jpg',
-      locale: 'es',
-      i18n: {
-        es: {
-          title: 'JJ-Security',
-          subtitle: 'En línea - Nathan',
-          welcomeMessage: '¡Hola! 👋 ¿En qué puedo ayudarte hoy?',
-          inputPlaceholder: 'Escribe tu consulta aquí...',
-          sendButtonText: 'Enviar',
-          getStartedText: 'Empezar chat',
-        }
+    webhookUrl: 'http://localhost:5678/webhook/29f0abd7-0d17-4608-9b59-051cbd9e43ed/chat',
+    initialMessages: [
+      '¡Hola! 👋',
+      'Bienvenido a JJ-Security. ¿En qué podemos ayudarte?'
+    ],
+    i18n: {
+      en: {
+        title: 'JJ-Security',
+        subtitle: 'En línea 24/7',
+        inputPlaceholder: 'Escribe tu duda aquí...',
+      },
+      es: {
+        title: 'JJ-Security',
+        subtitle: 'En línea 24/7',
+        inputPlaceholder: 'Escribe tu duda aquí...',
       }
-    });
+    }
+  });
   `;
   document.body.appendChild(script);
 
-  // 3. NUCLEAR: Continuous observer to force button color
-  const observer = new MutationObserver((mutations) => {
-    const bubble = document.querySelector('.n8n-chat-widget-bubble') || 
-                   document.querySelector('[class*="chat-widget-bubble"]') ||
-                   document.querySelector('button[class*="chat-bubble"]');
-    if (bubble) {
-      bubble.style.setProperty('background-color', '#6bc7b5', 'important');
-      const svg = bubble.querySelector('svg');
-      if (svg) svg.style.setProperty('fill', '#ffffff', 'important');
-    }
-  });
+  // 3. NUCLEAR: Shadow DOM support for the red bubble
+  const forceStyles = () => {
+    const applyToRoot = (root) => {
+      // Color properties to override
+      const styles = `
+        :host { --n8n-chat-primary-color: #6bc7b5 !important; --n8n-chat-bubble-color: #6bc7b5 !important; }
+        .n8n-chat-widget-bubble, [class*="chat-bubble"], .n8n-chat-button, [class*="launcher"] { 
+          background-color: #6bc7b5 !important; 
+          background: #6bc7b5 !important;
+        }
+        svg { fill: white !important; }
+      `;
+
+      // Try searching for el
+      const bubbles = root.querySelectorAll('.n8n-chat-widget-bubble, [class*="chat-bubble"], .n8n-chat-button, [class*="launcher"]');
+      bubbles.forEach(b => {
+        b.style.setProperty('background-color', '#6bc7b5', 'important');
+        b.style.setProperty('background', '#6bc7b5', 'important');
+      });
+
+      // Recurse into children's shadow roots
+      root.querySelectorAll('*').forEach(el => {
+        if (el.shadowRoot) applyToRoot(el.shadowRoot);
+      });
+    };
+
+    applyToRoot(document);
+  };
+
+  setInterval(forceStyles, 500);
+  const observer = new MutationObserver(forceStyles);
   observer.observe(document.body, { childList: true, subtree: true });
 });
+
+// Watch for language changes to reload chat or update UI if needed
+// For now, simple reactivity in templates will handle most cases
 </script>
 
 <template>
-  <div class="app-container">
+  <div class="app-container" :class="{ 'dark-mode': settingsStore.darkMode }">
     <!-- Skip link for accessibility -->
     <a href="#contenido-principal" class="skip-link" aria-label="Saltar al contenido principal">Saltar al contenido principal</a>
 
@@ -89,21 +101,21 @@ onMounted(() => {
       </div>
       
       <div class="menu-items">
-        <button class="icono-menu" aria-label="Ajustes">
+        <RouterLink to="/settings" class="icono-menu" aria-label="Ajustes">
           <div class="icono-contenido">
             <div class="icon-wrapper">
               <img src="/img/ajustes.jpg" alt="" aria-hidden="true" />
             </div>
-            <span class="menu-text">Ajustes</span>
+            <span class="menu-text">{{ settingsStore.t('settings') }}</span>
           </div>
-        </button>
+        </RouterLink>
         
         <RouterLink to="/filters" class="icono-menu" aria-label="Filtros y Categorías">
           <div class="icono-contenido">
             <div class="icon-wrapper">
               <img src="/img/filtros.jpg" alt="" aria-hidden="true" />
             </div>
-            <span class="menu-text">Filtros</span>
+            <span class="menu-text">{{ settingsStore.t('filters') }}</span>
           </div>
         </RouterLink>
         
@@ -112,7 +124,7 @@ onMounted(() => {
             <div class="icon-wrapper">
               <img src="/img/usuario.jpg" alt="" aria-hidden="true" />
             </div>
-            <span class="menu-text">{{ authStore.isAuthenticated ? 'Perfil' : 'Login' }}</span>
+            <span class="menu-text">{{ authStore.isAuthenticated ? settingsStore.t('profile') : settingsStore.t('login') }}</span>
           </div>
         </RouterLink>
 
@@ -122,7 +134,7 @@ onMounted(() => {
             <div class="icon-wrapper" style="background-color: #333;">
               <img src="/img/ajustes.jpg" alt="" aria-hidden="true" style="filter: invert(1);" />
             </div>
-            <span class="menu-text">Admin</span>
+            <span class="menu-text">{{ settingsStore.t('admin') }}</span>
           </div>
         </RouterLink>
       </div>
@@ -132,7 +144,7 @@ onMounted(() => {
           <div class="icon-wrapper circle-btn">
             <img src="/img/mingcute_phone-fill.svg" alt="" aria-hidden="true" />
           </div>
-          <span class="menu-text">Ayuda</span>
+          <span class="menu-text">{{ settingsStore.t('help') }}</span>
         </div>
       </div>
     </aside>
@@ -142,17 +154,18 @@ onMounted(() => {
         <div class="header-container">
           <h1 class="brand-title">JJ-Security</h1>
           <nav v-if="!$route.path.includes('/login') && !$route.path.includes('/register')" class="header-icons" aria-label="Accesos rápidos">
-            <RouterLink to="/checkout" class="header-item" aria-label="Ver mi carrito">
-              <div class="icon-circle">
+            <RouterLink to="/cart" class="header-item" aria-label="Ver mi carrito">
+              <div class="icon-circle cart-icon-wrapper">
                 <img src="/img/carrito.jpg" alt="" aria-hidden="true">
+                <span v-if="cartStore.totalItems > 0" class="cart-badge">{{ cartStore.totalItems }}</span>
               </div>
-              <span>Carrito</span>
+              <span>{{ settingsStore.t('cart') }}</span>
             </RouterLink>
             <RouterLink :to="authStore.isAuthenticated ? '/profile' : '/login'" class="header-item" aria-label="Acceder a mi perfil">
               <div class="icon-circle">
                 <img src="/img/usuario.jpg" alt="" aria-hidden="true">
               </div>
-              <span>{{ authStore.isAuthenticated ? 'Perfil' : 'Usuario' }}</span>
+              <span>{{ authStore.isAuthenticated ? settingsStore.t('profile') : settingsStore.t('login') }}</span>
             </RouterLink>
           </nav>
         </div>
@@ -176,12 +189,13 @@ onMounted(() => {
           
           <div class="footer-bottom">
             <div class="copyright" aria-label="© 2025 JJ-Security. Todos los derechos reservados.">© 2025 JJ-Security. Todos los derechos reservados.</div>
-            <div class="footer-contacto" tabindex="0" aria-label="Soporte 24/7">
-              <div class="contact-circle">
-                <img src="/img/mingcute_phone-fill.svg" alt="" aria-hidden="true" />
+            <RouterLink to="/sustainability" class="footer-contacto" aria-label="Compromiso ecológico - Política de Sostenibilidad" title="Ver Política de Sostenibilidad">
+              <div class="contact-circle recycle-gradient">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                  <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
+                </svg>
               </div>
-              <span class="contact-text">24/7</span>
-            </div>
+            </RouterLink>
           </div>
         </div>
       </footer>
@@ -190,7 +204,7 @@ onMounted(() => {
 </template>
 
 <style>
-/* Global styles */
+/* 1. ESTILOS GLOBALES Y FUENTES */
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 @import 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css';
 
@@ -204,8 +218,55 @@ onMounted(() => {
   --sidebar-expanded-width: 240px;
   --header-height: 80px;
   --transition-speed: 0.3s;
+
+  /* VARIABLES ESPECÍFICAS PARA EL CHATBOT DE N8N */
+  --chat--color--primary: #6bc7b5;
+  --chat--color--primary-shade-50: #5db0a0;
+  --chat--color--primary-shade-100: #4f9689;
+  --chat--header--background: #bcd9d6; /* Mismo color que tu header de la web */
+  --chat--header--color: #222222;
+  --chat--bubble--background: #6bc7b5;
+  --chat--bubble--color: #ffffff;
 }
 
+/* 2. MODO OSCURO */
+.dark-mode {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-color: #e0e0e0;
+  --secondary-color: #2c3e50;
+}
+
+.dark-mode body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.dark-mode header, .dark-mode .barra-lateral {
+  background-color: #1e292d !important;
+}
+
+.dark-mode .brand-title {
+  color: #ffffff;
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+.dark-mode .menu-text, .dark-mode .header-item span {
+  color: #e0e0e0;
+}
+
+.dark-mode .icon-circle, .dark-mode .icon-wrapper {
+  background-color: #2c3e50;
+  border-color: #2c3e50;
+}
+
+.dark-mode footer {
+  background-color: #1a1a1a;
+  border-top-color: #333;
+}
+
+/* 3. DISEÑO BASE Y ACCESIBILIDAD */
 body {
   margin: 0;
   padding: 0;
@@ -215,7 +276,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Skip link for accessibility */
 .skip-link {
   position: absolute;
   top: -100px;
@@ -227,13 +287,10 @@ body {
   transition: top 0.3s;
 }
 
-.skip-link:focus {
-  top: 0;
-}
+.skip-link:focus { top: 0; }
 
-/* Accessibility Focus style */
-:focus {
-  outline: 3px solid black !important;
+:focus-visible {
+  outline: 3px solid var(--primary-color) !important;
   outline-offset: 4px;
 }
 
@@ -242,15 +299,14 @@ body {
   min-height: 100vh;
 }
 
-/* Sidebar Styling - Clean & Modern */
+/* 4. BARRA LATERAL (SIDEBAR) */
 .barra-lateral {
   width: var(--sidebar-width);
-  background-color: #bcd9d6; /* Matches screenshots */
+  background-color: #bcd9d6;
   display: flex;
   flex-direction: column;
   align-items: center; 
   padding: 20px 0;
-  border-right: none;
   position: fixed;
   height: 100vh;
   z-index: 1000;
@@ -258,20 +314,17 @@ body {
   overflow: hidden;
 }
 
-.barra-lateral.expanded {
-  width: var(--sidebar-expanded-width); /* Slightly wider when active */
-}
+.barra-lateral.expanded { width: var(--sidebar-expanded-width); }
 
 .logo-sidebar {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
-  transition: all var(--transition-speed);
 }
 
 .logo-img {
-  width: 75px; /* Larger logo as requested */
+  width: 75px;
   height: 75px;
   border-radius: 50%;
   object-fit: cover;
@@ -291,19 +344,15 @@ body {
   width: 100%;
   cursor: pointer;
   text-decoration: none;
-  background: none;
-  border: none;
   color: #333;
   display: flex;
   justify-content: center;
-  padding: 0;
 }
 
 .icono-contenido {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 100%;
   transition: all var(--transition-speed);
 }
@@ -316,7 +365,7 @@ body {
 }
 
 .icon-wrapper {
-  width: 55px; /* Smaller menu icons as requested */
+  width: 55px;
   height: 55px;
   background-color: white;
   border-radius: 50%;
@@ -324,23 +373,12 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: 2px solid white;
   flex-shrink: 0;
-  overflow: hidden; /* Added to ensure images don't bleed out of circles */
+  overflow: hidden;
 }
 
-.icono-menu:hover .icon-wrapper {
-  transform: scale(1.05);
-  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
-  background-color: #f9f9f9;
-}
-
-.icon-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Changed from contain to cover to fill circle */
-}
+.icon-wrapper img { width: 100%; height: 100%; object-fit: cover; }
 
 .menu-text {
   font-size: 13px;
@@ -348,32 +386,14 @@ body {
   font-weight: 700;
   margin-top: 6px;
   text-transform: capitalize;
-  transition: all var(--transition-speed);
   white-space: nowrap;
 }
 
-.barra-lateral.expanded .menu-text {
-  font-size: 18px;
-  margin-top: 0;
-}
+.barra-lateral.expanded .menu-text { font-size: 18px; margin-top: 0; }
 
-/* Ayuda stays centered at bottom */
-.ayuda {
-  margin-top: auto;
-  margin-bottom: 20px;
-}
+.ayuda { margin-top: auto; margin-bottom: 20px; }
 
-.ayuda .icon-wrapper {
-  width: 55px;
-  height: 55px;
-}
-
-.ayuda .icon-wrapper img {
-  width: 30px;
-  height: 30px;
-}
-
-/* Main Content Area */
+/* 5. CONTENIDO PRINCIPAL Y HEADER */
 .main-content {
   flex: 1;
   margin-left: var(--sidebar-width);
@@ -383,7 +403,6 @@ body {
   min-height: 100vh;
 }
 
-/* Header Refinement */
 header {
   background-color: #bcd9d6;
   height: var(--header-height);
@@ -405,11 +424,11 @@ header {
 }
 
 .brand-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #000;
+  letter-spacing: -1.5px;
   margin: 0;
-  font-size: 1.8rem;
-  color: #222;
-  font-weight: 700;
-  letter-spacing: 1px;
 }
 
 .header-icons {
@@ -425,7 +444,6 @@ header {
   align-items: center;
   text-decoration: none;
   color: #222;
-  transition: transform 0.2s;
 }
 
 .icon-circle {
@@ -433,19 +451,20 @@ header {
   height: 50px;
   background-color: white;
   border-radius: 50%;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid white;
-  margin-bottom: 4px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: visible;
 }
 
 .icon-circle img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
 }
 
 .header-item span {
@@ -454,16 +473,25 @@ header {
   color: #333;
 }
 
-/* Page Content Padding */
-.page-content {
-  flex: 1;
-  background-color: var(--bg-color);
+.cart-badge {
+  position: absolute;
+  top: -5px; right: -5px;
+  background-color: #6bc7b5;
+  color: white;
+  font-size: 0.7rem;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
 }
 
-/* Footer Refinement */
+.page-content { flex: 1; }
+
+/* 6. FOOTER */
 footer {
   background-color: #f8fcfb;
-  color: #333;
   padding: 40px 0 20px;
   border-top: 1px solid #e0f0ed;
 }
@@ -491,6 +519,11 @@ footer {
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--primary-color);
 }
 
 .divider {
@@ -514,75 +547,97 @@ footer {
 .footer-contacto {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
   background: white;
-  padding: 10px 20px;
-  border-radius: 30px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   cursor: pointer;
   border: 1px solid #e0f0ed;
+  transition: transform 0.2s;
+}
+
+.footer-contacto:hover {
+  transform: scale(1.1);
 }
 
 .contact-circle {
-  width: 35px;
-  height: 35px;
-  background-color: #7ed9c7;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
 }
 
-.contact-circle img {
-  width: 18px;
-  height: 18px;
-  filter: brightness(0) invert(1);
+.recycle-gradient {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
 }
 
-.contact-text {
-  font-weight: 800;
-  color: #333;
-  font-size: 1rem;
-}
+/* 7. PERSONALIZACIÓN DEL CHATBOT N8N (CORRECCIÓN DE COLORES) */
 
-/* Response Widget Styling Overrides */
+/* Contenedor principal y variables de respaldo */
+#n8n-chat-widget-container, 
 .n8n-chat-widget {
-  z-index: 2000 !important;
-  --chat-primary-color: #6bc7b5 !important;
-  --chat-bubble-color: #6bc7b5 !important;
-  --chat-button-background: #6bc7b5 !important;
+  --chat--color--primary: #6bc7b5 !important;
+  --chat--header--background: #bcd9d6 !important;
 }
 
-/* Forzar el color del botón flotante y el icono interior */
-[class*="n8n-chat"] {
-  --n8n-chat-primary-color: #6bc7b5 !important;
-  --n8n-chat-bubble-color: #6bc7b5 !important;
-}
-
-.n8n-chat-widget-bubble,
+/* Color de la burbuja flotante (launcher) - Elimina el rojo */
+.n8n-chat-widget-bubble, 
 [class*="chat-widget-bubble"],
-[class*="chat-bubble"],
 .n8n-chat-button {
   background-color: #6bc7b5 !important;
+  border: none !important;
 }
 
-/* Forzar la cabecera */
-.n8n-chat-widget-header,
-[class*="chat-widget-header"],
+/* Encabezado del chat - Color JJ-Security */
+.n8n-chat-widget-header, 
 [class*="chat-header"] {
-  background-color: #2c3e50 !important;
+  background-color: #bcd9d6 !important;
+  color: #222 !important;
 }
 
-.n8n-chat-widget-bubble svg,
-[class*="chat-bubble"] svg {
-  fill: white !important;
+/* Títulos del chat */
+.n8n-chat-widget-header-title,
+.n8n-chat-widget-header-subtitle {
+  color: #222 !important;
 }
 
-/* Responsive adjustments */
+/* Burbujas de mensaje del USUARIO */
+.n8n-chat-widget-message-bubble--user {
+  background-color: #6bc7b5 !important;
+  color: white !important;
+}
+
+/* Burbujas de mensaje del BOT (Nathan) */
+.n8n-chat-widget-message-bubble--bot {
+  background-color: #f0f7f6 !important;
+  border: 1px solid #6bc7b5 !important;
+  color: #333 !important;
+}
+
+/* Input y botón de enviar */
+.n8n-chat-widget-input-container button svg {
+  fill: #6bc7b5 !important;
+}
+
+/* Ventana del chat */
+.n8n-chat-widget-window {
+  border-radius: 15px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1) !important;
+  overflow: hidden;
+}
+
+/* Quitar el "Powered by n8n" si se desea un look más limpio */
+.n8n-chat-widget-footer {
+  display: none !important;
+}
+
+/* 8. RESPONSIVE */
 @media (max-width: 992px) {
-  .brand-title {
-    font-size: 1.5rem;
-  }
+  .brand-title { font-size: 1.5rem; }
+  .main-content { margin-left: var(--sidebar-width); }
 }
 </style>
-

@@ -121,7 +121,7 @@ const handleLogout = async () => {
 
 <style scoped>
 .profile-wrapper {
-  background-color: #f8f9fa;
+  background-color: var(--bg-color);
   min-height: calc(100vh - 80px);
   padding: 60px 20px;
 }
@@ -132,9 +132,14 @@ const handleLogout = async () => {
 }
 
 .profile-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 20px;
   padding: 40px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.dark-mode .profile-card {
+  border-color: rgba(255,255,255,0.05);
 }
 
 .profile-header {
@@ -159,31 +164,39 @@ const handleLogout = async () => {
 h1 {
   font-size: 2rem;
   font-weight: 700;
-  color: #333;
+  color: var(--text-color);
 }
 
 .subtitle {
-  color: #888;
+  color: var(--text-color);
+  opacity: 0.6;
 }
 
 .section-title {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #444;
+  color: var(--text-color);
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.dark-mode .section-title {
+  border-bottom-color: rgba(255,255,255,0.1);
 }
 
 .form-label {
   font-weight: 700;
-  color: #555;
+  color: var(--text-color);
+  opacity: 0.9;
 }
 
 .custom-input {
   border-radius: 10px;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: var(--card-bg);
+  color: var(--text-color);
 }
 
 .custom-input:focus {
@@ -206,6 +219,15 @@ h1 {
 .btn-save:hover {
   background: #333;
   transform: translateY(-2px);
+}
+
+.dark-mode .btn-save {
+  background: #6bc7b5;
+  color: white;
+}
+
+.dark-mode .btn-save:hover {
+  background: #5ab3a2;
 }
 
 .btn-logout {

@@ -52,7 +52,7 @@ const servicios = ref([
 
 <style scoped>
 .home-content-wrapper {
-  background-color: #f4f7f6;
+  background-color: var(--bg-color);
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -61,7 +61,7 @@ const servicios = ref([
 }
 
 .seccion-blanca {
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   border-radius: 20px;
   padding: 60px 40px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -70,13 +70,17 @@ const servicios = ref([
   margin-bottom: 50px;
 }
 
+.dark-mode .seccion-blanca {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
 .titulo-destacado {
   text-align: center; 
   font-weight: 700; 
   font-size: 2rem; 
   margin-bottom: 60px; 
   position: relative;
-  color: #222;
+  color: var(--text-color);
 }
 
 .titulo-destacado::after {
@@ -99,14 +103,18 @@ const servicios = ref([
 }
 
 .tarjeta-producto {
-  background: #ffffff; 
-  border: 1px solid #eee; 
+  background: var(--card-bg); 
+  border: 1px solid rgba(0,0,0,0.05); 
   border-radius: 25px; 
   padding: 30px;
   text-align: center; 
   transition: all 0.3s ease; 
   cursor: pointer;
   box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+}
+
+.dark-mode .tarjeta-producto {
+  border-color: rgba(255,255,255,0.05);
 }
 
 .tarjeta-producto:hover {
@@ -163,15 +171,18 @@ const servicios = ref([
 }
 
 .tarjeta-servicio {
-  background: #ffffff; 
+  background: var(--card-bg); 
   border-radius: 25px; 
   padding: 45px 35px; 
   text-align: center; 
   transition: all 0.4s ease; 
   cursor: pointer;
-  border: 2px solid transparent; /* Border for hover/active state */
   box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-  border: 1px solid #f0f0f0; /* Target-style border */
+  border: 1px solid rgba(0,0,0,0.05); /* Target-style border */
+}
+
+.dark-mode .tarjeta-servicio {
+  border-color: rgba(255,255,255,0.05);
 }
 
 .tarjeta-servicio:hover {
@@ -195,10 +206,14 @@ const servicios = ref([
   width: 120px; 
   height: 120px; 
   border-radius: 50%; 
-  background-color: #fff;
+  background-color: var(--card-bg);
   box-shadow: 0 0 0 6px #e1f5fe, 0 0 0 12px #b3e5fc; 
   z-index: 1; 
   transition: all 0.4s ease;
+}
+
+.dark-mode .anillo-azul-fondo {
+  box-shadow: 0 0 0 6px #1e292d, 0 0 0 12px #2c3e50;
 }
 
 .tarjeta-servicio:hover .anillo-azul-fondo {
@@ -212,7 +227,7 @@ const servicios = ref([
   object-fit: cover;
   position: relative; 
   z-index: 2; 
-  border: 3px solid #fff; 
+  border: 3px solid var(--card-bg); 
   transition: all 0.4s ease;
 }
 
@@ -223,11 +238,12 @@ const servicios = ref([
 .tarjeta-servicio h3 {
   margin-bottom: 15px;
   font-size: 1.4rem;
-  color: #333;
+  color: var(--text-color);
 }
 
 .tarjeta-servicio p {
-  color: #666;
+  color: var(--text-color);
+  opacity: 0.8;
   line-height: 1.6;
 }
 </style>

@@ -64,3 +64,64 @@ El backend define las rutas API que llaman al `AuthController`:
   - El botón redirige al panel de administración cargando automáticamente los datos actuales en el formulario.
   - Se han implementado los endpoints `GET /admin/products/{id}` y `PUT /admin/products/{id}` para la obtención y actualización segura de datos.
 
+---
+
+## [2026-02-24] - Modo Oscuro, Navegación y Docker Centralizado
+
+### Frontend (Vue.js)
+- **Modo Oscuro Completo:** 
+  - Implementación de variables CSS (`--bg-color`, `--card-bg`, etc.) en todos los componentes principales.
+  - Sincronización automática de componentes de terceros (filtros, inputs) con el tema oscuro.
+  - Persistencia del tema mediante `localStorage` a través del `SettingsStore`.
+- **Vista de Productos por Categoría:**
+  - Creación del componente `CategoryProducts.vue` con diseño de tarjetas premium.
+  - Implementación de lógica de filtrado dinámico basada en parámetros de ruta.
+  - Configuración de nuevas rutas en `router/index.js` para soportar `/category/:id`.
+- **Filtros Avanzados:**
+  - Actualización de `Filters.vue` para que las categorías sean navegables.
+  - Mejora de la responsividad en el grid de categorías.
+- **Refinamiento del Footer:**
+  - Ajuste del tamaño del icono de reciclaje para mejor equilibrio visual.
+  - Eliminación de etiquetas de texto redundantes para un look más "minimal".
+
+### DevOps e Infraestructura
+- **Unificación de Docker:**
+  - Creación de un `compose.yaml` raíz que orquestra 4 servicios: `backend`, `frontend`, `mysql` y `n8n`.
+  - Configuración de redes internas para comunicación fluida entre contenedores.
+  - Persistencia de datos de MySQL mediante volúmenes Docker.
+- **Troubleshooting de Build:**
+  - Resolución del error "Failed to load config from vite.config.js" mediante la reinstalación de dependencias de Rollup para Windows.
+  - Limpieza de caché de `npm` y regeneración del `package-lock.json`.
+
+---
+
+## [2026-02-25] - Chatbot, Sostenibilidad y Detalle Visual (JJ-Security Style)
+
+### Nuevas Funcionalidades
+- **Página de Sostenibilidad:** 
+  - Creación de `Sustainability.vue` con maquetación centrada y diseño ecológico.
+  - Implementación de secciones de "Misión", "Valores" y "Impacto".
+- **Asistente Virtual (n8n Chat):**
+  - **Integración Inicial:** Carga dinámica del script desde CDN e inicialización mediante `createChat`.
+  - **Localización Exhaustiva:** Eliminación de soporte en inglés, forzado de `locale: 'es'` y traducción manual de todos los componentes (placeholder, mensaje de bienvenida, subtítulos).
+  - **Corrección "Burbuja Roja":** Implementación de una función recursiva para penetrar el **Shadow DOM** del widget y forzar el color corporativo (`#6bc7b5`) sobre los estilos internos de n8n.
+  - **Mejora del Input:** Ajuste de padding, bordes y posición `bottom` para evitar que el área de escritura se viera "cortada" o demasiado baja.
+
+### Mejoras Estéticas y UI Refinement (App.vue)
+- **Header JJ-Security:** 
+  - **Logotipo:** Aumento de tamaño a `2.5rem`, peso `800` y cambio a color negro sólido para máxima autoridad visual.
+  - **Iconos de Navegación:** Restauración de las dimensiones (`50px`) y propiedades de recorte (`object-fit: cover`) para los iconos de Carrito y Usuario tras errores de maquetación.
+  - **Borde de Enfoque:** Sustitución de `:focus` por `:focus-visible` para que el borde negro solo aparezca con navegación por teclado, mejorando la estética para usuarios de ratón.
+- **Barra Lateral (Sidebar):**
+  - Ajuste de alineación central y comportamiento en hover.
+  - Sincronización de iconos con el modo oscuro (uso de filtros `invert`).
+- **Restauración del Footer:**
+  - Re-implementación de contenedores y layouts perdidos en ediciones manuales.
+  - Restauración de efectos hover y estilos de enlaces legales.
+  - Inserción de icono de reciclaje con gradiente dinámico.
+
+### Backend y Base de Datos
+- **Conectividad MySQL:** Resolución de conflicto de puerto `3306` que impedía la conexión de Laravel al contenedor de base de datos.
+- **Store de Carrito:** Optimización del `cartStore` para persistir cambios y reflejar el badge en tiempo real en el header.
+- **Sincronización de Checkout:** Corrección crítica en `Checkout.vue` para que el total y los productos reflejen el estado real del carrito en lugar de valores estáticos.
+

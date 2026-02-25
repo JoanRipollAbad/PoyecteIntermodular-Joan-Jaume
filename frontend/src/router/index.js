@@ -13,6 +13,11 @@ const routes = [
     component: () => import('../views/Checkout.vue'),
   },
   {
+    path: '/cart',
+    name: 'Cart',
+    component: () => import('../views/Cart.vue'),
+  },
+  {
     path: '/contact',
     name: 'Contact',
     component: () => import('../views/Contact.vue'),
@@ -55,6 +60,26 @@ const routes = [
     name: 'AdminProducts',
     component: () => import('../views/admin/ProductManagement.vue'),
     meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/category/:id',
+    name: 'CategoryProducts',
+    component: () => import('../views/CategoryProducts.vue'),
+  },
+  {
+    path: '/products',
+    name: 'ProductList',
+    component: () => import('../views/ProductList.vue'),
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import('../views/Settings.vue'),
+  },
+  {
+    path: '/sustainability',
+    name: 'Sustainability',
+    component: () => import('../views/Sustainability.vue'),
   },
 ]
 

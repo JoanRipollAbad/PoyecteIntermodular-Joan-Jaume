@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue'
 import { useAuthStore } from '../stores/auth'
+import { useCartStore } from '../stores/cart'
 import api from '../api'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 
 // Eliminamos la variable de simulación
 
@@ -23,6 +25,11 @@ const formData = ref({
 })
 
 const processPayment = async () => {
+  if (cartStore.items.length === 0) {
+    alert('Tu carrito está vacío.')
+    return
+  }
+
   try {
     // Determine user data (prefer authStore if available)
     const userEmail = authStore.user?.email || formData.value.email
@@ -36,23 +43,22 @@ const processPayment = async () => {
     await api.post(webhookUrl, {
       email: userEmail,
       nombre: userName,
-      total: '129.99€',
+      total: `${cartStore.totalPrice}€`,
       fecha: new Date().toLocaleDateString(),
-      items: [
-        { name: 'Cámara de Seguridad JJ-P1', price: '129.99€' }
-      ]
+      items: cartStore.items.map(item => ({
+        name: item.nom,
+        price: `${item.preu}€`,
+        quantity: item.quantity
+      }))
     }, {
       baseURL: '' 
     })
 
     alert('¡Compra realizada con éxito! Recibirás un correo de confirmación.')
+    cartStore.clearCart()
     router.push('/')
   } catch (error) {
     console.error('Error enviando confirmación a n8n:', error)
-    if (error.response) {
-      console.error('Datos del error:', error.response.data)
-      console.error('Status:', error.response.status)
-    }
     alert('Error al procesar el pago. Por favor, revisa tu conexión con n8n.')
   }
 }
@@ -131,7 +137,7 @@ const processPayment = async () => {
             </fieldset>
 
             <button type="submit" class="btn-finalize mt-4">
-              FINALIZAR COMPRA (129.99€)
+              FINALIZAR COMPRA ({{ cartStore.totalPrice }}€)
             </button>
           </form>
         </section>
@@ -158,7 +164,7 @@ const processPayment = async () => {
 
           <div class="total-section mt-4">
             <span class="total-label">Total a pagar:</span>
-            <span class="total-price">129.99€</span>
+            <span class="total-price">{{ cartStore.totalPrice }}€</span>
           </div>
 
           <div class="registered-actions mt-5">
@@ -179,7 +185,7 @@ const processPayment = async () => {
 
 <style scoped>
 .checkout-page-bg {
-  background-color: #f8f9fa;
+  background-color: var(--bg-color);
   min-height: 100vh;
   padding: 60px 20px;
   display: flex;
@@ -195,31 +201,41 @@ const processPayment = async () => {
   text-align: center;
   font-size: 2.5rem;
   font-weight: 600;
-  color: #333;
+  color: var(--primary-color);
   margin-bottom: 50px;
 }
 
 .checkout-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 20px;
   padding: 40px;
-  border: none;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+}
+
+.dark-mode .checkout-card {
+  border-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
 }
 
 .card-subtitle {
   font-size: 2rem;
   font-weight: 700;
-  color: #222;
+  color: var(--text-color);
   margin-bottom: 35px;
   text-align: center;
 }
 
 /* FORM STYLES */
 .form-section {
-  border: 1px solid #e0e0e0;
+  border: 1px solid rgba(0,0,0,0.1);
   border-radius: 12px;
   padding: 25px;
   margin-bottom: 25px;
+}
+
+.dark-mode .form-section {
+  border-color: rgba(255,255,255,0.1);
 }
 
 .form-section legend {
@@ -228,22 +244,29 @@ const processPayment = async () => {
   padding: 0 10px;
   font-size: 1.15rem;
   font-weight: 700;
-  color: #444;
+  color: var(--text-color);
   margin-bottom: 0;
 }
 
 .form-label {
   font-weight: 700;
   font-size: 0.95rem;
-  color: #333;
+  color: var(--text-color);
+  opacity: 0.9;
   margin-bottom: 8px;
 }
 
 .custom-input {
   border-radius: 8px;
   padding: 12px 15px;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: var(--bg-color);
+  color: var(--text-color);
   font-size: 1rem;
+}
+
+.dark-mode .custom-input {
+  border-color: rgba(255,255,255,0.1);
 }
 
 .custom-input::placeholder {
@@ -279,14 +302,21 @@ const processPayment = async () => {
 
 /* REGISTERED VIEW STYLES */
 .welcome-alert {
-  background-color: #e3f2fd;
-  color: #0d47a1;
+  background-color: rgba(107, 199, 181, 0.1);
+  color: #6bc7b5;
   padding: 20px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   gap: 15px;
   font-size: 1.1rem;
+  border: 1px solid rgba(107, 199, 181, 0.2);
+}
+
+.dark-mode .welcome-alert {
+  background-color: rgba(255, 255, 255, 0.02);
+  color: var(--text-color);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .info-grid {
@@ -298,12 +328,13 @@ const processPayment = async () => {
 .info-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 10px;
 }
 
 .info-content {
-  color: #666;
+  color: var(--text-color);
+  opacity: 0.7;
   font-size: 1.1rem;
   line-height: 1.5;
 }
@@ -312,13 +343,17 @@ const processPayment = async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #eee;
+  border-top: 1px solid rgba(0,0,0,0.1);
   padding-top: 30px;
+}
+
+.dark-mode .total-section {
+  border-top-color: rgba(255,255,255,0.1);
 }
 
 .total-label {
   font-size: 1.8rem;
-  color: #444;
+  color: var(--text-color);
 }
 
 .total-price {

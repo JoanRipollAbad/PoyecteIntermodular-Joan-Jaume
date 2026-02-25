@@ -1,15 +1,173 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import { useCartStore } from '../stores/cart'
 import api from '../api'
 
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 
 const route = useRoute()
 const router = useRouter()
 const product = ref(null)
 const loading = ref(true)
+const comments = ref([])
+const newComment = ref('')
+const rating = ref(5)
+const isSubmitting = ref(false)
+const commentError = ref('')
+const commentSuccess = ref('')
+
+const editingCommentId = ref(null)
+const editBuffer = ref('')
+const editRating = ref(5)
+const isUpdating = ref(false)
+
+/**
+ * Cargar comentarios del producto
+ */
+const fetchComments = async () => {
+  try {
+    const response = await api.get(`/products/${route.params.id}/comments`)
+    comments.value = response.data
+  } catch (error) {
+    console.error('Error al cargar comentarios:', error)
+  }
+}
+
+/**
+ * Enviar un nuevo comentario
+ */
+const submitComment = async () => {
+  if (!newComment.value.trim()) return
+  
+  isSubmitting.value = true
+  commentError.value = ''
+  commentSuccess.value = ''
+  
+  try {
+    const response = await api.post(`/products/${product.value.id}/comments`, {
+      text: newComment.value,
+      puntuacio: rating.value
+    })
+    
+    // Añadir el nuevo comentario a la lista
+    comments.value.unshift(response.data)
+    
+    // Limpiar formulario
+    newComment.value = ''
+    rating.value = 5
+    commentSuccess.value = '¡Gracias por tu comentario!'
+    
+    // Ocultar mensaje de éxito después de unos segundos
+    setTimeout(() => {
+      commentSuccess.value = ''
+    }, 5000)
+    
+  } catch (error) {
+    console.error('Error al enviar comentario:', error)
+    commentError.value = 'No se pudo enviar el comentario. Inténtalo de nuevo.'
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+/**
+ * Eliminar un comentario
+ */
+const deleteComment = async (id) => {
+  if (!confirm('¿Estás seguro de que quieres eliminar este comentario?')) return
+  
+  try {
+    await api.delete(`/comments/${id}`)
+    comments.value = comments.value.filter(c => c.id !== id)
+  } catch (error) {
+    console.error('Error al eliminar comentario:', error)
+    alert('No se pudo eliminar el comentario.')
+  }
+}
+
+/**
+ * Activar modo edición
+ */
+const startEditing = (comment) => {
+  editingCommentId.value = comment.id
+  editBuffer.value = comment.text
+  editRating.value = comment.puntuacio
+}
+
+/**
+ * Cancelar edición
+ */
+const cancelEditing = () => {
+  editingCommentId.value = null
+  editBuffer.value = ''
+}
+
+/**
+ * Guardar cambios del comentario
+ */
+const updateComment = async () => {
+  if (!editBuffer.value.trim()) return
+  
+  isUpdating.value = true
+  
+  try {
+    const response = await api.put(`/comments/${editingCommentId.value}`, {
+      text: editBuffer.value,
+      puntuacio: editRating.value
+    })
+    
+    // Actualizar en el array local
+    const index = comments.value.findIndex(c => c.id === editingCommentId.value)
+    if (index !== -1) {
+      comments.value[index] = response.data
+    }
+    
+    cancelEditing()
+  } catch (error) {
+    console.error('Error al actualizar comentario:', error)
+    alert('No se pudo actualizar el comentario.')
+  } finally {
+    isUpdating.value = false
+  }
+}
+
+/**
+ * Comprobar si el usuario actual es el autor o admin
+ */
+const canManage = (comment) => {
+  if (!authStore.user) return false
+  return comment.user_id === authStore.user.id || authStore.isAdmin
+}
+
+const canEdit = (comment) => {
+  if (!authStore.user) return false
+  return comment.user_id === authStore.user.id
+}
+
+/**
+ * Calcular la puntuación media
+ */
+const averageRating = computed(() => {
+  if (comments.value.length === 0) return 0
+  const sum = comments.value.reduce((acc, c) => acc + (c.puntuacio || 0), 0)
+  return (sum / comments.value.length).toFixed(1)
+})
+
+/**
+ * Total de reseñas reales
+ */
+const totalReviews = computed(() => comments.value.length)
+
+const addToCart = () => {
+  if (product.value) {
+    cartStore.addItem(product.value)
+    // Optional: show a small toast or redirect to cart
+    router.push('/cart')
+  }
+}
 
 // Datos de prueba por si falla la conexión (como se pidió)
 const mockProduct = {
@@ -105,6 +263,7 @@ onMounted(async () => {
   }
 
   startCarouselTimer()
+  fetchComments()
 })
 
 /**
@@ -190,9 +349,14 @@ onUnmounted(() => {
               <span class="price-value">{{ product.preu }}€</span>
             </div>
             
-            <div class="rating-section">
-              <span class="stars">★★★★★</span>
-              <span class="reviews-count">(154 Reseñas)</span>
+            <div class="rating-section" v-if="totalReviews > 0">
+              <div class="stars header-stars">
+                <span v-for="i in 5" :key="i" class="star-static" :class="{ 'filled': Math.round(averageRating) >= i }">★</span>
+              </div>
+              <span class="reviews-count">({{ totalReviews }} {{ totalReviews === 1 ? 'Reseña' : 'Reseñas' }}) - {{ averageRating }}/5</span>
+            </div>
+            <div v-else class="rating-section no-ratings-header">
+              <span class="reviews-count">Sin valoraciones todavía</span>
             </div>
 
             <ul class="features-list">
@@ -209,7 +373,7 @@ onUnmounted(() => {
                 COMPRAR YA
               </button>
 
-              <button class="btn-add-cart">
+              <button class="btn-add-cart" @click="addToCart">
                 Añadir al carrito
               </button>
 
@@ -231,6 +395,102 @@ onUnmounted(() => {
           <p class="description-text">
             {{ product.descripcio }}
           </p>
+        </div>
+
+        <!-- COMMENTS SECTION -->
+        <div class="comments-section mt-10">
+          <h4 class="section-title-premium">Opiniones y Valoraciones</h4>
+          
+          <!-- submission form for authenticated users -->
+          <div v-if="authStore.isAuthenticated" class="comment-form-container mb-10">
+            <h5 class="form-subtitle">Deja tu opinión</h5>
+            <div class="rating-picker mb-4">
+              <span class="mr-3">Puntuación:</span>
+              <div class="stars-selector">
+                <button v-for="i in 5" :key="i" @click="rating = i" class="star-btn" :class="{ 'active': rating >= i }">
+                  ★
+                </button>
+              </div>
+            </div>
+            <textarea 
+              v-model="newComment" 
+              placeholder="Escribe aquí tu experiencia con el producto..."
+              class="comment-textarea"
+              rows="4"
+            ></textarea>
+            <div class="form-footer-flex mt-4">
+              <transition name="fade">
+                <span v-if="commentSuccess" class="msg-success">{{ commentSuccess }}</span>
+                <span v-else-if="commentError" class="msg-error">{{ commentError }}</span>
+              </transition>
+              <button @click="submitComment" :disabled="isSubmitting || !newComment.trim()" class="btn-submit-comment">
+                <span v-if="isSubmitting" class="spinner-tiny mr-2"></span>
+                Publicar comentario
+              </button>
+            </div>
+          </div>
+
+          <!-- guest CTA -->
+          <div v-else class="login-cta-card mb-10">
+            <p>Solo los usuarios registrados pueden dejar comentarios.</p>
+            <router-link to="/login" class="btn-login-cta">Inicia sesión para opinar</router-link>
+          </div>
+
+          <!-- comments list -->
+          <div class="comments-list">
+            <div v-if="comments.length === 0" class="no-comments">
+              Aún no hay opiniones para este producto. ¡Sé el primero en comentar!
+            </div>
+            <div v-for="comment in comments" :key="comment.id" class="comment-item animate-fade-in">
+              <div class="comment-header">
+                <div class="user-info">
+                  <div class="user-avatar">{{ comment.user?.name.charAt(0).toUpperCase() }}</div>
+                  <div>
+                    <span class="user-name">{{ comment.user?.name }}</span>
+                    <span class="comment-date ml-2">{{ new Date(comment.created_at).toLocaleDateString() }}</span>
+                  </div>
+                </div>
+                
+                <div class="header-actions-flex">
+                  <div class="comment-rating mr-4">
+                    <span v-for="i in 5" :key="i" class="star-static" :class="{ 'filled': comment.puntuacio >= i }">★</span>
+                  </div>
+                  
+                  <!-- Manage buttons -->
+                  <div v-if="canManage(comment)" class="manage-actions">
+                    <button v-if="canEdit(comment) && editingCommentId !== comment.id" @click="startEditing(comment)" class="action-link edit" title="Editar">
+                      <span class="icon">✏️</span>
+                    </button>
+                    <button @click="deleteComment(comment.id)" class="action-link delete" title="Eliminar">
+                      <span class="icon">🗑️</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Inline edit form -->
+              <div v-if="editingCommentId === comment.id" class="inline-edit-form">
+                <div class="rating-picker mb-3">
+                  <div class="stars-selector">
+                    <button v-for="i in 5" :key="i" @click="editRating = i" class="star-btn" :class="{ 'active': editRating >= i }">
+                      ★
+                    </button>
+                  </div>
+                </div>
+                <textarea v-model="editBuffer" class="comment-textarea edit-mode" rows="3"></textarea>
+                <div class="edit-actions mt-3">
+                  <button @click="cancelEditing" class="btn-cancel-edit">Cancelar</button>
+                  <button @click="updateComment" :disabled="isUpdating || !editBuffer.trim()" class="btn-save-edit">
+                    <span v-if="isUpdating" class="spinner-tiny mr-1"></span>
+                    Guardar cambios
+                  </button>
+                </div>
+              </div>
+
+              <!-- Comment text -->
+              <p v-else class="comment-text">{{ comment.text }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -281,18 +541,24 @@ onUnmounted(() => {
 .product-card-main {
   width: 100%;
   max-width: 1100px;
-  background-color: #fff;
+  background-color: var(--card-bg);
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.08);
   padding: 40px;
   margin-bottom: 40px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.dark-mode .product-card-main {
+  border-color: rgba(255,255,255,0.05);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
 }
 
 .product-title-centered {
   text-align: center;
   font-size: 2.2rem;
   font-weight: 700;
-  color: #444;
+  color: var(--text-color);
   margin-bottom: 40px;
 }
 
@@ -307,8 +573,12 @@ onUnmounted(() => {
 .media-container {
   border-radius: 12px;
   overflow: hidden;
-  background: #f9f9f9;
+  background: rgba(0,0,0,0.02);
   position: relative;
+}
+
+.dark-mode .media-container {
+  background: rgba(255,255,255,0.02);
 }
 
 .gallery-item {
@@ -451,7 +721,7 @@ onUnmounted(() => {
   margin-bottom: 12px;
   font-size: 1.15rem;
   font-weight: 500;
-  color: #333;
+  color: var(--text-color);
 }
 
 .check-box {
@@ -501,9 +771,9 @@ onUnmounted(() => {
 }
 
 .btn-wishlist {
-  background: white;
-  color: #555;
-  border: 1px solid #ddd;
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid rgba(0,0,0,0.1);
   border-radius: 50px;
   padding: 12px;
   font-weight: 700;
@@ -513,6 +783,10 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+.dark-mode .btn-wishlist {
+  border-color: rgba(255,255,255,0.1);
 }
 
 .btn-edit-admin {
@@ -552,14 +826,339 @@ onUnmounted(() => {
 .description-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #444;
+  color: var(--text-color);
   margin-bottom: 15px;
 }
 
 .description-text {
-  color: #666;
+  color: var(--text-color);
+  opacity: 0.8;
   line-height: 1.8;
   font-size: 1.1rem;
+}
+
+/* Comments Section */
+.section-title-premium {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-color);
+  margin-bottom: 30px;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.section-title-premium::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 4px;
+  background: #6bc7b5;
+  border-radius: 2px;
+}
+
+.comment-form-container {
+  background: rgba(107, 199, 181, 0.05);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(107, 199, 181, 0.2);
+}
+
+.dark-mode .comment-form-container {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.form-subtitle {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+
+.rating-picker {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--text-color);
+  opacity: 0.9;
+}
+
+.stars-selector {
+  display: flex;
+  gap: 5px;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #ddd;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.star-btn.active, .star-btn:hover {
+  color: #ffcc00;
+  transform: scale(1.1);
+}
+
+.comment-textarea {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+.dark-mode .comment-textarea {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.comment-textarea:focus {
+  outline: none;
+  border-color: #6bc7b5;
+  box-shadow: 0 0 0 3px rgba(107, 199, 181, 0.1);
+}
+
+.form-footer-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-submit-comment {
+  background: #6bc7b5;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-submit-comment:hover:not(:disabled) {
+  background: #5ab3a2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(107,199,181,0.3);
+}
+
+.btn-submit-comment:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.msg-success { color: #2d7a6a; font-weight: 600; font-size: 0.9rem; }
+.msg-error { color: #991b1b; font-weight: 600; font-size: 0.9rem; }
+
+.login-cta-card {
+  background: rgba(0,0,0,0.02);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.dark-mode .login-cta-card {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.05);
+}
+
+.login-cta-card p {
+  font-weight: 600;
+  color: var(--text-color);
+  opacity: 0.8;
+  margin-bottom: 15px;
+}
+
+.btn-login-cta {
+  display: inline-block;
+  background: #1a1a1a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s;
+}
+
+.btn-login-cta:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+/* Comments List */
+.no-comments {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-color);
+  opacity: 0.6;
+  font-style: italic;
+  background: rgba(0,0,0,0.02);
+  border-radius: 20px;
+}
+
+.comment-item {
+  padding: 25px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.dark-mode .comment-item {
+  border-bottom-color: rgba(255,255,255,0.05);
+}
+
+.comment-item:last-child { border-bottom: none; }
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header-actions-flex {
+  display: flex;
+  align-items: center;
+}
+
+.manage-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-link:hover {
+  background: #f0f0f0;
+}
+
+.action-link.delete:hover {
+  background: #fee2e2;
+}
+
+.action-link .icon {
+  font-size: 1rem;
+}
+
+/* Inline Edit Form */
+.inline-edit-form {
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #e2f0ed;
+  margin-top: 5px;
+}
+
+.comment-textarea.edit-mode {
+  background: #fafafa;
+  font-size: 0.95rem;
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-cancel-edit {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.btn-cancel-edit:hover {
+  background: #f5f5f5;
+}
+
+.btn-save-edit {
+  background: #6bc7b5;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-save-edit:hover:not(:disabled) {
+  background: #5ab3a2;
+}
+
+.btn-save-edit:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  background: #e2f0ed;
+  color: #6bc7b5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.user-name {
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.star-static { color: #ddd; font-size: 1.1rem; }
+.star-static.filled { color: #ffcc00; }
+
+.comment-text {
+  color: var(--text-color);
+  opacity: 0.9;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.comment-date {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.spinner-tiny {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
 }
 
 /* Loading State */

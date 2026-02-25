@@ -1,97 +1,122 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import api from '../api'
+
+const products = ref([])
+const loading = ref(true)
+const error = ref('')
+
+const fetchProducts = async () => {
+  loading.value = true
+  error.value = ''
+  try {
+    const response = await api.get('/products')
+    products.value = response.data
+  } catch (err) {
+    error.value = 'Error al cargar el catálogo de productos.'
+    console.error(err)
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(fetchProducts)
+</script>
+
 <template>
-  <div class="product-list">
-    <h1>Productes</h1>
-
-    <div v-if="loading">Carregant productes...</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
-
-    <div class="products-grid" v-if="products.length">
-      <div v-for="product in products" :key="product.id" class="product-card">
-        <h3>{{ product.nom }}</h3>
-        <div class="product-category">
-          Categoria: {{ product.categoria?.nom || product.categoria?.tipo || 'Sense categoria' }}
-        </div>
-        <p>{{ product.descripcio }}</p>
-        <p>
-          <strong>{{ product.preu }}€</strong>
+  <div class="product-list-view min-h-screen bg-stone-50 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Header -->
+      <div class="mb-12 text-center">
+        <h1 class="text-4xl font-bold text-neutral-800 mb-4">Nuestro Catálogo</h1>
+        <div class="header-line mx-auto"></div>
+        <p class="text-neutral-500 mt-6 max-w-2xl mx-auto leading-relaxed">
+          Descubre todas nuestras soluciones de seguridad. Desde cámaras de alta definición hasta sistemas de control de acceso inteligente.
         </p>
-        <p>Estoc: {{ product.estoc }}</p>
-        <router-link :to="`/products/${product.id}`">Veure detalls</router-link>
       </div>
-    </div>
 
-    <div v-else>
-      <p>No hi ha productes disponibles.</p>
+      <!-- Loading State -->
+      <div v-if="loading" class="flex flex-col items-center justify-center py-20">
+        <div class="w-12 h-12 border-4 border-[#bcd9d6] border-t-[#7ed9c7] rounded-full animate-spin mb-4"></div>
+        <p class="text-neutral-400 font-medium">Cargando catálogo completo...</p>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="bg-red-50 text-red-700 p-6 rounded-2xl text-center">
+        <p class="font-bold">{{ error }}</p>
+        <button @click="fetchProducts" class="mt-4 text-sm underline font-bold">Reintentar</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div v-else-if="products.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div v-for="product in products" :key="product.id" 
+             class="product-card group bg-white rounded-[30px] p-6 border border-neutral-100 shadow-sm hover:shadow-xl hover:shadow-[#7ed9c7]/10 hover:border-[#7ed9c7]/30 transition-all duration-500 transform hover:-translate-y-2">
+          
+          <div class="img-wrapper aspect-square rounded-[24px] overflow-hidden mb-6 bg-stone-50 relative">
+            <img :src="product.img || '/img/logo.jpg'" 
+                 :alt="product.nom"
+                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+            
+            <div class="absolute top-4 right-4" v-if="product.categoria">
+              <span class="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-[10px] font-bold tracking-widest text-[#6bc7b5] border border-neutral-100 shadow-sm">
+                {{ product.categoria.nom.toUpperCase() }}
+              </span>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-neutral-800 mb-2 truncate group-hover:text-[#6bc7b5] transition-colors">{{ product.nom }}</h3>
+          <p class="text-neutral-500 text-sm mb-6 line-clamp-2 leading-relaxed h-10">{{ product.descripcio }}</p>
+
+          <div class="flex items-center justify-between mt-auto pt-4 border-t border-neutral-50">
+            <div class="flex flex-col">
+              <span class="text-xs text-neutral-400 font-bold uppercase tracking-wider">Precio</span>
+              <span class="text-2xl font-black text-neutral-800">{{ product.preu }}<span class="text-sm ml-1 font-bold">€</span></span>
+            </div>
+            
+            <router-link :to="`/product/${product.id}`" 
+                         class="w-12 h-12 bg-neutral-800 hover:bg-[#7ed9c7] text-white rounded-2xl flex items-center justify-center shadow-lg shadow-neutral-200 transition-all transform hover:rotate-12 active:scale-95 group/btn">
+              <svg class="w-6 h-6 transform transition-transform group-hover/btn:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+              </svg>
+            </router-link>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div v-else class="text-center py-20 bg-white rounded-[40px] border border-dashed border-neutral-200">
+        <div class="w-16 h-16 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-8 h-8 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-neutral-800 mb-2">Sin productos</h3>
+        <p class="text-neutral-500">Estamos actualizando nuestro inventario. Vuelve pronto.</p>
+      </div>
+
     </div>
   </div>
 </template>
 
-<script>
-import { ref, onMounted } from 'vue'
-import api from '../api'
-
-export default {
-  setup() {
-    const products = ref([])
-    const loading = ref(true)
-    const error = ref('')
-
-    const fetchProducts = async () => {
-      try {
-        const response = await api.get('/products')
-        products.value = response.data
-      } catch (err) {
-        error.value = 'Error al carregar els productes'
-        console.error(err)
-      } finally {
-        loading.value = false
-      }
-    }
-
-    onMounted(fetchProducts)
-
-    return {
-      products,
-      loading,
-      error,
-    }
-  },
-}
-</script>
-
 <style scoped>
-.product-list {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+.header-line {
+  width: 60px;
+  height: 5px;
+  background-color: #7ed9c7;
+  border-radius: 3px;
 }
 
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
+/* Smooth entry animation */
+.grid > div {
+  animation: slideUp 0.6s ease-out forwards;
+  opacity: 0;
 }
 
-.product-card {
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 8px;
-  text-align: center;
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.product-card h3 {
-  margin-bottom: 10px;
-}
-
-.product-card p {
-  margin: 5px 0;
-}
-
-a {
-  display: inline-block;
-  margin-top: 10px;
-  color: #007bff;
-  text-decoration: none;
-}
+.grid > div:nth-child(n+1) { animation-delay: calc(0.1s * var(--item-index, 1)); }
 </style>

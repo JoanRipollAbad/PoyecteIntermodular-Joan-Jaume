@@ -39,13 +39,38 @@ class CommentController extends Controller
     }
 
     /**
-     * Esborrar comentari (només propietari)
+     * Actualitzar comentari (només propietari)
      */
-    public function destroy($id)
+    public function update(Request $request, $id)
     {
         $comment = Comment::findOrFail($id);
 
-        if ($comment->user_id !== auth()->id()) {
+        if ($comment->user_id !== $request->user()->id) {
+            return response()->json(['error' => 'No autoritzat'], 403);
+        }
+
+        $validated = $request->validate([
+            'text' => 'required|string|max:1000',
+            'puntuacio' => 'nullable|integer|min:1|max:5',
+        ]);
+
+        $comment->update($validated);
+
+        return response()->json($comment->load('user:id,name'));
+    }
+
+    /**
+     * Esborrar comentari (propietari o administrador)
+     */
+    public function destroy(Request $request, $id)
+    {
+        $comment = Comment::findOrFail($id);
+
+        // Permetre si és l'autor O si és administrador
+        $isAuthor = $comment->user_id === $request->user()->id;
+        $isAdmin = $request->user()->rol === 'admin';
+
+        if (!$isAuthor && !$isAdmin) {
             return response()->json(['error' => 'No autoritzat'], 403);
         }
 
