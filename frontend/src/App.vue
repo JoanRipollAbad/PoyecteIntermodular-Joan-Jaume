@@ -637,7 +637,55 @@ footer {
 
 /* 8. RESPONSIVE */
 @media (max-width: 992px) {
-  .brand-title { font-size: 1.5rem; }
-  .main-content { margin-left: var(--sidebar-width); }
+  .brand-title { font-size: 1.8rem; }
+  .header-container { padding: 0 20px; }
+  .header-icons { right: 20px; gap: 10px; }
+}
+
+@media (max-width: 600px) {
+  .header-container {
+    justify-content: space-between;
+    padding: 0 15px;
+  }
+  
+  .brand-title {
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+  }
+
+  .header-icons {
+    position: static; /* Quitamos el absoluto para que fluya en el flex */
+    gap: 8px;
+  }
+
+  .header-item span {
+    display: none; /* Ocultamos el texto en móvil para ganar espacio */
+  }
+
+  .icon-circle {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Bloquear expansión del aside en móvil */
+  .barra-lateral.expanded {
+    width: var(--sidebar-width) !important;
+  }
+  
+  .main-content.sidebar-expanded {
+    margin-left: var(--sidebar-width) !important;
+  }
+
+  .barra-lateral.expanded .icono-contenido {
+    flex-direction: column !important;
+    padding-left: 0 !important;
+    justify-content: center !important;
+    gap: 0 !important;
+  }
+
+  .barra-lateral.expanded .menu-text {
+    font-size: 13px !important;
+    margin-top: 6px !important;
+  }
 }
 </style>

@@ -9,16 +9,22 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CategoriaFactory extends Factory
 {
-    
+
+    protected static $index = 0;
+    protected static $nombres = ['Cámaras', 'Cerraduras', 'Sensores', 'Alarmas', 'Servicios'];
+
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
     public function definition(): array
-{
-    return [
-        'nom' => fake()->randomElement(['Cámaras', 'Cerraduras', 'Sensores', 'Alarmas', 'Servicios']),
-    ];
-}
+    {
+        $nombre = self::$nombres[self::$index % count(self::$nombres)];
+        self::$index++;
+
+        return [
+            'nom' => $nombre,
+        ];
+    }
 }

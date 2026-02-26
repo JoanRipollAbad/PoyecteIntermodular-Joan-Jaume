@@ -422,4 +422,15 @@ const processPayment = async () => {
     text-align: left !important;
   }
 }
+
+@media (max-width: 600px) {
+  .page-title { font-size: 1.8rem; margin-bottom: 30px; }
+  .checkout-card { padding: 25px 15px; border-radius: 15px; }
+  .card-subtitle { font-size: 1.5rem; margin-bottom: 25px; }
+  .form-section { padding: 15px; margin-bottom: 20px; }
+  .btn-finalize, .btn-confirm-pay { padding: 15px; font-size: 1.1rem; }
+  .total-label { font-size: 1.3rem; }
+  .total-price { font-size: 1.8rem; }
+  .welcome-alert { font-size: 0.95rem; padding: 15px; }
+}
 </style>

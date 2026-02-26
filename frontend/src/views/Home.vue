@@ -97,12 +97,15 @@ const servicios = ref([
 
 /* PRODUCTOS */
 .grid-productos { 
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 30px;
 }
 
 .tarjeta-producto {
+  flex: 1 1 300px;
+  max-width: 400px; /* Controlamos el ancho máximo para que no crezca demasiado si está sola */
   background: var(--card-bg); 
   border: 1px solid rgba(0,0,0,0.05); 
   border-radius: 25px; 
@@ -165,12 +168,15 @@ const servicios = ref([
 
 /* SERVICIOS */
 .grid-servicios { 
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 40px;
 }
 
 .tarjeta-servicio {
+  flex: 1 1 320px;
+  max-width: 380px;
   background: var(--card-bg); 
   border-radius: 25px; 
   padding: 45px 35px; 

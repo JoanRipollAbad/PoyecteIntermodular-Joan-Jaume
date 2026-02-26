@@ -118,8 +118,9 @@ onMounted(async () => {
 }
 
 .categories-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 30px;
   max-width: 1400px;
   margin: 0 auto;
@@ -128,6 +129,8 @@ onMounted(async () => {
 }
 
 .category-card {
+  flex: 1 1 320px;
+  max-width: 400px;
   position: relative;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
@@ -246,12 +249,24 @@ onMounted(async () => {
   to { transform: rotate(360deg); }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .titulo-destacado {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
   }
-  .categories-grid {
-    grid-template-columns: 1fr;
+  .category-card {
+    flex: 1 1 45%; /* Two columns roughly on tablet */
+  }
+}
+
+@media (max-width: 600px) {
+  .titulo-destacado {
+    font-size: 2rem;
+  }
+  .category-card {
+    flex: 1 1 100%; /* Single column on mobile */
+  }
+  .subtitle {
+    font-size: 1rem;
   }
 }
 </style>
