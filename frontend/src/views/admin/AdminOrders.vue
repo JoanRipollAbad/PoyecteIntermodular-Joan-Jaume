@@ -168,7 +168,7 @@ onMounted(fetchOrders)
                             <tr v-for="item in order.items" :key="item.id">
                               <td>
                                 <div class="item-product">
-                                  <img :src="item.product?.img || '/img/logo.jpg'" class="item-img" />
+                                  <img :src="item.product?.img ? (item.product.img.startsWith('/') ? item.product.img : '/' + item.product.img) : '/img/logo.jpg'" class="item-img" />
                                   <span>{{ item.product?.nom || 'Producto eliminado' }}</span>
                                 </div>
                               </td>
