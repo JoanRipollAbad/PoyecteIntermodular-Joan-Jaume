@@ -4,15 +4,17 @@
       <h2>Iniciar Sesión</h2>
       <p class="subtitle">Accede a tu panel de seguridad JJ-Security</p>
 
-      <form @submit.prevent="handleLogin">
+      <Form @submit="handleLogin" :validation-schema="schema" v-slot="{ errors }">
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" v-model="email" placeholder="tupersona@correo.com" required />
+          <Field name="email" type="email" placeholder="tupersona@correo.com" class="form-input" :class="{ 'is-invalid': errors.email }" />
+          <ErrorMessage name="email" class="error-msg-small" />
         </div>
 
         <div class="form-group">
           <label for="password">Contraseña</label>
-          <input type="password" id="password" v-model="password" placeholder="••••••••" required />
+          <Field name="password" type="password" placeholder="••••••••" class="form-input" :class="{ 'is-invalid': errors.password }" />
+          <ErrorMessage name="password" class="error-msg-small" />
         </div>
 
         <button type="submit" :disabled="loading" class="btn-primary">
@@ -30,7 +32,7 @@
         <div class="register-link">
           ¿No tienes cuenta? <router-link to="/register">Regístrate aquí</router-link>
         </div>
-      </form>
+      </Form>
     </div>
   </div>
 </template>
@@ -40,26 +42,33 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import GoogleLoginButton from '../components/GoogleLoginButton.vue'
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import * as yup from 'yup'
 
 export default {
   components: {
-    GoogleLoginButton
+    GoogleLoginButton,
+    Form,
+    Field,
+    ErrorMessage
   },
   setup() {
     const router = useRouter()
     const authStore = useAuthStore()
-
-    const email = ref('')
-    const password = ref('')
     const loading = ref(false)
     const error = ref('')
 
-    const handleLogin = async () => {
+    const schema = yup.object({
+      email: yup.string().required('El email es obligatorio').email('Email no válido'),
+      password: yup.string().required('La contraseña es obligatoria').min(6, 'Mínimo 6 caracteres')
+    })
+
+    const handleLogin = async (values) => {
       loading.value = true
       error.value = ''
 
       try {
-        await authStore.login({ email: email.value, password: password.value })
+        await authStore.login(values)
         router.push('/')
       } catch (err) {
         error.value = err.response?.data?.error || "Error en la autenticación"
@@ -69,8 +78,7 @@ export default {
     }
 
     return {
-      email,
-      password,
+      schema,
       loading,
       error,
       handleLogin,

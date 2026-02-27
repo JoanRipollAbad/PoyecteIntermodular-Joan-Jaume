@@ -23,6 +23,7 @@ const editingCommentId = ref(null)
 const editBuffer = ref('')
 const editRating = ref(5)
 const isUpdating = ref(false)
+const relatedProducts = ref([])
 
 /**
  * Cargar comentarios del producto
@@ -33,6 +34,24 @@ const fetchComments = async () => {
     comments.value = response.data
   } catch (error) {
     console.error('Error al cargar comentarios:', error)
+  }
+}
+
+/**
+ * Cargar productos relacionados (misma categoría)
+ */
+const fetchRelatedProducts = async () => {
+  const catId = product.value?.categoria_id || product.value?.categoria?.id
+  if (!catId) return
+  try {
+    const response = await api.get('/products')
+    // Filtramos por categoría, quitamos el actual y pillamos 3 aleatorios
+    relatedProducts.value = response.data
+      .filter(p => (p.categoria_id === catId || p.categoria?.id === catId) && p.id !== product.value.id)
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 3)
+  } catch (error) {
+    console.error('Error al cargar productos relacionados:', error)
   }
 }
 
@@ -271,6 +290,7 @@ onMounted(async () => {
 
   startCarouselTimer()
   fetchComments()
+  await fetchRelatedProducts()
 })
 
 /**
@@ -278,6 +298,10 @@ onMounted(async () => {
  */
 const goToEdit = () => {
   router.push({ name: 'AdminProducts', query: { edit: product.value.id } })
+}
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 onUnmounted(() => {
@@ -364,6 +388,16 @@ onUnmounted(() => {
             </div>
             <div v-else class="rating-section no-ratings-header">
               <span class="reviews-count">Sin valoraciones todavía</span>
+            </div>
+
+            <!-- ECO BADGE -->
+                       <div v-if="product.id % 2 === 0" class="eco-badge-container">
+              <span class="eco-badge">
+                <svg class="eco-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                </svg>
+                PRODUCTO ECO-FRIENDLY
+              </span>
             </div>
 
             <ul class="features-list">
@@ -497,6 +531,30 @@ onUnmounted(() => {
               <!-- Comment text -->
               <p v-else class="comment-text">{{ comment.text }}</p>
             </div>
+          </div>
+        </div>
+        <!-- RELATED PRODUCTS SECTION (C5 - Intelligence) -->
+        <div v-if="relatedProducts.length > 0" class="related-section">
+          <h4 class="section-title-premium">También te puede interesar</h4>
+          
+          <div class="related-grid">
+            <router-link 
+              v-for="rel in relatedProducts" 
+              :key="rel.id" 
+              :to="'/product/' + rel.id"
+              class="related-card"
+              @click="scrollToTop"
+            >
+              <div class="related-image-wrapper">
+                <!-- Usamos una imagen por defecto si no hay img -->
+                <img :src="rel.img || '/img/logo.jpg'" :alt="rel.nom" class="related-img">
+              </div>
+              
+              <div class="related-info">
+                <h5 class="related-name">{{ rel.nom }}</h5>
+                <p class="related-price">{{ rel.preu }}€</p>
+              </div>
+            </router-link>
           </div>
         </div>
       </div>
@@ -1198,5 +1256,123 @@ onUnmounted(() => {
     grid-template-columns: 1fr;
     gap: 30px;
   }
+}
+
+/* --- ESTILOS ECO BADGE --- */
+.eco-badge-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.eco-badge {
+  background-color: #6bc7b5;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+
+.eco-icon {
+  width: 16px; 
+  height: 16px;
+  display: block;
+}
+
+/* --- ESTILOS PRODUCTOS RELACIONADOS --- */
+.related-section {
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+.dark-mode .related-section {
+  border-top-color: rgba(255,255,255,0.1);
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.related-card {
+  display: block;
+  text-decoration: none;
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+  position: relative; 
+}
+
+.related-card:hover {
+  transform: translateY(-5px);
+}
+
+.related-image-wrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1; 
+  background-color: #f9f9f9;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.05);
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.dark-mode .related-image-wrapper {
+  background-color: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.05);
+}
+
+.related-card:hover .related-image-wrapper {
+  box-shadow: 0 10px 20px rgba(107, 199, 181, 0.2);
+  border-color: rgba(107, 199, 181, 0.3);
+}
+
+.related-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.related-card:hover .related-img {
+  transform: scale(1.05);
+}
+
+.related-info {
+  text-align: left;
+}
+
+.related-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0 0 5px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.2s;
+}
+
+.related-card:hover .related-name {
+  color: #6bc7b5;
+}
+
+.related-price {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #6bc7b5;
+  margin: 0;
 }
 </style>

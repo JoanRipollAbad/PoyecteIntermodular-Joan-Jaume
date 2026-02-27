@@ -4,32 +4,29 @@
       <h2>Crea tu Cuenta</h2>
       <p class="subtitle">Únete a la familia JJ-Security</p>
 
-      <form @submit.prevent="handleRegister">
+      <Form @submit="handleRegister" :validation-schema="schema" v-slot="{ errors }">
         <div class="form-group">
           <label for="name">Nombre Completo</label>
-          <input type="text" id="name" v-model="name" placeholder="Ej: Juan Pérez" required />
+          <Field name="name" type="text" placeholder="Ej: Juan Pérez" class="form-input" :class="{ 'is-invalid': errors.name }" />
+          <ErrorMessage name="name" class="error-msg-small" />
         </div>
 
         <div class="form-group">
           <label for="email">Correo Electrónico</label>
-          <input type="email" id="email" v-model="email" placeholder="tupersona@correo.com" required />
+          <Field name="email" type="email" placeholder="tupersona@correo.com" class="form-input" :class="{ 'is-invalid': errors.email }" />
+          <ErrorMessage name="email" class="error-msg-small" />
         </div>
 
         <div class="form-group">
           <label for="password">Contraseña</label>
-          <input type="password" id="password" v-model="password" placeholder="Mínimo 6 caracteres" required minlength="6" />
+          <Field name="password" type="password" placeholder="Mínimo 6 caracteres" class="form-input" :class="{ 'is-invalid': errors.password }" />
+          <ErrorMessage name="password" class="error-msg-small" />
         </div>
 
         <div class="form-group">
           <label for="password_confirmation">Confirmar Contraseña</label>
-          <input
-            type="password"
-            id="password_confirmation"
-            v-model="passwordConfirmation"
-            placeholder="Repite tu contraseña"
-            required
-            minlength="6"
-          />
+          <Field name="password_confirmation" type="password" placeholder="Repite tu contraseña" class="form-input" :class="{ 'is-invalid': errors.password_confirmation }" />
+          <ErrorMessage name="password_confirmation" class="error-msg-small" />
         </div>
 
         <button type="submit" :disabled="loading" class="btn-primary">
@@ -47,7 +44,7 @@
         <div class="login-link">
           ¿Ya tienes cuenta? <router-link to="/login">Inicia sesión aquí</router-link>
         </div>
-      </form>
+      </Form>
     </div>
   </div>
 </template>
@@ -57,37 +54,40 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import GoogleLoginButton from '../components/GoogleLoginButton.vue'
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import * as yup from 'yup'
 
 export default {
   components: {
-    GoogleLoginButton
+    GoogleLoginButton,
+    Form,
+    Field,
+    ErrorMessage
   },
   setup() {
     const router = useRouter()
     const authStore = useAuthStore()
-
-    const name = ref('')
-    const email = ref('')
-    const password = ref('')
-    const passwordConfirmation = ref('')
     const loading = ref(false)
     const error = ref('')
 
-    const handleRegister = async () => {
+    const schema = yup.object({
+      name: yup.string().required('El nombre es obligatorio'),
+      email: yup.string().required('El email es obligatorio').email('Email no válido'),
+      password: yup.string().required('La contraseña es obligatoria').min(6, 'Mínimo 6 caracteres'),
+      password_confirmation: yup.string()
+        .required('Confirma tu contraseña')
+        .oneOf([yup.ref('password')], 'Las contraseñas no coinciden')
+    })
+
+    const handleRegister = async (values) => {
       loading.value = true
       error.value = ''
 
-      if (password.value !== passwordConfirmation.value) {
-        error.value = 'Las contraseñas no coinciden'
-        loading.value = false
-        return
-      }
-
       try {
         await authStore.register({
-          name: name.value,
-          email: email.value,
-          password: password.value,
+          name: values.name,
+          email: values.email,
+          password: values.password,
         })
 
         if (authStore.isAuthenticated) {
@@ -109,10 +109,7 @@ export default {
     }
 
     return {
-      name,
-      email,
-      password,
-      passwordConfirmation,
+      schema,
       loading,
       error,
       handleRegister,
@@ -165,66 +162,23 @@ h2 {
   color: #555;
 }
 
-.form-group input {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  background: #f9f9f9;
-  font-family: inherit;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
+.form-input.is-invalid {
+  border-color: #e74c3c;
+  background: #fffafa;
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #7ed9c7;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(126, 217, 199, 0.1);
-}
-
-.btn-primary {
-  width: 100%;
-  padding: 16px;
-  background: #000;
-  color: white;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  margin-top: 15px;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: #333;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.btn-primary:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-.error-msg {
+.error-msg-small {
   color: #e74c3c;
-  margin-top: 15px;
-  font-size: 0.9rem;
-  background: #fdf2f2;
-  padding: 10px;
-  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 4px;
+  display: block;
 }
 
-.divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 25px 0 10px;
-  color: #ccc;
+.register-link {
+  margin-top: 30px;
+  font-size: 0.95rem;
+  color: #666;
 }
 
 .divider::before,

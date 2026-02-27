@@ -1,38 +1,41 @@
-# frontend-vue
+# JJ-Security: Sistema de Gestión de Tienda Online de Seguridad
 
-This template should help get you started developing with Vue 3 in Vite.
+Este proyecto es una aplicación web integral para la venta y gestión de productos de seguridad (cámaras, sensores, etc.), desarrollada como parte del Proyecto Intermodular 2DAW 2025-2026.
 
-## Recommended IDE Setup
+## 🏗️ Arquitectura del Sistema
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+El proyecto sigue una arquitectura desacoplada:
+- **Frontend:** Vue.js 3 + Vite + Tailwind CSS.
+- **Backend:** Laravel 11 (API REST) + MySQL.
+- **Automatización:** n8n (Integración de chatbots y flujos de trabajo).
+- **Documentación:** Swagger (OpenAPI) generada dinámicamente.
 
-## Recommended Browser Setup
+## 🐳 Entorno de Desarrollo (Docker)
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+La aplicación está completamente dockerizada para garantizar la paridad entre entornos.
 
-## Customize configuration
+### Requisitos
+- Docker y Docker Compose instalados.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### Cómo arrancar
+1. Clona el repositorio.
+2. Copia el archivo de entorno: `cp .env.example .env` (en root, frontend y backend).
+3. Levanta los servicios:
+   ```bash
+   docker compose up -d
+   ```
+4. El frontend estará disponible en `http://localhost:5174`.
+5. El backend estará disponible en `http://localhost:8000`.
+6. Swagger estará disponible en `http://localhost:8000/api/documentation`.
 
-## Project Setup
+## 🚀 Entornos
 
-```sh
-npm install
-```
+- **Desarrollo:** Gestionado mediante Docker Compose local.
+- **Producción:** Desplegado en AWS (Instancia EC2 con Apache, SSL y Backups automáticos).
+- **Acceso:** Mediante DNS dinámico (ej: projecteXX.ddaw.es).
 
-### Compile and Hot-Reload for Development
+## 📄 Documentación Ténica
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+- **API:** Consulta `/api/documentation` para ver los endpoints CRUD, autenticación Sanctum y OAuth2 con Google.
+- **Logs:** El historial detallado de cambios se encuentra en `docs/LOG.md`.
+- **Manual:** Consulta `docs/USER_MANUAL.md` para una guía de uso de la tienda.

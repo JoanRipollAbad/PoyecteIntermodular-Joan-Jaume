@@ -1,6 +1,6 @@
 # Registro de Cambios - JJ-Security
 
-Este archivo documenta los cambios realizados durante el desarrollo y las pruebas de las funcionalidades de login, registro y perfil.
+Este archivo documenta los cambios realizados durante el desarrollo y las pruebas de las funcionalidades de login, registro, perfil e infraestructura.
 
 ## [2026-02-20] - Mejoras en Autenticación y Checkout
 
@@ -30,13 +30,25 @@ Usamos **Axios** como cliente HTTP. En el archivo `index.js`, configuramos la `b
 Usamos **Pinia** para gestionar el estado global. El `authStore` tiene acciones como `login` y `register` que llaman a `api.post('/login', ...)` y `api.post('/register', ...)`.
 - Al recibir una respuesta exitosa, guardamos el token y los datos del usuario.
 
-## [2026-02-27] - Sistema de Soporte e Incidencias
+## [2026-02-27] - Sistema de Soporte e Incidencias, Google Login, Swagger API y Soporte
 
 ### Backend (Laravel)
 - **Migración de Incidencias:** Creación de la tabla `incidencias` para almacenar consultas técnicas de los usuarios (Nombre, Email, Asunto, Mensaje).
 - **IncidenciaController:** Implementado el método `store` para la validación y persistencia de tickets de soporte en la base de datos.
 - **Rutas API:** Definición del endpoint público `POST /incidencias` para permitir el envío de formularios de contacto/soporte.
 - **Top Rated Products:** Nuevo endpoint `GET /products/top-rated` que utiliza `withAvg('comments', 'puntuacio')` de Eloquent para identificar dinámicamente los 3 productos con la mayor puntuación media basada en los comentarios de los usuarios.
+
+- **Integración de Google OAuth2 (Socialite):**
+  - **GoogleController:** Nueva lógica para gestionar redirecciones y callbacks de Google. Sincronización automática de perfiles (nombre, avatar y google_id).
+  - **Migración de Usuarios:** Nueva columna `google_id` y `avatar`. Se ha permitido la contraseña nula para cuentas de redes sociales.
+  - **Seguridad y Tokens:** Emisión de tokens Sanctum al finalizar el flujo de OAuth2 para autenticar al usuario en el frontend.
+- **Documentación Swagger (PHP 8 Attributes):**
+  - **Regeneración de API:** Migración completa de anotaciones clásicas (`@OA`) a **Atributos de PHP 8** (`#[OA\...]`), necesaria para la compatibilidad con **swagger-php 6.0**.
+  - **SwaggerMetadata.php:** Nuevo archivo centralizado para la configuración global de la API (Info, Server, SecurityScheme).
+  - **Endpoints Documentados:** `/oauth/google/redirect`, `/oauth/google/callback` y `/me`.
+- **Sistema de Soporte:** 
+  - Creación de tabla `incidencias` y endpoint `POST /incidencias` para captura de tickets de soporte técnico.
+- **Optimización Eloquent:** Endpoint `/products/top-rated` para obtener los 3 productos mejor valorados dinámicamente.
 
 ### Frontend (Vue.js)
 - **Home View (Home.vue):**
@@ -55,6 +67,14 @@ Usamos **Pinia** para gestionar el estado global. El `authStore` tiene acciones 
 - **Navegación (App.vue):**
   - Integración del enlace directo al Centro de Soporte en la barra lateral (Sidebar) mediante el icono de ayuda.
   - Mejora de la consistencia visual de los tooltips en la navegación lateral.
+  - **Login con Google:** 
+  - **GoogleLoginButton.vue:** Botón reutilizable integrado en Login y Registro.
+  - **AuthCallback.vue:** Vista puente que captura el token de la URL, lo persiste en `localStorage` y recupera el perfil del usuario mediante el `authStore`.
+- **Estabilidad de Entorno y Puertos:** 
+  - **Fijación de Puerto (Vite):** Configuración de `server.port: 5174` y `strictPort: true` en `vite.config.js`. Esto evita que el frontend cambie al puerto 5173 cuando Laravel Sail (Docker) está apagado, asegurando que las redirecciones del backend siempre funcionen.
+- **Mejoras en Home y Soporte:**
+  - Sistema de estrellas reactivo y badge "PREMIUM CHOICE".
+  - Formulario de contacto con auto-relleno inteligente para usuarios logueados.
 
 ---
 
@@ -186,3 +206,50 @@ El backend define las rutas API que llaman al `AuthController`:
 - **Navegación:** Mejora de los enlaces de "Volver" y consistencia visual en los encabezados del panel administrativo.
 - **Modo Oscuro:** Ajustes de contraste en la nueva barra de búsqueda y en los estados vacíos del catálogo.
 
+---
+
+## [2026-02-27] Despliegue e Infraestructura (AWS)
+**Objetivo:** Configuración de servidor seguro con Apache, FTP y Backups.
+
+### Acceso y Seguridad SSH
+- **Recuperación de Instancia:** Restauración del acceso mediante montaje de volumen EBS y corrección de `authorized_keys`.
+- **Hardening de SSH:** 
+  - Desactivación de login por `root` y autenticación por contraseña.
+  - Configuración de Banner de bienvenida corporativo.
+  - Ajuste de parámetros de seguridad (`UsePAM yes`).
+
+### Servidor Web (Apache + SSL)
+- **VirtualHosts Dinámicos:** Configuración de sitios para `app` (producción), `backup` (almacenamiento) y `test` (pruebas).
+- **DNS Dinámico:** Integración con DuckDNS para dominios personalizados.
+- **Certificados Let's Encrypt:** Implementación de HTTPS mediante Certbot para asegurar el tráfico del sitio.
+
+### Servidor FTP Seguro (FTPS)
+- **Configuración de Vsftpd:** Implementación de FTPS sobre TLS para transferencias cifradas.
+- **Modo Pasivo:** Apertura de rango de puertos (30000-30050) para compatibilidad con el firewall de AWS.
+- **Enjaulado de Usuarios (chroot):** Aislamiento de directorios para los usuarios `app`, `backup` y `test`.
+
+### Automatización de Backups
+- **Script de Respaldo:** Desarrollo de `/usr/local/bin/backup_script.sh` para compresión de datos web con rotación automática (borrado de copias >7 días).
+- **CronJob:** Programación de tarea automática para ejecución diaria del backup.
+
+---
+## [2026-02-27] - Bloque de Desarrollo y Diseño (Finalización)
+
+### Frontend (Vue.js)
+- **Paginación Inteligente:**
+  - Implementación de controles de página en `ProductList.vue` (8 productos por página).
+  - Lógica de filtrado y búsqueda integrada con el estado de la paginación.
+- **Validación de Formularios (Vee-Validate + Yup):**
+  - Implementación de validación avanzada en las vistas de **Login** y **Registro**.
+  - Control de formato de email, longitud de contraseña y coincidencia de campos en tiempo real con feedback visual en rojo.
+- **Sección de Recomendaciones (Inteligencia C5):**
+  - Nueva sección "También te puede interesar" en `ProductDetail.vue` que sugiere 3 productos aleatorios de la misma categoría.
+- **Compromiso con la Sostenibilidad (C6):**
+  - Inserción de distintivos **"ECO-FRIENDLY"** en las tarjetas de producto y en la página de detalle.
+  - Refuerzo visual de la marca JJ-Security como empresa responsable.
+
+### Correcciones Técnicas
+- **Normalización de Componentes:** Limpieza y estandarización del componente `ProductCard.vue`.
+- **Escalado de Imagenes:** Forzado de `aspect-ratio: 1/1` en todos los listados de productos y recomendaciones para evitar deformaciones.
+- **Robustez en Recomendaciones:** Mejora de la lógica de detección de categorías para asegurar que la sección "También te puede interesar" aparezca correctamente.
+- **Dependencias:** Instalación de `vee-validate` y `yup` para robustez en la gestión de entradas del usuario.
