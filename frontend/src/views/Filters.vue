@@ -8,7 +8,7 @@ import {
   Bell, 
   ShieldCheck, 
   Package 
-} from 'lucide-vue-next'
+} from 'lucide-vue-next';
 
 const categories = ref([])
 const loading = ref(true)
