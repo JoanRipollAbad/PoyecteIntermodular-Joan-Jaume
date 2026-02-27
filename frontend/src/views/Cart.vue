@@ -31,8 +31,9 @@ const continueShopping = () => {
         <div class="cart-items-list">
           <div v-for="item in cartStore.items" :key="item.id" class="cart-item-card">
             <div class="item-img-container">
-              <img :src="item.gallery?.[0]?.src || '/img/logo.jpg'" :alt="item.nom" />
+              <img :src="item.img ? (item.img.startsWith('/') ? item.img : '/' + item.img) : (item.gallery?.[0]?.src || '/img/logo.jpg')" :alt="item.nom" />
             </div>
+
             
             <div class="item-details">
               <h4 class="item-name">{{ item.nom }}</h4>

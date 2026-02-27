@@ -47,11 +47,11 @@ const error = ref('')
 
 // Map of specific images for cameras
 const cameraImages = [
-  '/img/camara1.jpg',
-  '/img/camaras/camara-turret.jpg',
-  '/img/camaras/domo-1024x714.jpg',
-  '/img/camaras/Camaras-termicas-Hikvision-INCTEC.jpg',
-  '/img/camaras/camara2_.jpg'
+  '/img/camaras/camara1.jpg',
+  '/img/camaras/camara2.jpg',
+  '/img/camaras/camara3.jpg',
+  '/img/camaras/camara4.jpg',
+  '/img/camaras/camara5.jpg'
 ]
 
 // Map of specific images for locks

@@ -159,7 +159,7 @@ onMounted(fetchMyOrders)
                   <div class="items-list-inner">
                     <div v-for="item in order.items" :key="item.id" class="item-row">
                       <div class="item-img-box">
-                        <img :src="item.product?.img || '/img/logo.jpg'" alt="producto" />
+                        <img :src="item.product?.img ? (item.product.img.startsWith('/') ? item.product.img : '/' + item.product.img) : '/img/logo.jpg'" alt="producto" />
                       </div>
                       <div class="item-info">
                         <p class="item-name">{{ item.product?.nom || 'Producto no disponible' }}</p>
