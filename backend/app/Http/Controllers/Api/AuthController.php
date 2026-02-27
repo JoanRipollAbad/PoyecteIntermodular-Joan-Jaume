@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use OpenApi\Attributes as OA;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -91,6 +92,26 @@ class AuthController extends Controller
         return response()->json(['message' => 'Sesión cerrada']);
     }
 
+    #[OA\Get(
+        path: '/me',
+        operationId: 'getUser',
+        description: 'Devuelve los datos del usuario actual',
+        summary: 'Obtener usuario autenticado',
+        security: [['bearerAuth' => []]],
+        tags: ['Usuarios']
+    )]
+    #[OA\Response(
+        response: 200,
+        description: 'Operación exitosa',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'id', type: 'integer', example: 1),
+                new OA\Property(property: 'name', type: 'string', example: 'Joan Ripoll'),
+                new OA\Property(property: 'email', type: 'string', example: 'joan@email.com')
+            ]
+        )
+    )]
+    #[OA\Response(response: 401, description: 'No autenticado')]
     public function me(Request $request)
     {
         $user = $request->user();

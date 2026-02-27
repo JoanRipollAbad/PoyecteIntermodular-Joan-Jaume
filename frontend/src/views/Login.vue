@@ -21,6 +21,12 @@
 
         <p v-if="error" class="error-msg">{{ error }}</p>
 
+        <div class="divider">
+          <span>O BIEN</span>
+        </div>
+
+        <GoogleLoginButton />
+
         <div class="register-link">
           ¿No tienes cuenta? <router-link to="/register">Regístrate aquí</router-link>
         </div>
@@ -33,8 +39,12 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import GoogleLoginButton from '../components/GoogleLoginButton.vue'
 
 export default {
+  components: {
+    GoogleLoginButton
+  },
   setup() {
     const router = useRouter()
     const authStore = useAuthStore()
@@ -165,6 +175,35 @@ h2 {
   background: #fdf2f2;
   padding: 10px;
   border-radius: 8px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 25px 0 10px;
+  color: #ccc;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #eee;
+}
+
+.divider:not(:empty)::before {
+  margin-right: .5em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: .5em;
+}
+
+.divider span {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .register-link {

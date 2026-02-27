@@ -1,0 +1,96 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Documentación API Proyecto GrupJJ",
+        "description": "API para la gestión de la tienda online e integración OAuth2",
+        "contact": {
+            "email": "admin@projectegrupjj.es"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "API Server Principal"
+        }
+    ],
+    "paths": {
+        "/me": {
+            "get": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Obtener usuario autenticado",
+                "description": "Devuelve los datos del usuario actual",
+                "operationId": "getUser",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Joan Ripoll"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "joan@email.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/oauth/google/redirect": {
+            "get": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Redirigir a Google",
+                "description": "Inicia el flujo de autenticación OAuth2 con Google",
+                "operationId": "googleLogin",
+                "responses": {
+                    "302": {
+                        "description": "Redirección a la página de Google"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Usuarios",
+            "description": "Usuarios"
+        },
+        {
+            "name": "Autenticación",
+            "description": "Autenticación"
+        }
+    ]
+}
