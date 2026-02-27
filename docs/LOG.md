@@ -30,6 +30,34 @@ Usamos **Axios** como cliente HTTP. En el archivo `index.js`, configuramos la `b
 Usamos **Pinia** para gestionar el estado global. El `authStore` tiene acciones como `login` y `register` que llaman a `api.post('/login', ...)` y `api.post('/register', ...)`.
 - Al recibir una respuesta exitosa, guardamos el token y los datos del usuario.
 
+## [2026-02-27] - Sistema de Soporte e Incidencias
+
+### Backend (Laravel)
+- **Migración de Incidencias:** Creación de la tabla `incidencias` para almacenar consultas técnicas de los usuarios (Nombre, Email, Asunto, Mensaje).
+- **IncidenciaController:** Implementado el método `store` para la validación y persistencia de tickets de soporte en la base de datos.
+- **Rutas API:** Definición del endpoint público `POST /incidencias` para permitir el envío de formularios de contacto/soporte.
+- **Top Rated Products:** Nuevo endpoint `GET /products/top-rated` que utiliza `withAvg('comments', 'puntuacio')` de Eloquent para identificar dinámicamente los 3 productos con la mayor puntuación media basada en los comentarios de los usuarios.
+
+### Frontend (Vue.js)
+- **Home View (Home.vue):**
+  - Implementación de la sección "Top 3 Mejor Valorados" con carga reactiva.
+  - **Sistema de Valoración por Estrellas:** Lógica personalizada para renderizar iconos de estrellas completas, medias y vacías según el promedio numérico (ej: 4.5 -> 4 llena, 1 media).
+  - **Badge "PREMIUM CHOICE":** Elemento visual distintivo con animación y sombras para resaltar la exclusividad de los productos destacados.
+  - **Corrección de Rutas de Imagen:** Normalización de paths en el frontend para asegurar compatibilidad absoluta con el sistema de archivos de `public/img`.
+- **Vista de Soporte (Support.vue):**
+  - Creación de un nuevo centro de soporte integrado con la API de incidencias.
+  - **Auto-completado Inteligente:** Sincronización con el `authStore` para pre-rellenar datos de contacto si el usuario está autenticado.
+  - **Rediseño Premium (Inspirado en Login):** 
+    - Actualización visual completa para igualar la estética de la vista de inicio de sesión.
+    - Centrado total del formulario en pantalla.
+    - Contenedor de ancho reducido (`450px`) y campos de entrada con estilo corporativo.
+    - Animaciones de entrada (`slide-up`, `fade-in`) para una transición suave.
+- **Navegación (App.vue):**
+  - Integración del enlace directo al Centro de Soporte en la barra lateral (Sidebar) mediante el icono de ayuda.
+  - Mejora de la consistencia visual de los tooltips en la navegación lateral.
+
+---
+
 ### 3. Rutas del Backend (backend/routes/api.php)
 El backend define las rutas API que llaman al `AuthController`:
 - `Route::post('/register', ...)`
@@ -124,4 +152,37 @@ El backend define las rutas API que llaman al `AuthController`:
 - **Conectividad MySQL:** Resolución de conflicto de puerto `3306` que impedía la conexión de Laravel al contenedor de base de datos.
 - **Store de Carrito:** Optimización del `cartStore` para persistir cambios y reflejar el badge en tiempo real en el header.
 - **Sincronización de Checkout:** Corrección crítica en `Checkout.vue` para que el total y los productos reflejen el estado real del carrito en lugar de valores estáticos.
+
+---
+
+## [2026-02-26] - Gestión de Pedidos, Persistencia y Optimización Mobile-First
+
+### Backend (Laravel)
+- **Persistencia de Ventas:** 
+  - Creación de migraciones para `pedidos` y `pedido_items`, permitiendo guardar el historial de compras en la base de datos (antes solo se enviaban por n8n).
+  - **PedidoController:** 
+    - Implementación de `index` (admin), `store` (público/auth) y `myOrders` (usuario).
+    - Uso estandarizado de `auth('sanctum')->id()` para asegurar que los pedidos se vinculen correctamente al perfil del usuario.
+- **Rutas API:** 
+  - Introducción del endpoint `/pedidos/auth` protegido por middleware para garantizar la captura del token de autenticación durante el checkout.
+
+### Frontend (Vue.js)
+- **Buscador Global:**
+  - Nueva barra de búsqueda premium en `Home.vue` con estética moderna y navegación integrada.
+  - **Redirección Inteligente:** Implementación de lógica en el frontend para detectar palabras clave (cámaras, cerraduras, sensores, alarmas, servicios) y redirigir al usuario directamente a la vista de categoría correspondiente (`/category/:id`) para una navegación más rápida.
+  - El catálogo unificado (`ProductList.vue`) ahora soporta filtrado dinámico en tiempo real basado en la consulta de búsqueda (nombre, descripción y categoría).
+- **Checkout Robusto:**
+  - Corrección de error 500 mediante la restauración del objeto `orderData`.
+  - Lógica dinámica de endpoints para alternar entre pedidos de invitados y usuarios registrados.
+- **Optimización Responsiva (Mobile First):**
+  - **Sidebar (App.vue):** Reducción de ancho a `70px` en móviles para ganar espacio útil en pantalla.
+  - **Administración:** 
+    - Pestañas con desplazamiento horizontal en móviles.
+    - Tablas de pedidos con "columnas inteligentes" que se ocultan en pantallas pequeñas y se muestran solo en el panel expandido.
+  - **Mis Pedidos:** Rediseño de tarjetas para apilado vertical y mejor legibilidad en dispositivos táctiles.
+
+### Mejoras de UX y Debugging
+- **Corrección de Vistas:** Resolución de errores de cierre de etiquetas HTML en `AdminOrders.vue`.
+- **Navegación:** Mejora de los enlaces de "Volver" y consistencia visual en los encabezados del panel administrativo.
+- **Modo Oscuro:** Ajustes de contraste en la nueva barra de búsqueda y en los estados vacíos del catálogo.
 

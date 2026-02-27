@@ -169,6 +169,13 @@ const addToCart = () => {
   }
 }
 
+const buyNow = () => {
+  if (product.value) {
+    cartStore.addItem(product.value)
+    router.push('/checkout')
+  }
+}
+
 // Datos de prueba por si falla la conexión (como se pidió)
 const mockProduct = {
   id: 1,
@@ -369,7 +376,7 @@ onUnmounted(() => {
             </ul>
 
             <div class="action-buttons">
-              <button class="btn-buy-now" @click="router.push('/checkout')">
+              <button class="btn-buy-now" @click="buyNow">
                 COMPRAR YA
               </button>
 

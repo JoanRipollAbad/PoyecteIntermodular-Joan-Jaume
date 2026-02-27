@@ -56,6 +56,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/pedidos',
+    name: 'UserOrders',
+    component: () => import('../views/UserOrders.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/admin/products',
     name: 'AdminProducts',
     component: () => import('../views/admin/ProductManagement.vue'),
@@ -80,6 +86,11 @@ const routes = [
     path: '/sustainability',
     name: 'Sustainability',
     component: () => import('../views/Sustainability.vue'),
+  },
+  {
+    path: '/support',
+    name: 'Support',
+    component: () => import('../views/Support.vue'),
   },
 ]
 

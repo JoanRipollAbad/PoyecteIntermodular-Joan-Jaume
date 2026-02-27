@@ -1,33 +1,146 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import api from '../api'
 
-const productos = ref([
-  { tit: 'Llaves Inteligentes', img: 'cerraduras/cerraduraInteligente.jpg' },
-  { tit: 'Servicios', img: 'servicios/servicio.jpg' },
-  { tit: 'Cámaras', img: 'camaras/camaras.jpg' }
-])
+const router = useRouter()
+const searchInput = ref('')
+const topRatedProducts = ref([])
+const loadingTopRated = ref(true)
+
+const fetchTopRated = async () => {
+  try {
+    const response = await api.get('/products/top-rated')
+    topRatedProducts.value = response.data
+  } catch (error) {
+    console.error("Error fetching top rated products:", error)
+  } finally {
+    loadingTopRated.value = false
+  }
+}
+
+onMounted(() => {
+  fetchTopRated()
+})
+
+const handleSearch = () => {
+  const query = searchInput.value.trim().toLowerCase()
+  if (!query) {
+    router.push({ name: 'ProductList' })
+    return
+  }
+
+  // Mapeo selectivo a categorías para términos comunes
+  if (query.includes('camara') || query.includes('cámara')) {
+    router.push({ name: 'CategoryProducts', params: { id: 1 } })
+  } else if (query.includes('cerradura') || query.includes('llave')) {
+    router.push({ name: 'CategoryProducts', params: { id: 2 } })
+  } else if (query.includes('sensor')) {
+    router.push({ name: 'CategoryProducts', params: { id: 3 } })
+  } else if (query.includes('alarma')) {
+    router.push({ name: 'CategoryProducts', params: { id: 4 } })
+  } else if (query.includes('servicio')) {
+    router.push({ name: 'CategoryProducts', params: { id: 5 } })
+  } else {
+    // Si no es una categoría, búsqueda general
+    router.push({ name: 'ProductList', query: { search: query } })
+  }
+}
 
 const servicios = ref([
   { tit: 'Instalación Profesional', img: 'instalacion.jpg', desc: 'Expertos a tu disposición para una configuración impecable.' },
   { tit: 'Monitoreo 24/7', img: 'monitoreo.jpg', desc: 'Equipo de seguridad dedicado supervisando las 24 horas.' },
   { tit: 'Mantenimiento y Soporte', img: 'mantenimiento.jpg', desc: 'Garantía de funcionamiento continuo y asistencia técnica.' }
 ])
+
+const renderStars = (rating) => {
+  const r = parseFloat(rating) || 0
+  const stars = []
+  for (let i = 1; i <= 5; i++) {
+    if (i <= Math.floor(r)) stars.push('full')
+    else if (i - 0.5 <= r) stars.push('half')
+    else stars.push('empty')
+  }
+  return stars
+}
+
+const productos = ref([
+  { tit: 'Llaves Inteligentes', img: 'cerraduras/cerraduraInteligente.jpg' },
+  { tit: 'Servicios', img: 'servicios/servicio.jpg' },
+  { tit: 'Cámaras', img: 'camaras/camaras.jpg' }
+])
 </script>
 
 <template>
   <div class="home-content-wrapper">
-    
+    <!-- Global Search Bar -->
+    <div class="search-container animate-fade-in">
+      <div class="search-wrapper shadow-premium">
+        <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          v-model="searchInput" 
+          type="text" 
+          placeholder="¿Qué estás buscando hoy? (Cámaras, alarmas...)" 
+          @keyup.enter="handleSearch"
+          class="search-input"
+        >
+        <button @click="handleSearch" class="btn-search-go">BUSCAR</button>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS MEJOR VALORADOS -->
     <div class="seccion-blanca">
-      <h2 class="titulo-destacado">Productos Destacados</h2>
+      <div class="header-with-badge">
+        <h2 class="titulo-destacado">Top 3 Mejor Valorados</h2>
+        <span class="badge-premium">PREMIUM CHOICE</span>
+      </div>
+      
+      <div v-if="loadingTopRated" class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando recomendaciones...</p>
+      </div>
+
+      <div v-else-if="topRatedProducts.length > 0" class="grid-productos">
+        <div v-for="p in topRatedProducts" :key="p.id" class="tarjeta-producto" @click="router.push(`/product/${p.id}`)">
+          <div class="rating-badge">
+            <template v-for="(star, i) in renderStars(p.comments_avg_puntuacio)" :key="i">
+              <span class="star" :class="star">★</span>
+            </template>
+            <span class="rating-num">({{ parseFloat(p.comments_avg_puntuacio || 0).toFixed(1) }})</span>
+          </div>
+          
+          <div class="img-producto-wrapper">
+            <img :src="p.img ? (p.img.startsWith('/') ? p.img : '/' + p.img) : '/img/placeholder.jpg'" :alt="p.nom">
+          </div>
+          
+          <h3>{{ p.nom }}</h3>
+          <p class="categoria-tag">{{ p.categoria?.nom }}</p>
+          <p class="precio-destacado">{{ p.preu }}€</p>
+          
+          <button class="btn-comprar">VER DETALLE</button>
+        </div>
+      </div>
+
+      <div v-else class="empty-state">
+        <p>No hay valoraciones suficientes aún.</p>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS DESTACADOS (CATEGORÍAS) -->
+    <div class="seccion-blanca">
+      <h2 class="titulo-destacado">Nuestras Categorías</h2>
       <div class="grid-productos">
         <div v-for="(p, index) in productos" :key="index" class="tarjeta-producto" tabindex="0">
           <h3>{{ p.tit }}</h3>
           <div class="img-producto-wrapper">
             <img :src="`/img/marcaAgua/${p.img}`" :alt="p.tit">
           </div>
-          <p class="deseos">Agregar a lista de Deseados</p>
+          <p class="deseos">Explora nuestro catálogo</p>
           <router-link to="/product">
-            <button class="btn-comprar">COMPRAR</button>
+            <button class="btn-comprar">VER TODOS</button>
           </router-link>
         </div>
       </div>
@@ -78,7 +191,7 @@ const servicios = ref([
   text-align: center; 
   font-weight: 700; 
   font-size: 2rem; 
-  margin-bottom: 60px; 
+  margin-bottom: 40px; 
   position: relative;
   color: var(--text-color);
 }
@@ -86,13 +199,101 @@ const servicios = ref([
 .titulo-destacado::after {
   content: ""; 
   position: absolute; 
-  bottom: -15px; 
+  bottom: -20px; 
   left: 50%; 
   transform: translateX(-50%);
   width: 60px; 
   height: 5px; 
   background-color: #7ed9c7; 
   border-radius: 3px;
+}
+
+/* NUEVOS ESTILOS TOP RATED */
+.header-with-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.badge-premium {
+  background: #f4b400;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 900;
+  padding: 4px 12px;
+  border-radius: 50px;
+  letter-spacing: 2px;
+  margin-top: 15px; /* Cambiado de -50px a 15px para dar margen */
+  margin-bottom: 10px;
+  box-shadow: 0 5px 15px rgba(244, 180, 0, 0.3);
+}
+
+.rating-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  margin-bottom: 15px;
+}
+
+.star {
+  font-size: 1.1rem;
+}
+
+.star.full { color: #f4b400; }
+.star.half { position: relative; color: #ccc; }
+.star.half::after {
+  content: '★';
+  position: absolute;
+  left: 0;
+  width: 50%;
+  overflow: hidden;
+  color: #f4b400;
+}
+.star.empty { color: #ccc; }
+
+.rating-num {
+  font-size: 0.85rem;
+  color: #888;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.categoria-tag {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #6bc7b5;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.precio-destacado {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+.loading-state, .empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(126, 217, 199, 0.1);
+  border-top-color: #7ed9c7;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* PRODUCTOS */
@@ -251,5 +452,94 @@ const servicios = ref([
   color: var(--text-color);
   opacity: 0.8;
   line-height: 1.6;
+}
+
+/* SEARCH BAR STYLES */
+.search-container {
+  width: 90%;
+  max-width: 800px;
+  margin-bottom: 40px;
+  z-index: 10;
+}
+
+.search-wrapper {
+  background: white;
+  border-radius: 100px;
+  padding: 8px 8px 8px 30px;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .search-wrapper {
+  background: #1e292d;
+  border-color: rgba(255,255,255,0.1);
+}
+
+.search-wrapper:focus-within {
+  border-color: #6bc7b5;
+  box-shadow: 0 15px 35px rgba(107, 199, 181, 0.15);
+  transform: translateY(-2px);
+}
+
+.search-icon {
+  color: #6bc7b5;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  color: var(--text-color);
+  outline: none;
+  padding: 10px 0;
+}
+
+.search-input::placeholder {
+  color: #aaa;
+}
+
+.btn-search-go {
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 12px 35px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-search-go:hover {
+  background: #000;
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.animate-fade-in {
+  animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .search-wrapper {
+    padding: 5px 5px 5px 20px;
+  }
+  .search-input {
+    font-size: 0.9rem;
+  }
+  .btn-search-go {
+    padding: 10px 20px;
+    font-size: 0.8rem;
+  }
 }
 </style>

@@ -45,4 +45,15 @@ class ProductController extends Controller
             201
         );
     }
+
+    public function topRated()
+    {
+        $products = Product::with('categoria')
+            ->withAvg('comments', 'puntuacio')
+            ->orderByDesc('comments_avg_puntuacio')
+            ->take(3)
+            ->get();
+
+        return response()->json($products->makeHidden(['categoria_id']));
+    }
 }

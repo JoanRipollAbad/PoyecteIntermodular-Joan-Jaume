@@ -1,6 +1,6 @@
 <template>
   <div class="product-management">
-    <div class="max-w-3xl mx-auto px-4 md:px-0">
+    <div :class="['mx-auto px-4 md:px-0 max-w-component', activeTab === 'orders' ? 'max-w-6xl' : 'max-w-3xl']">
       <div class="header-section text-center mb-10">
         <h1 class="titulo-destacado">Administración de Productos</h1>
         <p class="subtitle mt-3">Gestiona el catálogo de seguridad profesional de JJ-Security</p>
@@ -17,6 +17,11 @@
           @click="activeTab = 'import'"
           :class="['tab-btn', activeTab === 'import' ? 'active' : '']">
           Importación
+        </button>
+        <button 
+          @click="activeTab = 'orders'"
+          :class="['tab-btn highlight-tab', activeTab === 'orders' ? 'active' : '']">
+          Gestión de Pedidos
         </button>
       </div>
 
@@ -141,6 +146,10 @@
           </div>
         </form>
       </div>
+      <!-- Tab Pedidos (Integrated) -->
+      <div v-if="activeTab === 'orders'" class="orders-tab-content animate-fade-in">
+        <AdminOrders />
+      </div>
     </div>
   </div>
 </template>
@@ -149,6 +158,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/api'
+import AdminOrders from './AdminOrders.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -177,6 +187,10 @@ const importSuccessMsg = ref('')
 const importErrorMsg = ref('')
 
 onMounted(async () => {
+  if (route.query.tab) {
+    activeTab.value = route.query.tab
+  }
+  
   try {
     const res = await api.get('/categorias')
     categories.value = res.data
@@ -267,6 +281,25 @@ const submitImport = async () => {
   padding: 40px 0 80px;
 }
 
+.max-w-component {
+  transition: max-width 0.3s ease;
+}
+
+.orders-tab-content {
+  background: white;
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+  .orders-tab-content {
+    padding: 20px 15px;
+    border-radius: 20px;
+  }
+}
+
 .header-section {
   animation: fadeInDown 0.8s ease-out;
 }
@@ -304,9 +337,28 @@ const submitImport = async () => {
   backdrop-filter: blur(8px);
   padding: 6px;
   border-radius: 100px;
-  max-width: 320px;
+  max-width: 520px; /* Adjusted */
   margin: 0 auto 40px;
   border: 1px solid rgba(255, 255, 255, 0.5);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabs-container::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 520px) {
+  .tabs-container {
+    justify-content: flex-start;
+    border-radius: 20px;
+    padding: 10px;
+  }
+  .tab-btn {
+    white-space: nowrap;
+    font-size: 0.8rem;
+    padding: 10px 15px;
+  }
 }
 
 .tab-btn {
@@ -328,6 +380,11 @@ const submitImport = async () => {
   box-shadow: 0 4px 15px rgba(107, 199, 181, 0.3);
 }
 
+.highlight-tab:hover {
+  color: #6bc7b5;
+  background: rgba(107, 199, 181, 0.05);
+}
+
 .glass-card {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
@@ -335,6 +392,13 @@ const submitImport = async () => {
   padding: 50px 60px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .glass-card {
+    padding: 30px 20px;
+    border-radius: 20px;
+  }
 }
 
 .card-header-flex {
@@ -507,6 +571,8 @@ const submitImport = async () => {
 @media (max-width: 640px) {
   .form-grid { grid-template-columns: 1fr; }
   .form-footer { flex-direction: column; align-items: stretch; }
-  .titulo-destacado { font-size: 2rem; }
+  .titulo-destacado { font-size: 1.5rem; }
+  .subtitle { font-size: 0.95rem; }
+  .glass-card { padding: 25px 15px; }
 }
 </style>

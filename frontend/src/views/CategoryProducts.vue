@@ -1,11 +1,37 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useCartStore } from '../stores/cart'
 import api from '../api'
 
 const route = useRoute()
+const router = useRouter()
 const cartStore = useCartStore()
+
+const searchInput = ref('')
+
+const handleSearch = () => {
+  const query = searchInput.value.trim().toLowerCase()
+  if (!query) {
+    router.push({ name: 'ProductList' })
+    return
+  }
+
+  // Mapeo selectivo a categorías para términos comunes
+  if (query.includes('camara') || query.includes('cámara')) {
+    router.push({ name: 'CategoryProducts', params: { id: 1 } })
+  } else if (query.includes('cerradura') || query.includes('llave')) {
+    router.push({ name: 'CategoryProducts', params: { id: 2 } })
+  } else if (query.includes('sensor')) {
+    router.push({ name: 'CategoryProducts', params: { id: 3 } })
+  } else if (query.includes('alarma')) {
+    router.push({ name: 'CategoryProducts', params: { id: 4 } })
+  } else if (query.includes('servicio')) {
+    router.push({ name: 'CategoryProducts', params: { id: 5 } })
+  } else {
+    router.push({ name: 'ProductList', query: { search: query } })
+  }
+}
 
 /**
  * Añadir producto al carrito desde la rejilla
@@ -19,6 +45,51 @@ const category = ref(null)
 const loading = ref(true)
 const error = ref('')
 
+// Map of specific images for cameras
+const cameraImages = [
+  '/img/camara1.jpg',
+  '/img/camaras/camara-turret.jpg',
+  '/img/camaras/domo-1024x714.jpg',
+  '/img/camaras/Camaras-termicas-Hikvision-INCTEC.jpg',
+  '/img/camaras/camara2_.jpg'
+]
+
+// Map of specific images for locks
+const lockImages = [
+  '/img/cerraduras/cerradura5.jpg',
+  '/img/cerraduras/cerradura1.jpg',
+  '/img/cerraduras/cerradura3.jpeg',
+  '/img/cerraduras/cerradura4.jpg',
+  '/img/cerraduras/cerradura2.jpg'
+]
+
+// Map of specific images for sensors
+const sensorImages = [
+  '/img/sensores/sensor2.jpg',
+  '/img/sensores/sensor1.jpg',
+  '/img/sensores/sensor3.jpg',
+  '/img/sensores/sensor4.jpg',
+  '/img/sensores/sensor5.jpg'
+]
+
+// Map of specific images for alarms
+const alarmImages = [
+  '/img/alarmas/alarma1.jpg',
+  '/img/alarmas/alarma2.jpg',
+  '/img/alarmas/alarma3.jpg',
+  '/img/alarmas/alarma4.jpg',
+  '/img/alarmas/alarma5.jpg'
+]
+
+// Map of specific images for services
+const serviceImages = [
+  '/img/servicios/servicio1.png',
+  '/img/servicios/servicio2.jpg',
+  '/img/servicios/servicio3.jpg',
+  '/img/servicios/servicio4.jpg',
+  '/img/servicios/servicio5.jpg'
+]
+
 const fetchData = async () => {
   loading.value = true
   error.value = ''
@@ -27,11 +98,54 @@ const fetchData = async () => {
     
     // Fetch products for this category
     const productsRes = await api.get(`/products?categoria_id=${categoryId}`)
-    products.value = productsRes.data
+    let fetchedProducts = productsRes.data
     
     // Fetch category details to show the name
     const categoriesRes = await api.get('/categorias')
-    category.value = categoriesRes.data.find(c => c.id == categoryId)
+    const currentCategory = categoriesRes.data.find(c => c.id == categoryId)
+    category.value = currentCategory
+    
+    // Override images if it's the "Cámaras" category
+    if (currentCategory && currentCategory.nom === 'Cámaras') {
+      fetchedProducts = fetchedProducts.map((product, index) => ({
+        ...product,
+        img: cameraImages[index % cameraImages.length]
+      }))
+    }
+    
+    // Override images if it's the "Cerraduras" category
+    if (currentCategory && currentCategory.nom === 'Cerraduras') {
+      fetchedProducts = fetchedProducts.map((product, index) => ({
+        ...product,
+        img: lockImages[index % lockImages.length]
+      }))
+    }
+
+    // Override images if it's the "Sensores" category
+    if (currentCategory && currentCategory.nom === 'Sensores') {
+      fetchedProducts = fetchedProducts.map((product, index) => ({
+        ...product,
+        img: sensorImages[index % sensorImages.length]
+      }))
+    }
+
+    // Override images if it's the "Alarmas" category
+    if (currentCategory && currentCategory.nom === 'Alarmas') {
+      fetchedProducts = fetchedProducts.map((product, index) => ({
+        ...product,
+        img: alarmImages[index % alarmImages.length]
+      }))
+    }
+
+    // Override images if it's the "Servicios" category
+    if (currentCategory && currentCategory.nom === 'Servicios') {
+      fetchedProducts = fetchedProducts.map((product, index) => ({
+        ...product,
+        img: serviceImages[index % serviceImages.length]
+      }))
+    }
+    
+    products.value = fetchedProducts
     
   } catch (err) {
     error.value = 'Error al cargar los productos de esta categoría.'
@@ -51,13 +165,34 @@ watch(() => route.params.id, fetchData)
   <div class="category-view py-5 px-3 px-md-5">
     <div class="max-w-7xl mx-auto">
       
-      <!-- Back Link -->
-      <router-link to="/filters" class="back-link mb-5 group">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-        </svg>
-        <span>Volver a Categorías</span>
-      </router-link>
+      <!-- Actions Header -->
+      <div class="actions-header mb-10">
+        <!-- Back Link -->
+        <router-link to="/filters" class="back-link group">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          <span>Volver a Categorías</span>
+        </router-link>
+
+        <!-- Global Search Bar -->
+        <div class="search-container animate-fade-in mx-auto">
+          <div class="search-wrapper shadow-premium">
+            <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input 
+              v-model="searchInput" 
+              type="text" 
+              placeholder="¿Buscas algo más? (Cámaras, alarmas...)" 
+              @keyup.enter="handleSearch"
+              class="search-input"
+            >
+            <button @click="handleSearch" class="btn-search-go">BUSCAR</button>
+          </div>
+        </div>
+      </div>
 
       <!-- Header Section -->
       <div v-if="category" class="header-section text-center mb-5">
@@ -159,7 +294,17 @@ watch(() => route.params.id, fetchData)
   background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
 }
 
+.actions-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 .back-link {
+  position: absolute;
+  left: 50px;
   display: inline-flex;
   align-items: center;
   text-decoration: none;
@@ -170,9 +315,8 @@ watch(() => route.params.id, fetchData)
   padding: 6px 14px;
   border-radius: 50px;
   background: #6bc7b5;
-  margin-left: 50px;
-  margin-bottom: 40px; /* Espacio abajo para que el texto de categoría quede debajo */
   box-shadow: 0 4px 15px rgba(107, 199, 181, 0.2);
+  z-index: 5;
 }
 
 .back-link svg {
@@ -469,5 +613,103 @@ watch(() => route.params.id, fetchData)
   .products-grid { padding: 0 15px; gap: 20px; }
   .product-card { flex: 1 1 100%; max-width: 100%; }
   .subtitle { font-size: 1rem; padding: 0 20px; }
+}
+
+/* SEARCH BAR STYLES */
+.search-container {
+  width: 100%;
+  max-width: 700px;
+  z-index: 10;
+}
+
+.search-wrapper {
+  background: white;
+  border-radius: 100px;
+  padding: 6px 6px 6px 25px;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .search-wrapper {
+  background: #1e292d;
+  border-color: rgba(255,255,255,0.1);
+}
+
+.search-wrapper:focus-within {
+  border-color: #6bc7b5;
+  box-shadow: 0 10px 25px rgba(107, 199, 181, 0.1);
+  transform: translateY(-2px);
+}
+
+.search-icon {
+  color: #6bc7b5;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  color: var(--text-color);
+  outline: none;
+  padding: 8px 0;
+}
+
+.btn-search-go {
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 10px 25px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-search-go:hover {
+  background: #000;
+  transform: scale(1.02);
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .search-wrapper {
+    padding: 4px 4px 4px 15px;
+  }
+  .search-input {
+    font-size: 0.9rem;
+  }
+  .btn-search-go {
+    padding: 8px 15px;
+    font-size: 0.75rem;
+  }
+  .search-container {
+    margin-bottom: 30px;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 900px) {
+  .actions-header {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .back-link {
+    position: static;
+    margin-bottom: 10px;
+  }
 }
 </style>

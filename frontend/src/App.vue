@@ -128,25 +128,25 @@ onMounted(() => {
           </div>
         </RouterLink>
 
-        <!-- Admin Link -->
-        <RouterLink v-if="authStore.isAdmin" to="/admin/products" class="icono-menu" aria-label="Panel de Administración">
+        <!-- Admin Link (Consolidated) -->
+        <RouterLink v-if="authStore.isAdmin" to="/admin/products" class="icono-menu" aria-label="Administración">
           <div class="icono-contenido">
             <div class="icon-wrapper" style="background-color: #333;">
               <img src="/img/ajustes.jpg" alt="" aria-hidden="true" style="filter: invert(1);" />
             </div>
-            <span class="menu-text">{{ settingsStore.t('admin') }}</span>
+            <span class="menu-text">Admin</span>
           </div>
         </RouterLink>
       </div>
 
-      <div class="icono-menu ayuda" aria-label="Ayuda y Soporte">
+      <RouterLink to="/support" class="icono-menu ayuda" aria-label="Ayuda y Soporte">
         <div class="icono-contenido">
           <div class="icon-wrapper circle-btn">
             <img src="/img/mingcute_phone-fill.svg" alt="" aria-hidden="true" />
           </div>
           <span class="menu-text">{{ settingsStore.t('help') }}</span>
         </div>
-      </div>
+      </RouterLink>
     </aside>
 
     <div class="main-content" :class="{ 'sidebar-expanded': isSidebarExpanded }">
@@ -412,6 +412,11 @@ header {
   position: sticky;
   top: 0;
   z-index: 900;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode header {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
 }
 
 .header-container {
@@ -642,6 +647,12 @@ footer {
   .header-icons { right: 20px; gap: 10px; }
 }
 
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 70px;
+  }
+}
+
 @media (max-width: 600px) {
   .header-container {
     justify-content: space-between;
@@ -654,17 +665,31 @@ footer {
   }
 
   .header-icons {
-    position: static; /* Quitamos el absoluto para que fluya en el flex */
+    position: static;
     gap: 8px;
   }
 
   .header-item span {
-    display: none; /* Ocultamos el texto en móvil para ganar espacio */
+    display: none;
   }
 
   .icon-circle {
     width: 40px;
     height: 40px;
+  }
+
+  .logo-img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .icon-wrapper {
+    width: 45px;
+    height: 45px;
+  }
+
+  .menu-text {
+    font-size: 11px !important;
   }
 
   /* Bloquear expansión del aside en móvil */
@@ -684,7 +709,7 @@ footer {
   }
 
   .barra-lateral.expanded .menu-text {
-    font-size: 13px !important;
+    font-size: 11px !important;
     margin-top: 6px !important;
   }
 }

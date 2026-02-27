@@ -35,7 +35,25 @@ const processPayment = async () => {
     const userEmail = authStore.user?.email || formData.value.email
     const userName = authStore.user?.name || formData.value.nombre
     
-    // Call n8n webhook for order confirmation email
+    // 1. SAVE TO OUR DATABASE
+    const orderData = {
+      nombre: userName,
+      email: userEmail,
+      direccion: authStore.isAuthenticated ? 'Calle Falsa 123, 28001 Madrid' : formData.value.direccion,
+      ciudad: authStore.isAuthenticated ? 'Madrid' : formData.value.ciudad,
+      cp: authStore.isAuthenticated ? '28001' : formData.value.cp,
+      total: cartStore.totalPrice,
+      items: cartStore.items.map(item => ({
+        product_id: item.id,
+        quantity: item.quantity,
+        price: item.preu
+      }))
+    }
+
+    const endpoint = authStore.isAuthenticated ? '/pedidos/auth' : '/pedidos'
+    await api.post(endpoint, orderData)
+
+    // 2. Call n8n webhook for order confirmation email
     // IMPORTANT: Make sure your n8n webhook is listening at this URL
     //const webhookUrl = 'http://localhost:5678/webhook-test/confirmacion-compra' // URL producción n8n
     const webhookUrl = 'http://localhost:5678/webhook/confirmacion-compra'
@@ -58,8 +76,8 @@ const processPayment = async () => {
     cartStore.clearCart()
     router.push('/')
   } catch (error) {
-    console.error('Error enviando confirmación a n8n:', error)
-    alert('Error al procesar el pago. Por favor, revisa tu conexión con n8n.')
+    console.error('Error al procesar el pedido:', error)
+    alert('Error al procesar el pago. Por favor, inténtalo de nuevo.')
   }
 }
 

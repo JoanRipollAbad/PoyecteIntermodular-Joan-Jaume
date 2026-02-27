@@ -1,9 +1,29 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import api from '../api'
+import { 
+  Camera, 
+  Lock, 
+  Activity, 
+  Bell, 
+  ShieldCheck, 
+  Package 
+} from 'lucide-vue-next'
 
 const categories = ref([])
 const loading = ref(true)
+
+// Mapper to relate category names with Lucide icons
+const iconMap = {
+  'Cámaras': Camera,
+  'Cerraduras': Lock,
+  'Sensores': Activity,
+  'Alarmas': Bell,
+  'Servicios': ShieldCheck
+}
+
+// Default icon if category not found
+const defaultIcon = Package
 
 onMounted(async () => {
   try {
@@ -39,7 +59,7 @@ onMounted(async () => {
         <div class="card-glass-overlay"></div>
         <div class="card-content">
           <div class="card-icon">
-            <img src="/img/filtros.jpg" alt="Categoría">
+            <component :is="iconMap[category.nom] || defaultIcon" :size="48" stroke-width="1.5" />
           </div>
           <h3>{{ category.nom }}</h3>
           <p>Soluciones certificadas para {{ category.nom.toLowerCase() }}</p>
@@ -86,6 +106,10 @@ onMounted(async () => {
   font-size: 1.2rem;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.dark-mode .subtitle {
+  color: #aaa;
 }
 
 .titulo-destacado::after {
@@ -146,11 +170,23 @@ onMounted(async () => {
   animation: fadeInUp 0.6s ease-out forwards;
 }
 
+.dark-mode .category-card {
+  background: rgba(30, 41, 45, 0.4);
+  border-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
 .category-card:hover {
   transform: translateY(-12px) scale(1.02);
   background: rgba(255, 255, 255, 0.9);
   border-color: #6bc7b5;
   box-shadow: 0 20px 40px rgba(107, 199, 181, 0.15);
+}
+
+.dark-mode .category-card:hover {
+  background: rgba(40, 55, 60, 0.6);
+  border-color: #6bc7b5;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
 }
 
 .card-content {
@@ -164,21 +200,24 @@ onMounted(async () => {
   height: 100px;
   margin: 0 auto 25px;
   border-radius: 50%;
-  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: white;
+  color: #6bc7b5;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.dark-mode .card-icon {
+  background: #232d31;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 .category-card:hover .card-icon {
   transform: rotate(5deg) scale(1.1);
-}
-
-.card-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
+  background: #6bc7b5;
+  color: white;
 }
 
 .category-card h3 {
@@ -188,11 +227,19 @@ onMounted(async () => {
   margin: 0 0 12px;
 }
 
+.dark-mode .category-card h3 {
+  color: #fff;
+}
+
 .category-card p {
   font-size: 1rem;
   color: #777;
   margin: 0 0 30px;
   line-height: 1.6;
+}
+
+.dark-mode .category-card p {
+  color: #bbb;
 }
 
 .btn-explore {

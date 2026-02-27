@@ -44,6 +44,9 @@
             <button type="submit" :disabled="loading" class="btn-save">
               {{ loading ? 'GUARDANDO...' : 'GUARDAR CAMBIOS' }}
             </button>
+            <button type="button" class="btn-orders" @click="router.push('/pedidos')">
+              VER MIS PEDIDOS
+            </button>
             <button type="button" class="btn-logout" @click="handleLogout">
               CERRAR SESIÓN
             </button>
@@ -244,6 +247,25 @@ h1 {
 
 .btn-logout:hover {
   background: #fdf2f2;
+}
+
+.btn-orders {
+  width: 100%;
+  background: #bcd9d6;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 50px;
+  padding: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 5px;
+}
+
+.btn-orders:hover {
+  background: #6bc7b5;
+  color: white;
+  transform: translateY(-2px);
 }
 
 .profile-actions {
