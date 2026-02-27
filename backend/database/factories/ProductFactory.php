@@ -37,7 +37,7 @@ class ProductFactory extends Factory
                 'Càmera 360° Panoràmica'
             ]),
             'descripcio' => 'Càmera de vigilància d\'alta definició amb visió nocturna i detecció de moviment intel·ligent.',
-            'img' => 'img/camaras/camera-' . $this->faker->numberBetween(1, 10) . '.jpg',
+            'img' => 'img/camaras/camara' . $this->faker->numberBetween(1, 10) . '.jpg',
         ]);
     }
 
@@ -52,7 +52,7 @@ class ProductFactory extends Factory
                 'Kit de Tancament Automàtic'
             ]),
             'descripcio' => 'Sistema de tancament avançat amb múltiples mètodes d\'accés i control remot.',
-            'img' => 'img/cerraduras/lock-' . $this->faker->numberBetween(1, 5) . '.jpg',
+            'img' => 'img/cerraduras/cerradura' . $this->faker->numberBetween(1, 5) . '.jpg',
         ]);
     }
 
@@ -67,7 +67,7 @@ class ProductFactory extends Factory
                 'Detector de Fum i Calor connectat'
             ]),
             'descripcio' => 'Sensor de detecció precisa amb connexió immediata a la central d\'alarmes.',
-            'img' => 'img/sensores/sensor-' . $this->faker->numberBetween(1, 5) . '.jpg',
+            'img' => 'img/sensores/sensor' . $this->faker->numberBetween(1, 5) . '.jpg',
         ]);
     }
 
@@ -82,7 +82,7 @@ class ProductFactory extends Factory
                 'Teclat d\'Accés per a Sistemes de Seguretat'
             ]),
             'descripcio' => 'Sistema de seguretat integral amb avisos immediats al telèfon mòbil.',
-            'img' => 'img/alarmas/alarm-' . $this->faker->numberBetween(1, 5) . '.jpg',
+            'img' => 'img/alarmas/alarma' . $this->faker->numberBetween(1, 5) . '.jpg',
         ]);
     }
 
@@ -97,7 +97,7 @@ class ProductFactory extends Factory
                 'Servei de Resposta Immediata Acudida'
             ]),
             'descripcio' => 'Serveis professionals realitzats per tècnics experts en seguretat.',
-            'img' => 'img/servicios/service-' . $this->faker->numberBetween(1, 5) . '.jpg',
+            'img' => 'img/servicios/servicio' . $this->faker->numberBetween(1, 5) . '.jpg',
             'estoc' => 99,
         ]);
     }
