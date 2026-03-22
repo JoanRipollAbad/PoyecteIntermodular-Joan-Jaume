@@ -54,9 +54,8 @@ const processPayment = async () => {
     await api.post(endpoint, orderData)
 
     // 2. Call n8n webhook for order confirmation email
-    // IMPORTANT: Make sure your n8n webhook is listening at this URL
-    //const webhookUrl = 'http://localhost:5678/webhook-test/confirmacion-compra' // URL producción n8n
-    const webhookUrl = 'http://localhost:5678/webhook/confirmacion-compra'
+    const n8nBaseUrl = import.meta.env.VITE_N8N_URL || 'http://localhost:5678'
+    const webhookUrl = `${n8nBaseUrl}/webhook/confirmacion-compra`
     
     await api.post(webhookUrl, {
       email: userEmail,

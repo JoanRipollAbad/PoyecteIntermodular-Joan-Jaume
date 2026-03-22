@@ -19,10 +19,11 @@ onMounted(() => {
   // 2. Initialize Chat
   const script = document.createElement('script');
   script.type = 'module';
+  const n8nBaseUrl = import.meta.env.VITE_N8N_URL || 'http://localhost:5678';
   script.innerHTML = `
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
     createChat({
-    webhookUrl: 'http://localhost:5678/webhook/29f0abd7-0d17-4608-9b59-051cbd9e43ed/chat',
+    webhookUrl: '${n8nBaseUrl}/webhook/29f0abd7-0d17-4608-9b59-051cbd9e43ed/chat',
     initialMessages: [
       '¡Hola! 👋',
       'Bienvenido a JJ-Security. ¿En qué podemos ayudarte?'
