@@ -40,6 +40,11 @@ const routes = [
     meta: { requiresGuest: true },
   },
   {
+    path: '/auth/callback',
+    name: 'AuthCallback',
+    component: () => import('../views/AuthCallback.vue'),
+  },
+  {
     path: '/filters',
     name: 'Filters',
     component: () => import('../views/Filters.vue'),

@@ -23,7 +23,7 @@ class AuthControllerTest extends TestCase
         $response = $this->postJson('/api/register', [
             'name' => 'Joan',
             'apellido' => 'Ripoll',
-            'email' => 'joan@test.com',
+            'email' => 'joan@example.com',
             'password' => '123456',
             'fecha_nacimiento' => '2000-01-15',
         ]);
@@ -36,7 +36,7 @@ class AuthControllerTest extends TestCase
             ]);
 
         $this->assertDatabaseHas('users', [
-            'email' => 'joan@test.com',
+            'email' => 'joan@example.com',
             'name' => 'Joan',
             'rol' => 'usuario',
         ]);
@@ -119,7 +119,7 @@ class AuthControllerTest extends TestCase
         ]);
 
         $response->assertStatus(401)
-            ->assertJson(['error' => 'Credencials incorrectes']);
+            ->assertJson(['error' => 'Credenciales incorrectas']);
     }
 
     #[Test]
@@ -148,7 +148,7 @@ class AuthControllerTest extends TestCase
         ])->postJson('/api/logout');
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'Sessió tancada']);
+            ->assertJson(['message' => 'Sesión cerrada']);
 
         $this->assertDatabaseCount('personal_access_tokens', 0);
     }

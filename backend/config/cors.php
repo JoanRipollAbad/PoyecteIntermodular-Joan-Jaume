@@ -20,11 +20,12 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'http://localhost:*',
-        'http://127.0.0.1:*',
-        'http://172.16.211.30:*',
-        'http://172.16.211.86:*',
-        'http://192.168.*:*',
+        'http://localhost',
+        'http://localhost:5173',
+        'http://localhost:5174',
+        'http://127.0.0.1',
+        'http://172.16.211.30',
+        'http://172.16.211.86',
     ],
 
     'allowed_origins_patterns' => [

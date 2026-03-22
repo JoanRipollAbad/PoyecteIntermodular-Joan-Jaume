@@ -6,10 +6,14 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PedidoController;
 use App\Http\Controllers\Api\IncidenciaController;
+use App\Http\Controllers\Auth\GoogleController;
 
 /* |-------------------------------------------------------------------------- | Rutas API Públicas |-------------------------------------------------------------------------- */
 Route::post('/register', [AuthController::class , 'register']);
 Route::post('/login', [AuthController::class , 'login']);
+
+Route::get('/oauth/google/redirect', [GoogleController::class, 'redirect']);
+Route::get('/oauth/google/callback', [GoogleController::class, 'callback']);
 
 // Productos (públicos)
 Route::get('/products/top-rated', [ProductController::class , 'topRated']);
