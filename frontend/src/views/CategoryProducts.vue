@@ -58,7 +58,7 @@ const cameraImages = [
 const lockImages = [
   '/img/cerraduras/cerradura5.jpg',
   '/img/cerraduras/cerradura1.jpg',
-  '/img/cerraduras/cerradura3.jpeg',
+  '/img/cerraduras/cerradura3.jpg',
   '/img/cerraduras/cerradura4.jpg',
   '/img/cerraduras/cerradura2.jpg'
 ]
@@ -75,15 +75,15 @@ const sensorImages = [
 // Map of specific images for alarms
 const alarmImages = [
   '/img/alarmas/alarma1.jpg',
-  '/img/alarmas/alarma2.jpg',
-  '/img/alarmas/alarma3.jpg',
   '/img/alarmas/alarma4.jpg',
+  '/img/alarmas/alarma3.jpg',
+  '/img/alarmas/alarma2.jpg',
   '/img/alarmas/alarma5.jpg'
 ]
 
 // Map of specific images for services
 const serviceImages = [
-  '/img/servicios/servicio1.png',
+  '/img/servicios/servicio1.jpg',
   '/img/servicios/servicio2.jpg',
   '/img/servicios/servicio3.jpg',
   '/img/servicios/servicio4.jpg',
@@ -105,47 +105,10 @@ const fetchData = async () => {
     const currentCategory = categoriesRes.data.find(c => c.id == categoryId)
     category.value = currentCategory
     
-    // Override images if it's the "Cámaras" category
-    if (currentCategory && currentCategory.nom === 'Cámaras') {
-      fetchedProducts = fetchedProducts.map((product, index) => ({
-        ...product,
-        img: cameraImages[index % cameraImages.length]
-      }))
-    }
-    
-    // Override images if it's the "Cerraduras" category
-    if (currentCategory && currentCategory.nom === 'Cerraduras') {
-      fetchedProducts = fetchedProducts.map((product, index) => ({
-        ...product,
-        img: lockImages[index % lockImages.length]
-      }))
-    }
-
-    // Override images if it's the "Sensores" category
-    if (currentCategory && currentCategory.nom === 'Sensores') {
-      fetchedProducts = fetchedProducts.map((product, index) => ({
-        ...product,
-        img: sensorImages[index % sensorImages.length]
-      }))
-    }
-
-    // Override images if it's the "Alarmas" category
-    if (currentCategory && currentCategory.nom === 'Alarmas') {
-      fetchedProducts = fetchedProducts.map((product, index) => ({
-        ...product,
-        img: alarmImages[index % alarmImages.length]
-      }))
-    }
-
-    // Override images if it's the "Servicios" category
-    if (currentCategory && currentCategory.nom === 'Servicios') {
-      fetchedProducts = fetchedProducts.map((product, index) => ({
-        ...product,
-        img: serviceImages[index % serviceImages.length]
-      }))
-    }
-    
-    products.value = fetchedProducts
+    products.value = fetchedProducts.map(p => ({
+      ...p,
+      img: p.img ? (p.img.startsWith('/') ? p.img : '/' + p.img) : '/img/logo.jpg'
+    }))
     
   } catch (err) {
     error.value = 'Error al cargar los productos de esta categoría.'

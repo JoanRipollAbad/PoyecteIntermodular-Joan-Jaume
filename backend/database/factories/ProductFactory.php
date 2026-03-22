@@ -25,81 +25,96 @@ class ProductFactory extends Factory
 
     public function camara()
     {
-        return $this->state(fn (array $attributes) => [
-            'nom' => $this->faker->randomElement([
-                'Càmera IP 4K Full HD amb Visió Nocturna',
-                'Kit de 4 Càmeres WiFi per a Exterior',
-                'Càmera PTZ 360° amb IA de Detecció',
-                'Càmera de Domòtica Intel·ligent amb Alexa',
-                'Càmera de Seguretat per a Interior amb Àudio Bidireccional',
-                'Càmera Tèrmica per a Vigilància Nocturna',
-                'Càmera Oculta en Sensor de Moviment',
-                'Càmera 360° Panoràmica'
-            ]),
-            'descripcio' => 'Càmera de vigilància d\'alta definició amb visió nocturna i detecció de moviment intel·ligent.',
-            'img' => 'img/camaras/camara' . $this->faker->numberBetween(1, 10) . '.jpg',
-        ]);
+        return $this->state(function (array $attributes) {
+            static $idx = 1;
+            return [
+                'nom' => $this->faker->randomElement([
+                    'Càmera IP 4K Full HD amb Visió Nocturna',
+                    'Kit de 4 Càmeres WiFi per a Exterior',
+                    'Càmera PTZ 360° amb IA de Detecció',
+                    'Càmera de Domòtica Intel·ligent amb Alexa',
+                    'Càmera de Seguretat per a Interior amb Àudio Bidireccional',
+                    'Càmera Tèrmica per a Vigilància Nocturna',
+                    'Càmera Oculta en Sensor de Moviment',
+                    'Càmera 360° Panoràmica'
+                ]),
+                'descripcio' => 'Càmera de vigilància d\'alta definició amb visió nocturna i detecció de moviment intel·ligent.',
+                'img' => 'img/camaras/camara' . ($idx > 5 ? ($idx = 1) : $idx++) . '.jpg',
+            ];
+        });
     }
 
     public function cerradura()
     {
-        return $this->state(fn (array $attributes) => [
-            'nom' => $this->faker->randomElement([
-                'Cerradura Intel·ligent amb Reconèixement Facial',
-                'Cerradura Electrònica amb Teclat Numèric',
-                'Cerradura Biomètrica d\'Alta Seguretat',
-                'Cerradura WiFi Controlada per App',
-                'Kit de Tancament Automàtic'
-            ]),
-            'descripcio' => 'Sistema de tancament avançat amb múltiples mètodes d\'accés i control remot.',
-            'img' => 'img/cerraduras/cerradura' . $this->faker->numberBetween(1, 5) . '.jpg',
-        ]);
+        return $this->state(function (array $attributes) {
+            static $idx = 1;
+            return [
+                'nom' => $this->faker->randomElement([
+                    'Cerradura Intel·ligent amb Reconèixement Facial',
+                    'Cerradura Electrònica amb Teclat Numèric',
+                    'Cerradura Biomètrica d\'Alta Seguretat',
+                    'Cerradura WiFi Controlada per App',
+                    'Kit de Tancament Automàtic'
+                ]),
+                'descripcio' => 'Sistema de tancament avançat amb múltiples mètodes d\'accés i control remot.',
+                'img' => 'img/cerraduras/cerradura' . ($idx > 5 ? ($idx = 1) : $idx++) . '.jpg',
+            ];
+        });
     }
 
     public function sensor()
     {
-        return $this->state(fn (array $attributes) => [
-            'nom' => $this->faker->randomElement([
-                'Sensor de Porta/Finestra amb Alerta',
-                'Detector de Moviment PIR Infraroig',
-                'Sensor de Trencament de Vidre',
-                'Sensor d\'Inundació WiFi',
-                'Detector de Fum i Calor connectat'
-            ]),
-            'descripcio' => 'Sensor de detecció precisa amb connexió immediata a la central d\'alarmes.',
-            'img' => 'img/sensores/sensor' . $this->faker->numberBetween(1, 5) . '.jpg',
-        ]);
+        return $this->state(function (array $attributes) {
+            static $idx = 1;
+            return [
+                'nom' => $this->faker->randomElement([
+                    'Sensor de Porta/Finestra amb Alerta',
+                    'Detector de Moviment PIR Infraroig',
+                    'Sensor de Trencament de Vidre',
+                    'Sensor d\'Inundació WiFi',
+                    'Detector de Fum i Calor connectat'
+                ]),
+                'descripcio' => 'Sensor de detecció precisa amb connexió immediata a la central d\'alarmes.',
+                'img' => 'img/sensores/sensor' . ($idx > 5 ? ($idx = 1) : $idx++) . '.jpg',
+            ];
+        });
     }
 
     public function alarma()
     {
-        return $this->state(fn (array $attributes) => [
-            'nom' => $this->faker->randomElement([
-                'Kit d\'Alarma Sense Fils WiFi/GSM',
-                'Sirena de Gran Potència amb Llum Estroboscòpica',
-                'Panell de Control Tàctil per a Alarmes',
-                'Sistema d\'Alarma Híbrid Professional',
-                'Teclat d\'Accés per a Sistemes de Seguretat'
-            ]),
-            'descripcio' => 'Sistema de seguretat integral amb avisos immediats al telèfon mòbil.',
-            'img' => 'img/alarmas/alarma' . $this->faker->numberBetween(1, 5) . '.jpg',
-        ]);
+        return $this->state(function (array $attributes) {
+            static $idx = 1;
+            return [
+                'nom' => $this->faker->randomElement([
+                    'Kit d\'Alarma Sense Fils WiFi/GSM',
+                    'Sirena de Gran Potència amb Llum Estroboscòpica',
+                    'Panell de Control Tàctil per a Alarmes',
+                    'Sistema d\'Alarma Híbrid Professional',
+                    'Teclat d\'Accés per a Sistemes de Seguretat'
+                ]),
+                'descripcio' => 'Sistema de seguretat integral amb avisos immediats al telèfon mòbil.',
+                'img' => 'img/alarmas/alarma' . ($idx > 5 ? ($idx = 1) : $idx++) . '.jpg',
+            ];
+        });
     }
 
     public function servicio()
     {
-        return $this->state(fn (array $attributes) => [
-            'nom' => $this->faker->randomElement([
-                'Servei d\'Instal·lació Professional',
-                'Manteniment Preventiu Anual',
-                'Monitoratge 24/7 de Grado 3',
-                'Auditoria de Seguretat Llar/Empresa',
-                'Servei de Resposta Immediata Acudida'
-            ]),
-            'descripcio' => 'Serveis professionals realitzats per tècnics experts en seguretat.',
-            'img' => 'img/servicios/servicio' . $this->faker->numberBetween(1, 5) . '.jpg',
-            'estoc' => 99,
-        ]);
+        return $this->state(function (array $attributes) {
+            static $idx = 1;
+            return [
+                'nom' => $this->faker->randomElement([
+                    'Servei d\'Instal·lació Professional',
+                    'Manteniment Preventiu Anual',
+                    'Monitoratge 24/7 de Grado 3',
+                    'Auditoria de Seguretat Llar/Empresa',
+                    'Servei de Resposta Immediata Acudida'
+                ]),
+                'descripcio' => 'Serveis professionals realitzats per tècnics experts en seguretat.',
+                'img' => 'img/servicios/servicio' . ($idx > 5 ? ($idx = 1) : $idx++) . '.jpg',
+                'estoc' => 99,
+            ];
+        });
     }
 }
 

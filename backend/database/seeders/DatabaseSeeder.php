@@ -29,29 +29,31 @@ class DatabaseSeeder extends Seeder
 
         // Crear 5 productos para cada una de esas categorías
         $categorias->each(function ($categoria) {
-            $factory = Product::factory(5);
+            for ($i = 1; $i <= 5; $i++) {
+                $factory = Product::factory();
 
-            switch ($categoria->nom) {
-                case 'Cámaras':
-                    $factory = $factory->camara();
-                    break;
-                case 'Cerraduras':
-                    $factory = $factory->cerradura();
-                    break;
-                case 'Sensores':
-                    $factory = $factory->sensor();
-                    break;
-                case 'Alarmas':
-                    $factory = $factory->alarma();
-                    break;
-                case 'Servicios':
-                    $factory = $factory->servicio();
-                    break;
+                switch ($categoria->nom) {
+                    case 'Cámaras':
+                        $factory = $factory->camara()->state(['img' => 'img/camaras/camara' . $i . '.jpg']);
+                        break;
+                    case 'Cerraduras':
+                        $factory = $factory->cerradura()->state(['img' => 'img/cerraduras/cerradura' . $i . '.jpg']);
+                        break;
+                    case 'Sensores':
+                        $factory = $factory->sensor()->state(['img' => 'img/sensores/sensor' . $i . '.jpg']);
+                        break;
+                    case 'Alarmas':
+                        $factory = $factory->alarma()->state(['img' => 'img/alarmas/alarma' . $i . '.jpg']);
+                        break;
+                    case 'Servicios':
+                        $factory = $factory->servicio()->state(['img' => 'img/servicios/servicio' . $i . '.jpg']);
+                        break;
+                }
+
+                $factory->create([
+                    'categoria_id' => $categoria->id
+                ]);
             }
-
-            $factory->create([
-                'categoria_id' => $categoria->id
-            ]);
         });
 
         // Crear 10 usuarios

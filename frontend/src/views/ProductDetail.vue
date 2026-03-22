@@ -182,6 +182,7 @@ const mockProduct = {
   nom: 'Cámara de Seguridad Interior Ultra HD',
   preu: 129.99,
   descripcio: 'La Cámara de Seguridad Interior Ultra HD de JJ-Security ofrece una vigilancia inigualable para tu hogar o negocio. Con una resolución 4K impresionante, cada detalle se captura con la máxima claridad. Equipada con sensores inteligentes y visión nocturna, garantiza tranquilidad total las 24 horas.',
+  categoria: { id: 1, nom: 'Cámaras' },
   caracteristicas: [
     'Resolución 4K Ultra HD',
     'Visión Nocturna a Color',
@@ -254,10 +255,18 @@ onMounted(async () => {
     if (route.params.id) {
       // Intentar cargar el producto real desde la API
       const response = await api.get(`/products/${route.params.id}`)
+      
+      const prodData = response.data
+      const imgSrc = prodData.img ? (prodData.img.startsWith('/') ? prodData.img : '/' + prodData.img) : '/img/camara1.jpg'
+
       product.value = {
-        ...response.data,
+        ...prodData,
         caracteristicas: mockProduct.caracteristicas,
-        gallery: mockProduct.gallery
+        gallery: [
+          { type: 'video', src: '/videos/videoCamara.mp4' },
+          { type: 'image', src: imgSrc },
+          { type: 'image', src: imgSrc }
+        ]
       }
     } else {
       product.value = mockProduct
@@ -292,8 +301,10 @@ onUnmounted(() => {
     <nav aria-label="breadcrumb" class="breadcrumb-nav">
       <ol class="breadcrumb custom-breadcrumb">
         <li class="breadcrumb-item"><RouterLink to="/">Inicio</RouterLink></li>
-        <li class="divider">/</li>
-        <li class="breadcrumb-item"><a href="#">Cámaras</a></li>
+        <li class="divider" v-if="product?.categoria">/</li>
+        <li class="breadcrumb-item" v-if="product?.categoria">
+          <RouterLink :to="'/category/' + product.categoria.id">{{ product.categoria.nom }}</RouterLink>
+        </li>
         <li class="divider">/</li>
         <li class="breadcrumb-item active" aria-current="page">{{ product?.nom }}</li>
       </ol>
@@ -314,17 +325,18 @@ onUnmounted(() => {
           <div class="media-column">
             <div class="media-container shadow-sm">
               <div class="media-inner ratio ratio-16x9">
-                <TransitionGroup name="fade">
+                <TransitionGroup name="fade" tag="div" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;">
                   <div 
                     v-for="(item, index) in product.gallery" 
                     :key="index"
                     v-show="activeSlide === index" 
                     class="gallery-item"
+                    style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;"
                   >
-                    <video v-if="item.type === 'video'" autoplay muted loop class="w-100 h-100 object-cover">
+                    <video v-if="item.type === 'video'" autoplay muted loop class="w-100 h-100" style="object-fit: cover; width: 100%; height: 100%;">
                       <source :src="item.src" type="video/mp4" />
                     </video>
-                    <img v-else :src="item.src" class="w-100 h-100 object-cover" alt="Vista del producto">
+                    <img v-else :src="item.src" class="w-100 h-100" style="object-fit: cover; width: 100%; height: 100%;" alt="Vista del producto">
                   </div>
                 </TransitionGroup>
 
