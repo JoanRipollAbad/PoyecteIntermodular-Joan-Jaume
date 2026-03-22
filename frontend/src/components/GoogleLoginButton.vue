@@ -8,7 +8,7 @@
 <script setup>
 const loginWithGoogle = () => {
   // Redirigir al endpoint de Laravel que inicia el flujo de Google
-  window.location.href = 'http://localhost/api/oauth/google/redirect';
+  window.location.href = `${import.meta.env.VITE_API_URL}/oauth/google/redirect`;
 };
 </script>
 

@@ -60,7 +60,7 @@ export default {
 
     const schema = yup.object({
       email: yup.string().required('El email es obligatorio').email('Email no válido'),
-      password: yup.string().required('La contraseña es obligatoria').min(6, 'Mínimo 6 caracteres')
+      password: yup.string().required('La contraseña es obligatoria')
     })
 
     const handleLogin = async (values) => {
