@@ -55,8 +55,11 @@ class GoogleController extends Controller
 
             // Limpiamos cualquier sesión previa de la web/cookies para evitar conflictos
             Auth::guard('web')->logout();
-            request()->session()->invalidate();
-            request()->session()->regenerateToken();
+            
+            if (request()->hasSession()) {
+                request()->session()->invalidate();
+                request()->session()->regenerateToken();
+            }
 
             // Redirigimos al Frontend con el token en la URL
             $frontendUrl = config('services.google.frontend_url');
