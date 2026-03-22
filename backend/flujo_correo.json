@@ -1,0 +1,65 @@
+{
+  "name": "Confirmar compra GMAIL",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "sendTo": "={{ $json.body.email }}",
+        "subject": "=Confirmación de compra",
+        "message": "=Hola {{ $json.body.nombre }}, has comprado {{ $json.body.producto }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "e39fbda1-3e21-45e6-8bb8-eed88dee9046",
+      "name": "Send a message",
+      "webhookId": "c4f56cb9-2603-4dbe-9e06-07f4f0c1ccbc"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "confirmacion-compra",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8bc46dc4-141c-48fd-8a30-7fdb2fd72f2b",
+      "name": "Webhook",
+      "webhookId": "53fbf238-c1d8-4924-b102-0a235c4d19bd"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "pinData": {},
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": []
+}

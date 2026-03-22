@@ -53,6 +53,9 @@ class GoogleController extends Controller
             // Generamos el token de Sanctum (para que Vue lo use)
             $token = $user->createToken('auth_token')->plainTextToken;
 
+            // Limpiamos cualquier sesión previa de la web para evitar conflictos
+            Auth::guard('web')->logout();
+
             // Redirigimos al Frontend con el token en la URL
             $frontendUrl = config('services.google.frontend_url');
             return redirect($frontendUrl . "/auth/callback?token=" . urlencode($token));

@@ -1,0 +1,193 @@
+{
+  "name": "Agente n8n JJ-Security",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "Eres el asistente virtual de JJ-Security, una empresa especializada en sistemas de seguridad.\n\nTu trabajo es ayudar a los clientes de manera amable y profesional.\n\nPuedes acceder a la api para poder ver los productos en general, puedes hacer presupuestos y ayudar, no hace falta ser muy específico."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        272,
+        0
+      ],
+      "id": "28c26c1f-599c-41be-bce0-369ffec0d244",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        96,
+        192
+      ],
+      "id": "a548261d-1505-4805-b070-02eb898c12a1",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        192
+      ],
+      "id": "a48b2ca6-2d61-4626-8daf-9416384c32b7",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "skbTX6YP8b0o9ZHo",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "limit": 5,
+        "where": {
+          "values": [
+            {
+              "column": "categoria_id"
+            },
+            {}
+          ]
+        },
+        "sort": {
+          "values": [
+            {
+              "column": "nom"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySqlTool",
+      "typeVersion": 2.5,
+      "position": [
+        -48,
+        448
+      ],
+      "id": "615aaf47-7a3a-4220-8100-f92cc2792ad5",
+      "name": "Select rows from a table in MySQL"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7d8479e0-fe08-4bc0-a28d-28c451d845e3",
+      "name": "When chat message received",
+      "webhookId": "29f0abd7-0d17-4608-9b59-051cbd9e43ed"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Aquest codi processa els productes i crea un resum\nconst products = $input.all()[0].json;\n\n// Filtra productes amb estoc > 0\nconst availableProducts = products.filter(p => p.estoc > 0);\n\n// Calcula el total de productes disponibles\nconst totalProducts = availableProducts.length;\nconst totalPrice = availableProducts.reduce((sum, p) => sum + parseFloat(p.preu), 0);\n\nreturn [{\n  json: {\n    totalProducts: totalProducts,\n    totalPrice: totalPrice.toFixed(2),\n    products: availableProducts\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        176,
+        448
+      ],
+      "id": "1f1ca847-59da-4efa-91d9-f923edee902b",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Obtener productos de la API",
+        "url": "http://172.16.211.30/api/products",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        304,
+        192
+      ],
+      "id": "244fc024-d274-4ca9-a946-e671d4ec0874",
+      "name": "Obtener Productos API"
+    }
+  ],
+  "connections": {
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Productos API": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "pinData": {},
+  "versionCounter": 15,
+  "triggerCount": 1,
+  "tags": []
+}
