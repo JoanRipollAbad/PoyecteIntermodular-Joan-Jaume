@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://joanripollabad.github.io/PoyecteIntermodular-Joan-Jaume/SPRINTS.html">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Sprints - Projecte Intermodular 2DAW</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">Projecte Intermodular 2DAW</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="index.html" class="nav-link">Inici</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Gestió del Projecte</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="SPRINTS.html" class="dropdown-item active" aria-current="page">Sprints</a>
+</li>
+                                    
+<li>
+    <a href="LOG.html" class="dropdown-item">Log de canvis</a>
+</li>
+                                    
+<li>
+    <a href="rols.html" class="dropdown-item">Rols d'equip</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Seguretat i Riscos</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="planRiesgosLaborales.html" class="dropdown-item">Pla de Riscos</a>
+</li>
+                                    
+<li>
+    <a href="riesgosLaborales.html" class="dropdown-item">Prevenció Riscos</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Documentació</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="USER_MANUAL.html" class="dropdown-item">Manual d'Usuari</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="index.html" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="LOG.html" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#planificacion-de-sprints-y-entregas-jj-security" class="nav-link">🚀 Planificación de Sprints y Entregas - JJ-Security</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#iteracion-1-entorno-escaparate-i-contacte" class="nav-link">🛠️ Iteración 1: Entorno, escaparate i contacte</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#iteracion-2-autenticacion-i-gestio-de-productes" class="nav-link">🔐 Iteración 2: Autenticación i gestió de productes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#iteracion-3-disseny-responsiu-i-backend-laravel" class="nav-link">📱 Iteración 3: Disseny responsiu i backend Laravel</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#iteracion-4-client-spa-amb-vue-i-control-de-rols" class="nav-link">⚙️ Iteración 4: Client SPA amb Vue i control de rols</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#iteracion-5-integracions-externes-i-processos-asincrons" class="nav-link">🌐 Iteración 5: Integracions externes i processos asíncrons</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#iteracion-6-desplegament-final-i-lliurament-del-producte" class="nav-link">🚀 Iteración 6: Desplegament final i lliurament del producte</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="planificacion-de-sprints-y-entregas-jj-security">🚀 Planificación de Sprints y Entregas - JJ-Security<a class="headerlink" href="#planificacion-de-sprints-y-entregas-jj-security" title="Permanent link">&para;</a></h1>
+<p>Este documento detalla el cumplimiento de los requisitos del cliente a lo largo de las distintas iteraciones del proyecto, vinculando las metas académicas con la implementación técnica real.</p>
+<hr />
+<h2 id="iteracion-1-entorno-escaparate-i-contacte">🛠️ Iteración 1: Entorno, escaparate i contacte<a class="headerlink" href="#iteracion-1-entorno-escaparate-i-contacte" title="Permanent link">&para;</a></h2>
+<p><strong>Estado:</strong> Finalizado ✅</p>
+<h3 id="requisitos-del-cliente">Requisitos del cliente:<a class="headerlink" href="#requisitos-del-cliente" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Configuración inicial:</strong> Preparación de entorno local (PHP, IDE) y control de versiones en GitHub.</li>
+<li><strong>Metodología de trabajo:</strong> Definición de estrategias para evitar duplicidad de trabajo.</li>
+<li><strong>Planificación:</strong> Creación de tablero Kanban y cronograma.</li>
+<li><strong>Prevención de riesgos:</strong> Identificación de riesgos laborales (ver <a href="riesgosLaborales.html">riesgosLaborales.md</a>).</li>
+<li><strong>Maquetación básica:</strong> Página de inicio atractiva y corporativa (HTML/CSS/JS).</li>
+<li><strong>Formulario de contacto:</strong> Validación en cliente (JS/Regex) y servidor.</li>
+<li><strong>Despliegue inicial:</strong> Hosting compartido accesible online.</li>
+</ul>
+<h3 id="implementacion-tecnia">Implementación Técnia:<a class="headerlink" href="#implementacion-tecnia" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Estructura base del repositorio creada.</li>
+<li>Identificación de 7 riesgos clave y plan de prevención (ver <a href="planRiesgosLaborales.html">planRiesgosLaborales.md</a>).</li>
+<li>Diseño de la identidad corporativa "JJ-Security".</li>
+</ul>
+<hr />
+<h2 id="iteracion-2-autenticacion-i-gestio-de-productes">🔐 Iteración 2: Autenticación i gestió de productes<a class="headerlink" href="#iteracion-2-autenticacion-i-gestio-de-productes" title="Permanent link">&para;</a></h2>
+<p><strong>Estado:</strong> Finalizado ✅</p>
+<h3 id="requisitos-del-cliente_1">Requisitos del cliente:<a class="headerlink" href="#requisitos-del-cliente_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Importación de productos:</strong> Carga masiva desde Excel/JSON (ver <a href="LOG.html#2026-02-23">LOG.md</a>).</li>
+<li><strong>Registro y Login:</strong> Sistema seguro con perfiles de usuario y protección de contraseñas.</li>
+<li><strong>Interacción:</strong> Sistema de comentarios y valoraciones dinámicas.</li>
+<li><strong>Backups:</strong> Transferencia segura mediante SFTP y copias periódicas.</li>
+<li><strong>Arquitectura e-commerce:</strong> Navegación clara, buscador, filtros y carrito visible.</li>
+</ul>
+<h3 id="implementacion-tecnica">Implementación Técnica:<a class="headerlink" href="#implementacion-tecnica" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Integración de <code>Maatwebsite/Excel</code> en el backend para importaciones.</li>
+<li>Implementación de <code>authStore</code> con Pinia para gestión de sesiones.</li>
+<li>Desarrollo de <code>Checkout.vue</code> dinámico que diferencia entre invitados y registrados.</li>
+</ul>
+<hr />
+<h2 id="iteracion-3-disseny-responsiu-i-backend-laravel">📱 Iteración 3: Disseny responsiu i backend Laravel<a class="headerlink" href="#iteracion-3-disseny-responsiu-i-backend-laravel" title="Permanent link">&para;</a></h2>
+<p><strong>Estado:</strong> Finalizado ✅</p>
+<h3 id="requisitos-del-cliente_2">Requisitos del cliente:<a class="headerlink" href="#requisitos-del-cliente_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Diseño Responsivo:</strong> Uso de CSS Grid y Media Queries para tablets y móviles.</li>
+<li><strong>Backend Robusto:</strong> Reimplementación total con Laravel (Patrón MVC + API REST).</li>
+<li><strong>Garantía de Calidad:</strong> Tests básicos de funcionalidad y documentación del código.</li>
+</ul>
+<h3 id="implementacion-tecnica_1">Implementación Técnica:<a class="headerlink" href="#implementacion-tecnica_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Migración exitosa a Laravel 11.</li>
+<li>Diseño "Mobile First" aplicado en componentes core como el Header y la Sidebar.</li>
+<li>Documentación técnica inicial de la API.</li>
+</ul>
+<hr />
+<h2 id="iteracion-4-client-spa-amb-vue-i-control-de-rols">⚙️ Iteración 4: Client SPA amb Vue i control de rols<a class="headerlink" href="#iteracion-4-client-spa-amb-vue-i-control-de-rols" title="Permanent link">&para;</a></h2>
+<p><strong>Estado:</strong> Finalizado ✅</p>
+<h3 id="requisitos-del-cliente_3">Requisitos del cliente:<a class="headerlink" href="#requisitos-del-cliente_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Vue.js SPA:</strong> Navegación fluida sin recarga de página (Single Page Application).</li>
+<li><strong>Integración API:</strong> Uso de Axios para comunicación asíncrona y gestión de tokens.</li>
+<li><strong>Control de Roles:</strong> Diferenciación entre Admin y Usuario (ver <a href="rols.html">rols.md</a>).</li>
+</ul>
+<h3 id="implementacion-tecnica_2">Implementación Técnica:<a class="headerlink" href="#implementacion-tecnica_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Frontend reconstruido con Vue 3 y Vite.</li>
+<li>Middleware <code>CheckAdmin</code> en Laravel para proteger rutas críticas.</li>
+<li>Panel de administración dinámico para gestión de stock.</li>
+</ul>
+<hr />
+<h2 id="iteracion-5-integracions-externes-i-processos-asincrons">🌐 Iteración 5: Integracions externes i processos asíncrons<a class="headerlink" href="#iteracion-5-integracions-externes-i-processos-asincrons" title="Permanent link">&para;</a></h2>
+<p><strong>Estado:</strong> En Progreso 🔄</p>
+<h3 id="requisitos-del-cliente_4">Requisitos del cliente:<a class="headerlink" href="#requisitos-del-cliente_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Integración Externa:</strong> Autenticación OAuth2 (Google/Facebook).</li>
+<li><strong>Swagger Documentation:</strong> API documentada de forma interactiva.</li>
+<li><strong>Procesos Asíncronos:</strong> Uso de Laravel Queues para tareas pesadas (emails, informes).</li>
+<li><strong>Mejoras Frontend:</strong> Filtros avanzados, paginación y validación con Vee-Validate/Yup.</li>
+<li><strong>Docker Centralizado:</strong> Uso de <code>docker-compose</code> para orquestar la App.</li>
+</ul>
+<h3 id="implementacion-tecnica_3">Implementación Técnica:<a class="headerlink" href="#implementacion-tecnica_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Configuración de <code>compose.yaml</code> unificado (Backend, Frontend, MySQL, n8n).</li>
+<li>Integración de Chatbot mediante n8n (Asistente Virtual).</li>
+<li>Implementación de <strong>Modo Oscuro</strong> global y persistente.</li>
+<li>Filtros de categorías dinámicos en la vista de productos.</li>
+</ul>
+<hr />
+<h2 id="iteracion-6-desplegament-final-i-lliurament-del-producte">🚀 Iteración 6: Desplegament final i lliurament del producte<a class="headerlink" href="#iteracion-6-desplegament-final-i-lliurament-del-producte" title="Permanent link">&para;</a></h2>
+<p><strong>Estado:</strong> Planificado (Última Fase) 📋</p>
+<h3 id="requisitos-del-cliente_5">Requisitos del cliente:<a class="headerlink" href="#requisitos-del-cliente_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Excelencia Visual:</strong> Consistencia, accesibilidad profesional e imágenes optimizadas.</li>
+<li><strong>Digitalización e IA:</strong> Implementación de recomendaciones inteligentes (datos).</li>
+<li><strong>Sostenibilidad:</strong> Integración de criterios ASG y ecodiseño (ver <a href="../frontend/src/views/Sustainability.vue">Sustainability.vue</a>).</li>
+<li><strong>Despliegue Producción:</strong> DNS propio (<code>pigrupox.ddaw.es</code>), CI/CD y entornos aislados.</li>
+<li><strong>Seguridad Máxima:</strong> Configuración de HTTPS con certificados SSL (Let's Encrypt).</li>
+<li><strong>Manual y Soporte:</strong> Manual de usuario y herramientas de ayuda contextual.</li>
+</ul>
+<h3 id="implementacion-tecnica-realizada">Implementación Técnica realizada:<a class="headerlink" href="#implementacion-tecnica-realizada" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Vista de Sostenibilidad completada con criterios ecológicos.</li>
+<li>Asistente virtual configurado con respuesta inteligente.</li>
+<li>Optimización de carga estética y UI JJ-Security.</li>
+</ul>
+<hr /></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>2025-2026  Joan Ripollabad, Jaume Moltó</p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

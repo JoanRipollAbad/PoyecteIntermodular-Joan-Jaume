@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://joanripollabad.github.io/PoyecteIntermodular-Joan-Jaume/LOG.html">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Log de canvis - Projecte Intermodular 2DAW</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">Projecte Intermodular 2DAW</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="index.html" class="nav-link">Inici</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Gestió del Projecte</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="SPRINTS.html" class="dropdown-item">Sprints</a>
+</li>
+                                    
+<li>
+    <a href="LOG.html" class="dropdown-item active" aria-current="page">Log de canvis</a>
+</li>
+                                    
+<li>
+    <a href="rols.html" class="dropdown-item">Rols d'equip</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Seguretat i Riscos</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="planRiesgosLaborales.html" class="dropdown-item">Pla de Riscos</a>
+</li>
+                                    
+<li>
+    <a href="riesgosLaborales.html" class="dropdown-item">Prevenció Riscos</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Documentació</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="USER_MANUAL.html" class="dropdown-item">Manual d'Usuari</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="SPRINTS.html" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="rols.html" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#registro-de-cambios-jj-security" class="nav-link">Registro de Cambios - JJ-Security</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#2026-02-20-mejoras-en-autenticacion-y-checkout" class="nav-link">[2026-02-20] - Mejoras en Autenticación y Checkout</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#como-funciona-la-comunicacion-con-la-api" class="nav-link">Cómo funciona la comunicación con la API</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2026-02-27-sistema-de-soporte-e-incidencias-google-login-swagger-api-y-soporte" class="nav-link">[2026-02-27] - Sistema de Soporte e Incidencias, Google Login, Swagger API y Soporte</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2026-02-23-gestion-de-productos-administracion" class="nav-link">[2026-02-23] - Gestión de Productos (Administración)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2026-02-24-modo-oscuro-navegacion-y-docker-centralizado" class="nav-link">[2026-02-24] - Modo Oscuro, Navegación y Docker Centralizado</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2026-02-25-chatbot-sostenibilidad-y-detalle-visual-jj-security-style" class="nav-link">[2026-02-25] - Chatbot, Sostenibilidad y Detalle Visual (JJ-Security Style)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2026-02-26-gestion-de-pedidos-persistencia-y-optimizacion-mobile-first" class="nav-link">[2026-02-26] - Gestión de Pedidos, Persistencia y Optimización Mobile-First</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2026-02-27-despliegue-e-infraestructura-aws" class="nav-link">[2026-02-27] Despliegue e Infraestructura (AWS)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2026-02-27-bloque-de-desarrollo-y-diseno-finalizacion" class="nav-link">[2026-02-27] - Bloque de Desarrollo y Diseño (Finalización)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="registro-de-cambios-jj-security">Registro de Cambios - JJ-Security<a class="headerlink" href="#registro-de-cambios-jj-security" title="Permanent link">&para;</a></h1>
+<p>Este archivo documenta los cambios realizados durante el desarrollo y las pruebas de las funcionalidades de login, registro, perfil e infraestructura.</p>
+<h2 id="2026-02-20-mejoras-en-autenticacion-y-checkout">[2026-02-20] - Mejoras en Autenticación y Checkout<a class="headerlink" href="#2026-02-20-mejoras-en-autenticacion-y-checkout" title="Permanent link">&para;</a></h2>
+<h3 id="backend-laravel">Backend (Laravel)<a class="headerlink" href="#backend-laravel" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>AuthController.php:</strong></li>
+<li>Se ha actualizado la validación del <code>register</code> para que el email sea más estricto (<code>email:rfc,dns</code>), evitando registros con formatos inválidos como <code>usuario@gmail</code>.</li>
+<li>Se han implementado los métodos <code>me()</code> (para obtener datos del usuario actual) y <code>updateProfile()</code> (para permitir la edición de datos del perfil).</li>
+<li>Se ha añadido lógica para actualizar la contraseña solo si se proporciona en el request.</li>
+</ul>
+<h3 id="frontend-vuejs">Frontend (Vue.js)<a class="headerlink" href="#frontend-vuejs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Checkout.vue:</strong></li>
+<li>Se ha hecho dinámica la vista de pago. Ahora detecta si el usuario está autenticado usando el <code>authStore.isAuthenticated</code>.</li>
+<li>Si el usuario está registrado, muestra sus datos y un botón de confirmación directa.</li>
+<li>Si el usuario es invitado, muestra el formulario de datos de envío y pago.</li>
+<li>Se ha eliminado el botón de simulación "Alternar simulación" para usar el estado real de la aplicación.</li>
+</ul>
+<hr />
+<h2 id="como-funciona-la-comunicacion-con-la-api">Cómo funciona la comunicación con la API<a class="headerlink" href="#como-funciona-la-comunicacion-con-la-api" title="Permanent link">&para;</a></h2>
+<h3 id="1-configuracion-base-frontendsrcapiindexjs">1. Configuración Base (frontend/src/api/index.js)<a class="headerlink" href="#1-configuracion-base-frontendsrcapiindexjs" title="Permanent link">&para;</a></h3>
+<p>Usamos <strong>Axios</strong> como cliente HTTP. En el archivo <code>index.js</code>, configuramos la <code>baseURL</code> (que apunta a <code>http://localhost/api</code>) y añadimos <strong>interceptores</strong>:
+- <strong>Peticiones:</strong> Si hay un token guardado en <code>localStorage</code>, se añade automáticamente a la cabecera <code>Authorization: Bearer &lt;token&gt;</code>.
+- <strong>Respuestas:</strong> Si el servidor devuelve un error 401 (no autorizado), limpiamos el token y redirigimos al login.</p>
+<h3 id="2-tienda-de-autenticacion-frontendsrcstoresauthjs">2. Tienda de Autenticación (frontend/src/stores/auth.js)<a class="headerlink" href="#2-tienda-de-autenticacion-frontendsrcstoresauthjs" title="Permanent link">&para;</a></h3>
+<p>Usamos <strong>Pinia</strong> para gestionar el estado global. El <code>authStore</code> tiene acciones como <code>login</code> y <code>register</code> que llaman a <code>api.post('/login', ...)</code> y <code>api.post('/register', ...)</code>.
+- Al recibir una respuesta exitosa, guardamos el token y los datos del usuario.</p>
+<h2 id="2026-02-27-sistema-de-soporte-e-incidencias-google-login-swagger-api-y-soporte">[2026-02-27] - Sistema de Soporte e Incidencias, Google Login, Swagger API y Soporte<a class="headerlink" href="#2026-02-27-sistema-de-soporte-e-incidencias-google-login-swagger-api-y-soporte" title="Permanent link">&para;</a></h2>
+<h3 id="backend-laravel_1">Backend (Laravel)<a class="headerlink" href="#backend-laravel_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Migración de Incidencias:</strong> Creación de la tabla <code>incidencias</code> para almacenar consultas técnicas de los usuarios (Nombre, Email, Asunto, Mensaje).</li>
+<li><strong>IncidenciaController:</strong> Implementado el método <code>store</code> para la validación y persistencia de tickets de soporte en la base de datos.</li>
+<li><strong>Rutas API:</strong> Definición del endpoint público <code>POST /incidencias</code> para permitir el envío de formularios de contacto/soporte.</li>
+<li>
+<p><strong>Top Rated Products:</strong> Nuevo endpoint <code>GET /products/top-rated</code> que utiliza <code>withAvg('comments', 'puntuacio')</code> de Eloquent para identificar dinámicamente los 3 productos con la mayor puntuación media basada en los comentarios de los usuarios.</p>
+</li>
+<li>
+<p><strong>Integración de Google OAuth2 (Socialite):</strong></p>
+</li>
+<li><strong>GoogleController:</strong> Nueva lógica para gestionar redirecciones y callbacks de Google. Sincronización automática de perfiles (nombre, avatar y google_id).</li>
+<li><strong>Migración de Usuarios:</strong> Nueva columna <code>google_id</code> y <code>avatar</code>. Se ha permitido la contraseña nula para cuentas de redes sociales.</li>
+<li><strong>Seguridad y Tokens:</strong> Emisión de tokens Sanctum al finalizar el flujo de OAuth2 para autenticar al usuario en el frontend.</li>
+<li><strong>Documentación Swagger (PHP 8 Attributes):</strong></li>
+<li><strong>Regeneración de API:</strong> Migración completa de anotaciones clásicas (<code>@OA</code>) a <strong>Atributos de PHP 8</strong> (<code>#[OA\...]</code>), necesaria para la compatibilidad con <strong>swagger-php 6.0</strong>.</li>
+<li><strong>SwaggerMetadata.php:</strong> Nuevo archivo centralizado para la configuración global de la API (Info, Server, SecurityScheme).</li>
+<li><strong>Endpoints Documentados:</strong> <code>/oauth/google/redirect</code>, <code>/oauth/google/callback</code> y <code>/me</code>.</li>
+<li><strong>Sistema de Soporte:</strong> </li>
+<li>Creación de tabla <code>incidencias</code> y endpoint <code>POST /incidencias</code> para captura de tickets de soporte técnico.</li>
+<li><strong>Optimización Eloquent:</strong> Endpoint <code>/products/top-rated</code> para obtener los 3 productos mejor valorados dinámicamente.</li>
+</ul>
+<h3 id="frontend-vuejs_1">Frontend (Vue.js)<a class="headerlink" href="#frontend-vuejs_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Home View (Home.vue):</strong></li>
+<li>Implementación de la sección "Top 3 Mejor Valorados" con carga reactiva.</li>
+<li><strong>Sistema de Valoración por Estrellas:</strong> Lógica personalizada para renderizar iconos de estrellas completas, medias y vacías según el promedio numérico (ej: 4.5 -&gt; 4 llena, 1 media).</li>
+<li><strong>Badge "PREMIUM CHOICE":</strong> Elemento visual distintivo con animación y sombras para resaltar la exclusividad de los productos destacados.</li>
+<li><strong>Corrección de Rutas de Imagen:</strong> Normalización de paths en el frontend para asegurar compatibilidad absoluta con el sistema de archivos de <code>public/img</code>.</li>
+<li><strong>Vista de Soporte (Support.vue):</strong></li>
+<li>Creación de un nuevo centro de soporte integrado con la API de incidencias.</li>
+<li><strong>Auto-completado Inteligente:</strong> Sincronización con el <code>authStore</code> para pre-rellenar datos de contacto si el usuario está autenticado.</li>
+<li><strong>Rediseño Premium (Inspirado en Login):</strong> <ul>
+<li>Actualización visual completa para igualar la estética de la vista de inicio de sesión.</li>
+<li>Centrado total del formulario en pantalla.</li>
+<li>Contenedor de ancho reducido (<code>450px</code>) y campos de entrada con estilo corporativo.</li>
+<li>Animaciones de entrada (<code>slide-up</code>, <code>fade-in</code>) para una transición suave.</li>
+</ul>
+</li>
+<li><strong>Navegación (App.vue):</strong></li>
+<li>Integración del enlace directo al Centro de Soporte en la barra lateral (Sidebar) mediante el icono de ayuda.</li>
+<li>Mejora de la consistencia visual de los tooltips en la navegación lateral.</li>
+<li><strong>Login con Google:</strong> </li>
+<li><strong>GoogleLoginButton.vue:</strong> Botón reutilizable integrado en Login y Registro.</li>
+<li><strong>AuthCallback.vue:</strong> Vista puente que captura el token de la URL, lo persiste en <code>localStorage</code> y recupera el perfil del usuario mediante el <code>authStore</code>.</li>
+<li><strong>Estabilidad de Entorno y Puertos:</strong> </li>
+<li><strong>Fijación de Puerto (Vite):</strong> Configuración de <code>server.port: 5174</code> y <code>strictPort: true</code> en <code>vite.config.js</code>. Esto evita que el frontend cambie al puerto 5173 cuando Laravel Sail (Docker) está apagado, asegurando que las redirecciones del backend siempre funcionen.</li>
+<li><strong>Mejoras en Home y Soporte:</strong></li>
+<li>Sistema de estrellas reactivo y badge "PREMIUM CHOICE".</li>
+<li>Formulario de contacto con auto-relleno inteligente para usuarios logueados.</li>
+</ul>
+<hr />
+<h3 id="3-rutas-del-backend-backendroutesapiphp">3. Rutas del Backend (backend/routes/api.php)<a class="headerlink" href="#3-rutas-del-backend-backendroutesapiphp" title="Permanent link">&para;</a></h3>
+<p>El backend define las rutas API que llaman al <code>AuthController</code>:
+- <code>Route::post('/register', ...)</code>
+- <code>Route::post('/login', ...)</code>
+- Rutas protegidas dentro del middleware <code>auth:sanctum</code> como <code>/me</code> y <code>/profile</code>.</p>
+<h2 id="2026-02-23-gestion-de-productos-administracion">[2026-02-23] - Gestión de Productos (Administración)<a class="headerlink" href="#2026-02-23-gestion-de-productos-administracion" title="Permanent link">&para;</a></h2>
+<h3 id="backend-laravel_2">Backend (Laravel)<a class="headerlink" href="#backend-laravel_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>CheckAdmin Middleware:</strong> Nuevo middleware para restringir el acceso a rutas sensibles solo a usuarios con rol <code>admin</code>.</li>
+<li><strong>AdminProductController:</strong> Implementada la lógica para:</li>
+<li>Crear productos manualmente (generación automática de SKU).</li>
+<li>Importar productos masivamente desde archivos <strong>JSON</strong> y <strong>Excel</strong> (.xlsx, .csv).</li>
+<li><strong>ProductImport:</strong> Integración con la librería <code>Maatwebsite/Excel</code> para el mapeo de columnas de archivos externos a la base de datos.</li>
+<li><strong>Rutas API:</strong> Definición de nuevos endpoints protegidos por <code>auth:sanctum</code> y el nuevo middleware <code>admin</code>.</li>
+</ul>
+<h3 id="frontend-vuejs_2">Frontend (Vue.js)<a class="headerlink" href="#frontend-vuejs_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Store de Autenticación:</strong> Añadido getter <code>isAdmin</code> para verificar permisos de administrador en toda la aplicación.</li>
+<li><strong>Vue Router:</strong> Configurada una nueva ruta protegida <code>/admin/products</code> con navegación restringida mediante guards.</li>
+<li><strong>Barra Lateral (App.vue):</strong> Añadido un nuevo enlace directo al panel de administración, visible únicamente para usuarios con rol <code>admin</code>.</li>
+<li><strong>Vista de Administración (ProductManagement.vue):</strong> Nueva interfaz independiente que incluye:</li>
+<li>Formulario de creación manual (Nombre, Precio, Descripción, Categoría, Imagen).</li>
+<li>Zona de carga de archivos con soporte para arrastrar y soltar (JSON/Excel).</li>
+<li>Visualización de estados de carga y mensajes de éxito/error.</li>
+</ul>
+<h3 id="mejoras-y-correcciones-debugging">Mejoras y Correcciones (Debugging)<a class="headerlink" href="#mejoras-y-correcciones-debugging" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Mapeo Automático de Categorías:</strong> Se ha mejorado la lógica de importación para que acepte el nombre de la categoría (texto) en lugar de solo el ID numérico. El sistema ahora busca la categoría por nombre y, si no existe, la crea automáticamente.</li>
+<li><strong>Validación de Datos en Importaciones:</strong> Se ha reforzado el sistema de importación para evitar datos inconsistentes. Ahora se validan el precio y el stock, descartando automáticamente cualquier fila o elemento con valores negativos (preu &lt; 0 o estoc &lt; 0) y generando una advertencia en los logs del sistema.</li>
+<li><strong>Soporte de Formatos de Archivo:</strong> El sistema de importación ahora acepta archivos <strong>JSON</strong>, <strong>Excel (.xlsx)</strong>, <strong>CSV</strong> y <strong>LibreOffice Calc (.ods)</strong>.</li>
+<li><strong>Edición de Productos por Administradores:</strong></li>
+<li>Se ha añadido un botón de <strong>"EDITAR PRODUCTO"</strong> en la vista de detalle (<code>ProductDetail.vue</code>), visible solo para administradores.</li>
+<li>El botón redirige al panel de administración cargando automáticamente los datos actuales en el formulario.</li>
+<li>Se han implementado los endpoints <code>GET /admin/products/{id}</code> y <code>PUT /admin/products/{id}</code> para la obtención y actualización segura de datos.</li>
+</ul>
+<hr />
+<h2 id="2026-02-24-modo-oscuro-navegacion-y-docker-centralizado">[2026-02-24] - Modo Oscuro, Navegación y Docker Centralizado<a class="headerlink" href="#2026-02-24-modo-oscuro-navegacion-y-docker-centralizado" title="Permanent link">&para;</a></h2>
+<h3 id="frontend-vuejs_3">Frontend (Vue.js)<a class="headerlink" href="#frontend-vuejs_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Modo Oscuro Completo:</strong> </li>
+<li>Implementación de variables CSS (<code>--bg-color</code>, <code>--card-bg</code>, etc.) en todos los componentes principales.</li>
+<li>Sincronización automática de componentes de terceros (filtros, inputs) con el tema oscuro.</li>
+<li>Persistencia del tema mediante <code>localStorage</code> a través del <code>SettingsStore</code>.</li>
+<li><strong>Vista de Productos por Categoría:</strong></li>
+<li>Creación del componente <code>CategoryProducts.vue</code> con diseño de tarjetas premium.</li>
+<li>Implementación de lógica de filtrado dinámico basada en parámetros de ruta.</li>
+<li>Configuración de nuevas rutas en <code>router/index.js</code> para soportar <code>/category/:id</code>.</li>
+<li><strong>Filtros Avanzados:</strong></li>
+<li>Actualización de <code>Filters.vue</code> para que las categorías sean navegables.</li>
+<li>Mejora de la responsividad en el grid de categorías.</li>
+<li><strong>Refinamiento del Footer:</strong></li>
+<li>Ajuste del tamaño del icono de reciclaje para mejor equilibrio visual.</li>
+<li>Eliminación de etiquetas de texto redundantes para un look más "minimal".</li>
+</ul>
+<h3 id="devops-e-infraestructura">DevOps e Infraestructura<a class="headerlink" href="#devops-e-infraestructura" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Unificación de Docker:</strong></li>
+<li>Creación de un <code>compose.yaml</code> raíz que orquestra 4 servicios: <code>backend</code>, <code>frontend</code>, <code>mysql</code> y <code>n8n</code>.</li>
+<li>Configuración de redes internas para comunicación fluida entre contenedores.</li>
+<li>Persistencia de datos de MySQL mediante volúmenes Docker.</li>
+<li><strong>Troubleshooting de Build:</strong></li>
+<li>Resolución del error "Failed to load config from vite.config.js" mediante la reinstalación de dependencias de Rollup para Windows.</li>
+<li>Limpieza de caché de <code>npm</code> y regeneración del <code>package-lock.json</code>.</li>
+</ul>
+<hr />
+<h2 id="2026-02-25-chatbot-sostenibilidad-y-detalle-visual-jj-security-style">[2026-02-25] - Chatbot, Sostenibilidad y Detalle Visual (JJ-Security Style)<a class="headerlink" href="#2026-02-25-chatbot-sostenibilidad-y-detalle-visual-jj-security-style" title="Permanent link">&para;</a></h2>
+<h3 id="nuevas-funcionalidades">Nuevas Funcionalidades<a class="headerlink" href="#nuevas-funcionalidades" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Página de Sostenibilidad:</strong> </li>
+<li>Creación de <code>Sustainability.vue</code> con maquetación centrada y diseño ecológico.</li>
+<li>Implementación de secciones de "Misión", "Valores" y "Impacto".</li>
+<li><strong>Asistente Virtual (n8n Chat):</strong></li>
+<li><strong>Integración Inicial:</strong> Carga dinámica del script desde CDN e inicialización mediante <code>createChat</code>.</li>
+<li><strong>Localización Exhaustiva:</strong> Eliminación de soporte en inglés, forzado de <code>locale: 'es'</code> y traducción manual de todos los componentes (placeholder, mensaje de bienvenida, subtítulos).</li>
+<li><strong>Corrección "Burbuja Roja":</strong> Implementación de una función recursiva para penetrar el <strong>Shadow DOM</strong> del widget y forzar el color corporativo (<code>#6bc7b5</code>) sobre los estilos internos de n8n.</li>
+<li><strong>Mejora del Input:</strong> Ajuste de padding, bordes y posición <code>bottom</code> para evitar que el área de escritura se viera "cortada" o demasiado baja.</li>
+</ul>
+<h3 id="mejoras-esteticas-y-ui-refinement-appvue">Mejoras Estéticas y UI Refinement (App.vue)<a class="headerlink" href="#mejoras-esteticas-y-ui-refinement-appvue" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Header JJ-Security:</strong> </li>
+<li><strong>Logotipo:</strong> Aumento de tamaño a <code>2.5rem</code>, peso <code>800</code> y cambio a color negro sólido para máxima autoridad visual.</li>
+<li><strong>Iconos de Navegación:</strong> Restauración de las dimensiones (<code>50px</code>) y propiedades de recorte (<code>object-fit: cover</code>) para los iconos de Carrito y Usuario tras errores de maquetación.</li>
+<li><strong>Borde de Enfoque:</strong> Sustitución de <code>:focus</code> por <code>:focus-visible</code> para que el borde negro solo aparezca con navegación por teclado, mejorando la estética para usuarios de ratón.</li>
+<li><strong>Barra Lateral (Sidebar):</strong></li>
+<li>Ajuste de alineación central y comportamiento en hover.</li>
+<li>Sincronización de iconos con el modo oscuro (uso de filtros <code>invert</code>).</li>
+<li><strong>Restauración del Footer:</strong></li>
+<li>Re-implementación de contenedores y layouts perdidos en ediciones manuales.</li>
+<li>Restauración de efectos hover y estilos de enlaces legales.</li>
+<li>Inserción de icono de reciclaje con gradiente dinámico.</li>
+</ul>
+<h3 id="backend-y-base-de-datos">Backend y Base de Datos<a class="headerlink" href="#backend-y-base-de-datos" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Conectividad MySQL:</strong> Resolución de conflicto de puerto <code>3306</code> que impedía la conexión de Laravel al contenedor de base de datos.</li>
+<li><strong>Store de Carrito:</strong> Optimización del <code>cartStore</code> para persistir cambios y reflejar el badge en tiempo real en el header.</li>
+<li><strong>Sincronización de Checkout:</strong> Corrección crítica en <code>Checkout.vue</code> para que el total y los productos reflejen el estado real del carrito en lugar de valores estáticos.</li>
+</ul>
+<hr />
+<h2 id="2026-02-26-gestion-de-pedidos-persistencia-y-optimizacion-mobile-first">[2026-02-26] - Gestión de Pedidos, Persistencia y Optimización Mobile-First<a class="headerlink" href="#2026-02-26-gestion-de-pedidos-persistencia-y-optimizacion-mobile-first" title="Permanent link">&para;</a></h2>
+<h3 id="backend-laravel_3">Backend (Laravel)<a class="headerlink" href="#backend-laravel_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Persistencia de Ventas:</strong> </li>
+<li>Creación de migraciones para <code>pedidos</code> y <code>pedido_items</code>, permitiendo guardar el historial de compras en la base de datos (antes solo se enviaban por n8n).</li>
+<li><strong>PedidoController:</strong> <ul>
+<li>Implementación de <code>index</code> (admin), <code>store</code> (público/auth) y <code>myOrders</code> (usuario).</li>
+<li>Uso estandarizado de <code>auth('sanctum')-&gt;id()</code> para asegurar que los pedidos se vinculen correctamente al perfil del usuario.</li>
+</ul>
+</li>
+<li><strong>Rutas API:</strong> </li>
+<li>Introducción del endpoint <code>/pedidos/auth</code> protegido por middleware para garantizar la captura del token de autenticación durante el checkout.</li>
+</ul>
+<h3 id="frontend-vuejs_4">Frontend (Vue.js)<a class="headerlink" href="#frontend-vuejs_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Buscador Global:</strong></li>
+<li>Nueva barra de búsqueda premium en <code>Home.vue</code> con estética moderna y navegación integrada.</li>
+<li><strong>Redirección Inteligente:</strong> Implementación de lógica en el frontend para detectar palabras clave (cámaras, cerraduras, sensores, alarmas, servicios) y redirigir al usuario directamente a la vista de categoría correspondiente (<code>/category/:id</code>) para una navegación más rápida.</li>
+<li>El catálogo unificado (<code>ProductList.vue</code>) ahora soporta filtrado dinámico en tiempo real basado en la consulta de búsqueda (nombre, descripción y categoría).</li>
+<li><strong>Checkout Robusto:</strong></li>
+<li>Corrección de error 500 mediante la restauración del objeto <code>orderData</code>.</li>
+<li>Lógica dinámica de endpoints para alternar entre pedidos de invitados y usuarios registrados.</li>
+<li><strong>Optimización Responsiva (Mobile First):</strong></li>
+<li><strong>Sidebar (App.vue):</strong> Reducción de ancho a <code>70px</code> en móviles para ganar espacio útil en pantalla.</li>
+<li><strong>Administración:</strong> <ul>
+<li>Pestañas con desplazamiento horizontal en móviles.</li>
+<li>Tablas de pedidos con "columnas inteligentes" que se ocultan en pantallas pequeñas y se muestran solo en el panel expandido.</li>
+</ul>
+</li>
+<li><strong>Mis Pedidos:</strong> Rediseño de tarjetas para apilado vertical y mejor legibilidad en dispositivos táctiles.</li>
+</ul>
+<h3 id="mejoras-de-ux-y-debugging">Mejoras de UX y Debugging<a class="headerlink" href="#mejoras-de-ux-y-debugging" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Corrección de Vistas:</strong> Resolución de errores de cierre de etiquetas HTML en <code>AdminOrders.vue</code>.</li>
+<li><strong>Navegación:</strong> Mejora de los enlaces de "Volver" y consistencia visual en los encabezados del panel administrativo.</li>
+<li><strong>Modo Oscuro:</strong> Ajustes de contraste en la nueva barra de búsqueda y en los estados vacíos del catálogo.</li>
+</ul>
+<hr />
+<h2 id="2026-02-27-despliegue-e-infraestructura-aws">[2026-02-27] Despliegue e Infraestructura (AWS)<a class="headerlink" href="#2026-02-27-despliegue-e-infraestructura-aws" title="Permanent link">&para;</a></h2>
+<p><strong>Objetivo:</strong> Configuración de servidor seguro con Apache, FTP y Backups.</p>
+<h3 id="acceso-y-seguridad-ssh">Acceso y Seguridad SSH<a class="headerlink" href="#acceso-y-seguridad-ssh" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Recuperación de Instancia:</strong> Restauración del acceso mediante montaje de volumen EBS y corrección de <code>authorized_keys</code>.</li>
+<li><strong>Hardening de SSH:</strong> </li>
+<li>Desactivación de login por <code>root</code> y autenticación por contraseña.</li>
+<li>Configuración de Banner de bienvenida corporativo.</li>
+<li>Ajuste de parámetros de seguridad (<code>UsePAM yes</code>).</li>
+</ul>
+<h3 id="servidor-web-apache-ssl">Servidor Web (Apache + SSL)<a class="headerlink" href="#servidor-web-apache-ssl" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>VirtualHosts Dinámicos:</strong> Configuración de sitios para <code>app</code> (producción), <code>backup</code> (almacenamiento) y <code>test</code> (pruebas).</li>
+<li><strong>DNS Dinámico:</strong> Integración con DuckDNS para dominios personalizados.</li>
+<li><strong>Certificados Let's Encrypt:</strong> Implementación de HTTPS mediante Certbot para asegurar el tráfico del sitio.</li>
+</ul>
+<h3 id="servidor-ftp-seguro-ftps">Servidor FTP Seguro (FTPS)<a class="headerlink" href="#servidor-ftp-seguro-ftps" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Configuración de Vsftpd:</strong> Implementación de FTPS sobre TLS para transferencias cifradas.</li>
+<li><strong>Modo Pasivo:</strong> Apertura de rango de puertos (30000-30050) para compatibilidad con el firewall de AWS.</li>
+<li><strong>Enjaulado de Usuarios (chroot):</strong> Aislamiento de directorios para los usuarios <code>app</code>, <code>backup</code> y <code>test</code>.</li>
+</ul>
+<h3 id="automatizacion-de-backups">Automatización de Backups<a class="headerlink" href="#automatizacion-de-backups" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Script de Respaldo:</strong> Desarrollo de <code>/usr/local/bin/backup_script.sh</code> para compresión de datos web con rotación automática (borrado de copias &gt;7 días).</li>
+<li><strong>CronJob:</strong> Programación de tarea automática para ejecución diaria del backup.</li>
+</ul>
+<hr />
+<h2 id="2026-02-27-bloque-de-desarrollo-y-diseno-finalizacion">[2026-02-27] - Bloque de Desarrollo y Diseño (Finalización)<a class="headerlink" href="#2026-02-27-bloque-de-desarrollo-y-diseno-finalizacion" title="Permanent link">&para;</a></h2>
+<h3 id="frontend-vuejs_5">Frontend (Vue.js)<a class="headerlink" href="#frontend-vuejs_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Paginación Inteligente:</strong></li>
+<li>Implementación de controles de página en <code>ProductList.vue</code> (8 productos por página).</li>
+<li>Lógica de filtrado y búsqueda integrada con el estado de la paginación.</li>
+<li><strong>Validación de Formularios (Vee-Validate + Yup):</strong></li>
+<li>Implementación de validación avanzada en las vistas de <strong>Login</strong> y <strong>Registro</strong>.</li>
+<li>Control de formato de email, longitud de contraseña y coincidencia de campos en tiempo real con feedback visual en rojo.</li>
+<li><strong>Sección de Recomendaciones (Inteligencia C5):</strong></li>
+<li>Nueva sección "También te puede interesar" en <code>ProductDetail.vue</code> que sugiere 3 productos aleatorios de la misma categoría.</li>
+<li><strong>Compromiso con la Sostenibilidad (C6):</strong></li>
+<li>Inserción de distintivos <strong>"ECO-FRIENDLY"</strong> en las tarjetas de producto y en la página de detalle.</li>
+<li>Refuerzo visual de la marca JJ-Security como empresa responsable.</li>
+</ul>
+<h3 id="correcciones-tecnicas">Correcciones Técnicas<a class="headerlink" href="#correcciones-tecnicas" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Normalización de Componentes:</strong> Limpieza y estandarización del componente <code>ProductCard.vue</code>.</li>
+<li><strong>Escalado de Imagenes:</strong> Forzado de <code>aspect-ratio: 1/1</code> en todos los listados de productos y recomendaciones para evitar deformaciones.</li>
+<li><strong>Robustez en Recomendaciones:</strong> Mejora de la lógica de detección de categorías para asegurar que la sección "También te puede interesar" aparezca correctamente.</li>
+<li><strong>Dependencias:</strong> Instalación de <code>vee-validate</code> y <code>yup</code> para robustez en la gestión de entradas del usuario.</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>2025-2026  Joan Ripollabad, Jaume Moltó</p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
