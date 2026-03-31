@@ -648,9 +648,9 @@
 
 <p>Proyecto Intermodular 2DAW · 2025-2026
   Autores: Joan &amp; Jaume</p>
-<p>======================================================================
+<p>=============================
 1. ¿QUÉ ES JJ-SECURITY?
-======================================================================</p>
+=============================</p>
 <p>Tienda online de productos de seguridad (cámaras, sensores, alarmas, 
 cerraduras) con sistema de gestión para administradores, autenticación 
 segura y chatbot integrado.</p>
@@ -661,9 +661,9 @@ segura y chatbot integrado.</p>
   • Automatización  → n8n (workflows + chatbot)
   • Documentación   → Swagger (OpenAPI 3, PHP 8 Attributes)
   • Infraestructura → AWS EC2 + Apache + Docker</p>
-<p>======================================================================
+<p>=============================
 2. AUTENTICACIÓN — LARAVEL SANCTUM + OAUTH2 GOOGLE
-======================================================================</p>
+=============================</p>
 <p>2A. LOGIN TRADICIONAL (SANCTUM)
 ───────────────────────────────</p>
 <p>¿Qué es Sanctum?
@@ -706,9 +706,9 @@ segura y chatbot integrado.</p>
   $token = $user-&gt;createToken('auth_token')-&gt;plainTextToken;
   Auth::guard('web')-&gt;logout(); // Limpiar sesión web
   return redirect($frontendUrl . "/auth/callback?token=" . urlencode($token));</p>
-<p>======================================================================
+<p>=============================
 3. GESTIÓN DE PRODUCTOS (PANEL ADMIN)
-======================================================================</p>
+=============================</p>
 <p>• Middleware CheckAdmin: Solo usuarios con rol "admin" acceden a 
     las rutas /api/admin/*</p>
 <p>• Creación manual: Formulario con generación automática de SKU.</p>
@@ -718,9 +718,9 @@ segura y chatbot integrado.</p>
       - Mapeo automático: Si la categoría no existe, se crea automáticamente.</p>
 <p>• Edición: Endpoints GET y PUT /api/admin/products/{id} protegidos 
     por Sanctum + rol admin.</p>
-<p>======================================================================
+<p>=============================
 4. SISTEMA DE PEDIDOS
-======================================================================</p>
+=============================</p>
 <p>• Tablas: pedidos + pedido_items (migraciones Laravel).</p>
 <p>• Endpoint /api/pedidos/auth:
       - Protegido por Sanctum → vincula el pedido al usuario autenticado.</p>
@@ -730,9 +730,9 @@ segura y chatbot integrado.</p>
 <p>• Frontend (Checkout.vue):
       - Si está registrado: muestra datos pre-rellenados.
       - Si es invitado: muestra formulario de envío y pago.</p>
-<p>======================================================================
+<p>=============================
 5. CHATBOT CON N8N
-======================================================================</p>
+=============================</p>
 <p>• Widget de chat integrado en el frontend mediante CDN oficial de n8n.</p>
 <p>• Flujo principal (flujo_chat.json):
       n8n recibe el mensaje → consulta la lógica → responde al usuario.</p>
@@ -741,9 +741,9 @@ segura y chatbot integrado.</p>
 <p>• Personalización:
       - Idioma forzado: español
       - Color corporativo: #6bc7b5 (inyectado en Shadow DOM del widget)</p>
-<p>======================================================================
+<p>=============================
 6. SISTEMA DE SOPORTE / INCIDENCIAS
-======================================================================</p>
+=============================</p>
 <p>• Tabla "incidencias": Nombre, Email, Asunto, Mensaje.</p>
 <p>• Endpoint público: POST /api/incidencias</p>
 <p>• Frontend (Support.vue):
@@ -772,9 +772,9 @@ segura y chatbot integrado.</p>
   • Backups automáticos:
       - Script bash + CronJob diario
       - Rotación de backups: 7 días</p>
-<p>======================================================================
+<p>=============================
 8. FUNCIONALIDADES DESTACADAS DEL FRONTEND
-======================================================================</p>
+=============================</p>
 <p>• Estado global        → Pinia (authStore, cartStore, settingsStore)
   • Validación forms     → VeeValidate + Yup (email, contraseña, required)
   • Modo oscuro          → Variables CSS + persistencia en localStorage
@@ -784,9 +784,9 @@ segura y chatbot integrado.</p>
   • Top 3 valorados      → GET /products/top-rated con withAvg() de Eloquent
   • Eco-Friendly badge   → Distintivo visual en tarjetas y detalle
   • Responsive Mobile-First → Sidebar 70px en móvil, tablas adaptables
-======================================================================
+=============================
 9. DOCUMENTACIÓN
-======================================================================</p>
+=============================</p>
 <p>• Swagger / OpenAPI 3
       - Accesible en: /api/documentation
       - Usa atributos PHP 8: #[OA...]</p>
@@ -796,9 +796,9 @@ segura y chatbot integrado.</p>
       - Guía de usuario final.</p>
 <p>• SPRINTS.md
       - Descripción de objetivos por sprint.</p>
-<p>======================================================================
+<p>=============================
 10. CONCLUSIÓN
-======================================================================</p>
+=============================</p>
 <p>JJ-Security es una aplicación fullstack moderna con:</p>
 <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Autenticación segura (Sanctum + OAuth2 Google)
 <span class="linenos" data-linenos="2 "></span>Gestión completa de productos y pedidos
